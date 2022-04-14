@@ -1,6 +1,29 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:spaco/screens/admin/admin_bookingList.dart';
+import 'package:spaco/screens/admin/admin_homePage.dart';
+import 'package:spaco/screens/admin/admin_reports.dart';
+import 'package:spaco/screens/admin/admin_visitorsList.dart';
+import 'package:spaco/screens/auth/login.dart';
+import 'package:spaco/screens/auth/signUp.dart';
+import 'package:spaco/screens/booking/booking_add.dart';
+import 'package:spaco/screens/booking/booking_homePage.dart';
+import 'package:spaco/screens/booking/booking_view.dart';
+import 'package:spaco/screens/homeScreen.dart';
+import 'package:spaco/screens/profile/profilePage.dart';
+import 'package:spaco/screens/visitor/tos.dart';
+import 'package:spaco/screens/visitor/visitor_checkIn.dart';
+import 'package:spaco/screens/visitor/visitor_checkOut.dart';
+import 'package:spaco/screens/visitor/visitor_homePage.dart';
+import 'package:spaco/services/authState.dart';
+import 'package:spaco/utils/constant.dart';
+import 'package:spaco/utils/splashScreen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -8,108 +31,69 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+
+  Widget buildError(BuildContext context, FlutterErrorDetails error) {
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            "assets/images/Error.png",
+            fit: BoxFit.cover,
+          ),
+        ],
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    precacheImage(const AssetImage("assets/images/welcome.png"), context);
+    precacheImage(const AssetImage("assets/images/no_data.jpeg"), context);
+
+    return MaterialApp(
+      title: 'Stables',
+      theme: ThemeData(
+        fontFamily: GoogleFonts.nunito().fontFamily,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        primaryColor: primaryColor,
+        pageTransitionsTheme: PageTransitionsTheme(builders: {
+          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+        }),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      builder: (BuildContext context, Widget? widget) {
+        ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+          return buildError(context, errorDetails);
+        };
+        return widget!;
+      },
+      home: SplashScreenPage(),
+      routes: {
+        "/home": (context) => HomeScreen(),
+        "/login": (context) => LoginScreen(),
+        "/signup": (context) => SignUpScreen(),
+        "/auth": (context) => Auth(),
+        "/profile": (context) => EditProfile(),
+        "/tos": (context) => Tos(),
+
+        // visitors section
+        "/visitoroption": (context) => VisitorOption(check: true),
+        "/visitorcheckin": (context) => VisitorCheckIn(),
+        "/visitorcheckout": (context) => VisitorCheckOut(),
+
+        // booking section
+        "/booking": (context) => BookingHomePage(check: true),
+        "/bookingadd": (context) => BookingAdd(),
+        "/bookingview": (context) => BookingView(),
+
+        // admin section
+        "/adminoption": (context) {
+          return AdminHomePage(check: true);
+        },
+        "/visitorslist": (context) => VisitorsList(),
+        "/bookinglist": (context) => BookingList(),
+        "/adminreports": (context) => AdminReports(),
+      },
     );
   }
 }

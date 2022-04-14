@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "298887553130",
+    "project_id": "spaco-ab667",
+    "storage_bucket": "spaco-ab667.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298887553130:android:f0d95234c67bec3f35ea13",
+        "android_client_info": {
+          "package_name": "com.zmeul.spaco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "298887553130-vrumiukfltjh9gp5g7sa2t5qmm1f5acm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi-OeeniYbUgCRPSSKfcHWN_IJNv7B93I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "298887553130-vrumiukfltjh9gp5g7sa2t5qmm1f5acm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
