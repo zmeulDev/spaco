@@ -2,12 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const primaryColor = Color(0xFF231f20);
-const secondaryColor = Color(0xFFFFFFFF);
-const tertiaryColor = Color(0xFFDC4405);
-const fourthColor = Color(0xFFF89248);
-const fifthColor = Color(0xFFF3EFE1);
+double getScreenWidth(BuildContext context) {
+  return MediaQuery.of(context).size.width;
+}
 
+double getScreenHeight(BuildContext context) {
+  // https://coflutter.com/flutter-how-to-get-screen-width-and-height/
+  return MediaQuery.of(context).size.height;
+}
+
+const appBckColor = Color(0xFFE0E3E4);
+
+const primaryColor = Color(0xFF1D2630);
+const secondaryColor = Color(0xFFFFFFFF);
+const tertiaryColor = Color(0xFF545C65);
+const fourthColor = Color(0xFF97484D);
+const fifthColor = Color(0xFFED7604);
+
+// alerts
+const colorMsgDefault = Color(0xFF1D2630);
+const colorMsgSuccess = Color(0xFF27ae60);
+const colorMsgWarning = Color(0xFFf39c12);
+const colorMsgFail = Color(0xFFe74c3c);
+
+// TODO:  refactor bellow code
 // admin colors
 const kashmirColor = Color(0xFF4D668B);
 const ironColor = Color(0xFFE0E3E4);

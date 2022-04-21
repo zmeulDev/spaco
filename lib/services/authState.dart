@@ -21,8 +21,6 @@ class _AuthState extends State<Auth> {
             User user = snapshot.data!;
             if (user != null) {
               return HomeScreen();
-              //return DrawerMain();
-
             } else {
               return LoginScreen();
             }

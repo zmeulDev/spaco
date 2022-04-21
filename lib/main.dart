@@ -54,9 +54,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Stables',
       theme: ThemeData(
-        fontFamily: GoogleFonts.nunito().fontFamily,
+        fontFamily: GoogleFonts.poppins().fontFamily,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        primaryColor: primaryColor,
+        primaryColor: appBckColor,
         pageTransitionsTheme: PageTransitionsTheme(builders: {
           TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
         }),

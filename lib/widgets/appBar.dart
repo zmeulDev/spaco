@@ -6,12 +6,12 @@ appBar(context) {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   return AppBar(
-    backgroundColor: tertiaryColor,
+    backgroundColor: Colors.transparent,
     elevation: 0,
     leading: IconButton(
       icon: const Icon(
-        Icons.home,
-        color: secondaryColor,
+        Icons.home_outlined,
+        color: primaryColor,
       ),
       onPressed: () {
         Navigator.pushNamed(context, "/home");
@@ -20,8 +20,8 @@ appBar(context) {
     actions: [
       IconButton(
         icon: const Icon(
-          Icons.exit_to_app,
-          color: secondaryColor,
+          Icons.exit_to_app_outlined,
+          color: primaryColor,
         ),
         onPressed: () {
           _auth.signOut();
@@ -30,7 +30,7 @@ appBar(context) {
       ),
     ],
     actionsIconTheme: const IconThemeData(
-      size: 32,
+      size: 24,
     ),
   );
 }

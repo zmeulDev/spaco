@@ -14,17 +14,17 @@ class SplashScreenPage extends StatelessWidget {
       useLoader: true,
       seconds: 4,
       navigateAfterSeconds: Auth(),
-      backgroundColor: Colors.white,
+      backgroundColor: appBckColor,
       title: Text(
-        'stables',
-        style: style1.copyWith(fontSize: 40),
+        'spaco',
+        style: style1.copyWith(fontSize: 60),
       ),
       image: Image(image: imageProvider),
       loadingText: Text(
         "",
         style: style1,
       ),
-      photoSize: 100.0,
+      photoSize: 120.0,
       loaderColor: tertiaryColor,
     );
   }

@@ -5,7 +5,7 @@ class RoundClipper extends CustomClipper<Path> {
   getClip(Size size) {
     double height = size.height;
     double width = size.width;
-    double curveHeight = size.height / 2;
+    double curveHeight = size.height / 5;
     var p = Path();
     p.lineTo(0, height - curveHeight);
     p.quadraticBezierTo(width / 2, height, width, height - curveHeight);
