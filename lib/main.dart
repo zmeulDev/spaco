@@ -1,22 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:spaco/screens/admin/admin_bookingList.dart';
-import 'package:spaco/screens/admin/admin_homePage.dart';
-import 'package:spaco/screens/admin/admin_reports.dart';
-import 'package:spaco/screens/admin/admin_visitorsList.dart';
-import 'package:spaco/screens/auth/login.dart';
-import 'package:spaco/screens/auth/signUp.dart';
-import 'package:spaco/screens/booking/booking_add.dart';
-import 'package:spaco/screens/booking/booking_homePage.dart';
-import 'package:spaco/screens/booking/booking_view.dart';
-import 'package:spaco/screens/homeScreen.dart';
-import 'package:spaco/screens/profile/profilePage.dart';
-import 'package:spaco/screens/visitor/tos.dart';
-import 'package:spaco/screens/visitor/visitor_checkIn.dart';
-import 'package:spaco/screens/visitor/visitor_checkOut.dart';
-import 'package:spaco/screens/visitor/visitor_homePage.dart';
-import 'package:spaco/services/authState.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/splashScreen.dart';
 
@@ -68,7 +52,7 @@ class MyApp extends StatelessWidget {
         return widget!;
       },
       home: SplashScreenPage(),
-      routes: {
+      /*routes: {
         "/home": (context) => HomeScreen(),
         "/login": (context) => LoginScreen(),
         "/signup": (context) => SignUpScreen(),
@@ -93,7 +77,7 @@ class MyApp extends StatelessWidget {
         "/visitorslist": (context) => VisitorsList(),
         "/bookinglist": (context) => BookingList(),
         "/adminreports": (context) => AdminReports(),
-      },
+      }, */
     );
   }
 }

@@ -11,17 +11,17 @@ double getScreenHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;
 }
 
-const appBckColor = Color(0xFFE0E3E4);
+const appBckColor = Color(0xFFE3EDF2);
 
-const primaryColor = Color(0xFF1D2630);
+const primaryColor = Color(0xFF0A0D25);
 const secondaryColor = Color(0xFFFFFFFF);
-const tertiaryColor = Color(0xFF545C65);
-const fourthColor = Color(0xFF97484D);
-const fifthColor = Color(0xFFED7604);
+const tertiaryColor = Color(0xFF4E7D96);
+const fourthColor = Color(0xFF9FC9DD);
+const fifthColor = Color(0xFFFF844B);
 
 // alerts
 const colorMsgDefault = Color(0xFF1D2630);
-const colorMsgSuccess = Color(0xFF27ae60);
+const colorMsgSuccess = Color(0xFF4E7D96);
 const colorMsgWarning = Color(0xFFf39c12);
 const colorMsgFail = Color(0xFFe74c3c);
 
@@ -35,42 +35,42 @@ const purpleColor = Color(0xFF75448C);
 const greenColor = Color(0xFF1E7167);
 const blueColor = Color(0xFF348598);
 
-var style1 = GoogleFonts.poppins(
+var style1 = GoogleFonts.openSans(
   fontSize: 22.0,
   color: primaryColor,
   fontWeight: FontWeight.bold,
   wordSpacing: 1,
   letterSpacing: 0.5,
 );
-var style2 = GoogleFonts.poppins(
+var style2 = GoogleFonts.openSans(
   fontSize: 18.0,
   color: primaryColor,
   wordSpacing: 0.5,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
 );
-var style3 = GoogleFonts.poppins(
+var style3 = GoogleFonts.openSans(
   fontSize: 12.0,
   color: primaryColor,
   wordSpacing: 0.5,
   letterSpacing: 0.5,
 );
 
-var styleTos = GoogleFonts.poppins(
+var styleTos = GoogleFonts.openSans(
   fontSize: 12.0,
   color: primaryColor,
   wordSpacing: 0.5,
   letterSpacing: 0.5,
 );
 
-var styleVisitorsInside = GoogleFonts.poppins(
+var styleVisitorsInside = GoogleFonts.openSans(
   fontSize: 12.0,
   color: tertiaryColor,
   wordSpacing: 0.5,
   letterSpacing: 0.5,
 );
 
-var styleVisitorsHours = GoogleFonts.poppins(
+var styleVisitorsHours = GoogleFonts.openSans(
   fontSize: 12.0,
   color: secondaryColor,
   fontWeight: FontWeight.bold,

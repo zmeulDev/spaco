@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
+import 'package:spaco/screens/homeScreen.dart';
+import 'package:spaco/services/authState.dart';
 import 'package:spaco/utils/constant.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -184,7 +186,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, "/auth");
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Auth(),
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -221,7 +227,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             backgroundColor: colorMsgSuccess,
             textColor: Colors.white,
             fontSize: 16.0);
-        Navigator.pushNamed(context, "/home");
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
       }).catchError((e) {
         //Show Errors if any
         Fluttertoast.showToast(

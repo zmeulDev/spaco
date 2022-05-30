@@ -5,6 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:spaco/screens/admin/admin_homePage.dart';
+import 'package:spaco/screens/booking/booking_view.dart';
+import 'package:spaco/screens/visitor/visitor_homePage.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/widgets/appBar.dart';
 
@@ -21,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
   StreamSubscription<QuerySnapshot>? subscription;
   Future<DocumentSnapshot<Map<String, dynamic>>>? data;
   DocumentSnapshot<Map<String, dynamic>>? docs;
-
   bool _progressController = true;
   ImageProvider imageProvider = const AssetImage("assets/images/cowork.jpg");
 
@@ -48,9 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
   authorizeAdmin(BuildContext context) {
     print(docs!.data()!["email"]);
     if (docs!.data()!['role'] == 'Admin') {
-      Navigator.pushNamed(
-        context,
-        "/adminoption",
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => AdminHomePage(check: true),
+        ),
       );
     } else {
       showDialog(
@@ -84,9 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
     print(docs!.data()!["email"]);
     // if (docs.docs[0].exists) {
     if (docs!.data()!['role'] == 'Booking') {
-      Navigator.pushNamed(
-        context,
-        "/bookingview",
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => BookingView(),
+        ),
       );
     } else {
       showDialog(
@@ -120,9 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
     print(docs!.data()!["email"]);
     // if (docs.docs[0].exists) {
     if (docs!.data()!['role'] == 'Visitor') {
-      Navigator.pushNamed(
-        context,
-        "/visitoroption",
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => VisitorOption(check: true),
+        ),
       );
     } else {
       showDialog(

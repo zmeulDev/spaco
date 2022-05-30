@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
+import 'package:spaco/screens/auth/signUp.dart';
 import 'package:spaco/utils/constant.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -171,7 +172,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, "/signup");
+                      {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SignUpScreen(),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ],

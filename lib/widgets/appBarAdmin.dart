@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:spaco/screens/homeScreen.dart';
+import 'package:spaco/screens/profile/profilePage.dart';
+import 'package:spaco/services/authState.dart';
 import 'package:spaco/utils/constant.dart';
 
 appBarAdmin(context) {
@@ -14,7 +17,11 @@ appBarAdmin(context) {
         color: secondaryColor,
       ),
       onPressed: () {
-        Navigator.pushNamed(context, "/home");
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
       },
     ),
     actions: [
@@ -24,7 +31,11 @@ appBarAdmin(context) {
           color: secondaryColor,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, "/profile");
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => EditProfile(),
+            ),
+          );
         },
       ),
       IconButton(
@@ -34,7 +45,11 @@ appBarAdmin(context) {
         ),
         onPressed: () {
           _auth.signOut();
-          Navigator.pushNamed(context, "/auth");
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => Auth(),
+            ),
+          );
         },
       ),
     ],

@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:spaco/screens/homeScreen.dart';
+import 'package:spaco/services/authState.dart';
 import 'package:spaco/utils/constant.dart';
 
 appBarVisitors(context) {
@@ -14,7 +16,11 @@ appBarVisitors(context) {
         color: primaryColor,
       ),
       onPressed: () {
-        Navigator.pushNamed(context, "/home");
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
       },
     ),
     actions: [
@@ -25,7 +31,11 @@ appBarVisitors(context) {
         ),
         onPressed: () {
           _auth.signOut();
-          Navigator.pushNamed(context, "/auth");
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => Auth(),
+            ),
+          );
         },
       ),
     ],

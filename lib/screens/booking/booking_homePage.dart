@@ -15,6 +15,8 @@ class BookingHomePage extends StatefulWidget {
 }
 
 class _BookingHomePageState extends State<BookingHomePage> {
+  int _currentIndex = 1;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
