@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:spaco/pages/Auth/login.dart';
 import 'package:spaco/utils/constant.dart';
 
@@ -9,6 +10,9 @@ class ChooseLoginSignup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: secondaryColor,
       body: Column(
@@ -20,25 +24,25 @@ class ChooseLoginSignup extends StatelessWidget {
               child: ClipPath(
                 clipper: OvalBottomBorderClipper(),
                 child: Container(
-                  height: 600,
-                  width: 500,
-                  color: tertiaryColor,
+                  height: height * 0.5,
+                  width: width,
+                  color: primaryColor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Opacity(
-                        opacity: 0.8,
-                        child: Image.asset(
-                          'assets/cover_4.png',
-                          width: 300,
-                          height: 300,
-                          fit: BoxFit.cover,
-                        ),
+                      Icon(
+                        Iconsax.hierarchy_square,
+                        color: secondaryColor,
+                        size: 128,
                       ),
                       Text(
-                        'zmeulKit',
+                        'spaco',
                         style: style1.copyWith(
                             fontSize: 28, color: secondaryColor),
+                      ),
+                      Text(
+                        'co-space management',
+                        style: style2.copyWith(color: secondaryColor),
                       ),
                     ],
                   ),
@@ -52,19 +56,16 @@ class ChooseLoginSignup extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 10,
-                  ),
                   InkWell(
                     onTap: () {
                       Get.to(() => Login());
                     },
                     child: Container(
-                      height: 50,
-                      width: double.infinity,
+                      height: height * 0.07,
+                      width: width * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: tertiaryColor,
+                        color: primaryColor,
                         //border: Border.all(color: tertiaryColor),
                       ),
                       child: Center(
@@ -74,23 +75,6 @@ class ChooseLoginSignup extends StatelessWidget {
                       )),
                     ),
                     borderRadius: BorderRadius.circular(10),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 50,
-                    width: double.infinity,
-                    child: TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )),
-                        child: Text(
-                          'zmeulKit: flutter/firebase OTP login',
-                          style: style2.copyWith(color: tertiaryColor),
-                        )),
                   ),
                 ],
               ),
