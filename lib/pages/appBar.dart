@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:spaco/pages/home.dart';
+import 'package:spaco/pages/profile/profile.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/widgets/createAvatarWidget.dart';
 
 getAppBar(String screenName) {
   return AppBar(
     leading: IconButton(
-      onPressed: () {},
+      onPressed: () {
+        Get.to(Home());
+      },
       icon: Icon(
         Iconsax.hierarchy_square,
         color: secondaryColor,
@@ -25,7 +28,7 @@ getAppBar(String screenName) {
     actions: [
       InkWell(
         onTap: () {
-          Get.to(Home());
+          Get.to(Profile());
         },
         child: Row(
           children: [

@@ -132,7 +132,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                               length: 6,
                               obscureText: false,
                               obscuringCharacter: '•',
-                              textStyle: style1,
+                              textStyle: style1.copyWith(color: primaryColor),
                               blinkWhenObscuring: true,
                               animationType: AnimationType.fade,
                               validator: (v) {

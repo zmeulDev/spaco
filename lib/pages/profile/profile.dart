@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:spaco/Services/auth_services.dart';
 import 'package:spaco/models/user_model.dart';
 import 'package:spaco/pages/Auth/chooseloginsignup.dart';
+import 'package:spaco/pages/home.dart';
 import 'package:spaco/pages/imageview.dart';
 import 'package:spaco/pages/profile/editprofile.dart';
 import 'package:spaco/utils/constant.dart';
@@ -18,29 +20,40 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: getAppBar(),
       body: ListView(
         children: [
           Container(
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            width: width,
+            height: height * 0.3,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: tertiaryColor,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+              color: primaryColor,
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(20.0),
               child: Column(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Get.to(ImageViewPage(
-                          img: UserModel().profileUrl == ''
-                              ? tempUserImg
-                              : UserModel().profileUrl));
+                      Get.to(
+                        UserModel().profileUrl == ''
+                            ? Icon(
+                                Iconsax.user,
+                                size: 128,
+                                color: tertiaryColor,
+                              )
+                            : ImageViewPage(img: UserModel().profileUrl),
+                      );
                     },
-                    child: createAvatarWidget(75),
+                    child: createAvatarWidget(55),
                   ),
                   SizedBox(
                     height: 10,
@@ -110,19 +123,20 @@ class _ProfileState extends State<Profile> {
   getAppBar() {
     return AppBar(
       leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(
-            CupertinoIcons.qrcode,
-            color: primaryColor,
-          )),
-      backgroundColor: Colors.transparent,
+        onPressed: () {
+          Get.to(Home());
+        },
+        icon: Icon(
+          Iconsax.hierarchy_square,
+          color: secondaryColor,
+        ),
+      ),
+      backgroundColor: primaryColor,
       elevation: 0.0,
       centerTitle: true,
       title: Text(
         'profile',
-        style: style1.copyWith(fontWeight: FontWeight.w900),
+        style: style1,
       ),
       actions: [
         IconButton(
@@ -132,8 +146,8 @@ class _ProfileState extends State<Profile> {
               });
             },
             icon: Icon(
-              Icons.settings_outlined,
-              color: tertiaryColor,
+              Iconsax.edit,
+              color: secondaryColor,
               size: 26,
             )),
         SizedBox(

@@ -6,23 +6,26 @@ import 'package:spaco/models/user_model.dart';
 import 'package:spaco/utils/constant.dart';
 
 createAvatarWidget(double radius) {
+  String tempUserImg = 'assets/user.png';
+
   return AvatarView(
     radius: radius,
-    borderColor: fourthColor,
+    borderColor: secondaryColor,
     avatarType: AvatarType.CIRCLE,
-    backgroundColor: tertiaryColor,
-    imagePath: UserModel().profileUrl,
+    backgroundColor: primaryColor,
+    imagePath:
+        UserModel().profileUrl == '' ? tempUserImg : UserModel().profileUrl,
     placeHolder: Container(
       color: secondaryColor,
       child: Icon(
-        CupertinoIcons.profile_circled,
+        Iconsax.user,
         size: 36,
       ),
     ),
     errorWidget: Container(
-      color: secondaryColor,
+      color: fourthColor,
       child: Icon(
-        Iconsax.user,
+        Iconsax.user1,
         size: 36,
       ),
     ),

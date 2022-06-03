@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:spaco/pages/Auth/enterotp.dart';
 import 'package:spaco/utils/constant.dart';
 
@@ -93,35 +94,27 @@ class Login extends StatelessWidget {
           ),
           Text(
             'Enter your phone number with country prefix.',
-            style: style2.copyWith(color: secondaryColor),
+            style: style3.copyWith(color: secondaryColor),
           ),
-          Text(
-            'ex: 4 0712 345 678',
-            style: style2.copyWith(color: secondaryColor),
-          ),
-          Container(
-            margin: EdgeInsets.all(8),
-            padding: EdgeInsets.all(12),
-            height: height * 0.09,
-            width: width * 0.9,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: secondaryColor,
-              //border: Border.all(color: tertiaryColor),
-            ),
-            child: TextField(
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextFormField(
               controller: phoneNoController,
-              keyboardType: TextInputType.number,
-              maxLength: 15,
               decoration: InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: primaryColor)),
-                prefixText: ' + ',
-                prefixStyle: style2,
-                hintText: '',
-                labelText: 'Phone number with country prefix',
-                labelStyle: style2,
-                prefixIcon: Icon(Icons.phone_android, color: primaryColor),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide.none,
+                ),
+                labelText: "Phone number",
+                floatingLabelStyle:
+                    const TextStyle(height: 4, color: primaryColor),
+                filled: true,
+                fillColor: secondaryColor,
+                prefix: Text('+'),
+                prefixIcon: Icon(
+                  Iconsax.mobile,
+                  color: primaryColor,
+                ),
               ),
             ),
           ),
@@ -133,23 +126,24 @@ class Login extends StatelessWidget {
   loginArrowButton(validate) {
     return Expanded(
       child: Container(
-          height: 52,
-          width: 62,
-          child: Center(
-            child: ElevatedButton(
-                onPressed: validate,
-                style: ElevatedButton.styleFrom(
-                    primary: secondaryColor,
-                    padding: const EdgeInsets.all(13),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    )),
-                child: const Icon(
-                  CupertinoIcons.arrow_right,
-                  size: 30,
-                  color: primaryColor,
-                )),
-          )),
+        height: 52,
+        width: 62,
+        child: Center(
+          child: ElevatedButton(
+              onPressed: validate,
+              style: ElevatedButton.styleFrom(
+                  primary: secondaryColor,
+                  padding: const EdgeInsets.all(13),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  )),
+              child: const Icon(
+                CupertinoIcons.arrow_right,
+                size: 30,
+                color: primaryColor,
+              )),
+        ),
+      ),
     );
   }
 }
