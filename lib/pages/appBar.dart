@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:spaco/pages/home.dart';
-import 'package:spaco/pages/profile/profile.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/widgets/createAvatarWidget.dart';
 
@@ -19,6 +18,7 @@ getAppBar(String screenName) {
       ),
     ),
     backgroundColor: primaryColor,
+    automaticallyImplyLeading: true,
     elevation: 0.0,
     centerTitle: true,
     title: Text(
@@ -27,15 +27,13 @@ getAppBar(String screenName) {
     ),
     actions: [
       InkWell(
-        onTap: () {
-          Get.to(Profile());
-        },
+        onTap: () {},
         child: Row(
           children: [
             Center(
               child: Padding(
-                padding: EdgeInsets.only(bottom: 5, right: 15),
-                child: createAvatarWidget(15),
+                padding: EdgeInsets.only(top: 5, bottom: 5, right: 15),
+                child: createAvatarWidget(12),
               ),
             ),
           ],

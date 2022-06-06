@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:spaco/pages/Booking/booking.dart';
+import 'package:spaco/pages/Partners/partners.dart';
 import 'package:spaco/pages/home.dart';
 import 'package:spaco/pages/profile/profile.dart';
 import 'package:spaco/utils/constant.dart';
@@ -19,8 +21,8 @@ class NavigationBar extends State<NavBar> {
   int _currentIndex = 0;
   final List<Widget> _pages = [
     Home(),
-    Home(),
-    Home(),
+    Bookings(),
+    Partners(),
     Profile(),
   ];
   int backPressCounter = 1;
@@ -28,7 +30,7 @@ class NavigationBar extends State<NavBar> {
 
   Future<bool> onWillPop() {
     if (backPressCounter < 2) {
-      Fluttertoast.showToast(msg: "Tap Again To Exit ");
+      Get.snackbar('Info', 'Tap again to exit.');
       backPressCounter++;
       Future.delayed(const Duration(seconds: 1, milliseconds: 500), () {
         backPressCounter--;
@@ -90,11 +92,11 @@ class NavigationBar extends State<NavBar> {
                 ),
                 const GButton(
                   icon: Iconsax.calendar_2,
-                  text: 'Wallet',
+                  text: 'Bookings',
                 ),
                 const GButton(
-                  icon: Iconsax.building,
-                  text: 'Scan',
+                  icon: Iconsax.layer,
+                  text: 'Partners',
                 ),
                 const GButton(
                   icon: Iconsax.user,

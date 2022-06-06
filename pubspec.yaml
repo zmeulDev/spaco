@@ -52,7 +52,6 @@ dependencies:
   flutter_launcher_icons: ^0.9.2
   date_time_picker: ^2.1.0
   lottie: ^1.2.2
-  fluttertoast: ^8.0.9
   avatar_view: ^1.0.1
   cached_network_image: ^3.1.0
   image_picker: ^0.8.4+1

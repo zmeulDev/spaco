@@ -8,6 +8,12 @@ const fourthColor = Color(0xFFFF844B);
 const fifthColor = Color(0xFF9FC9DD);
 const sixthColor = Color(0xFFE3EDF2);
 
+// Message colors
+
+const successColor = Color(0XFF4E7376);
+const errorColor = Color(0XFFEF4B4C);
+const warningColor = Color(0XFFFBC63D);
+
 String tempUserImg = 'assets/user.png';
 
 var style1 = GoogleFonts.nunito(

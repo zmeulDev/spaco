@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:spaco/pages/Auth/enterotp.dart';
@@ -24,14 +23,7 @@ class Login extends StatelessWidget {
               loginForm(context),
               loginArrowButton(() {
                 if (phoneNoController.text.isEmpty) {
-                  Fluttertoast.showToast(
-                      msg: "Please enter your phone number!",
-                      toastLength: Toast.LENGTH_LONG,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 3,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  Get.snackbar('Error', 'Please enter yor phone number.');
                 } else {
                   Get.to(() => EnterOTPScreen(phoneNoController.text));
                 }

@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:spaco/Services/auth_services.dart';
 import 'package:spaco/models/user_model.dart';
 import 'package:spaco/pages/Auth/chooseloginsignup.dart';
 import 'package:spaco/pages/home.dart';
 import 'package:spaco/pages/imageview.dart';
 import 'package:spaco/pages/profile/editprofile.dart';
+import 'package:spaco/services/auth_services.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/helper.dart';
 import 'package:spaco/widgets/createAvatarWidget.dart';
@@ -135,7 +135,7 @@ class _ProfileState extends State<Profile> {
       elevation: 0.0,
       centerTitle: true,
       title: Text(
-        'profile',
+        'Profile',
         style: style1,
       ),
       actions: [
@@ -148,7 +148,7 @@ class _ProfileState extends State<Profile> {
             icon: Icon(
               Iconsax.edit,
               color: secondaryColor,
-              size: 26,
+              size: 22,
             )),
         SizedBox(
           width: 10,

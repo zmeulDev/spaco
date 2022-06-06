@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,14 +43,7 @@ class _EditProfileState extends State<EditProfile> {
       setState(() {
         isLoading = false;
       });
-      Fluttertoast.showToast(
-          msg: "Profile updated successfully!",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 3,
-          backgroundColor: Colors.lightGreen,
-          textColor: Colors.white,
-          fontSize: 16.0);
+      Get.snackbar('Info', 'Profile updated.');
       Get.back();
     } else {
       setState(() {
