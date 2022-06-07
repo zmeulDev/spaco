@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:spaco/models/partner_model.dart';
+import 'package:lottie/lottie.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/utils/constant.dart';
+import 'package:spaco/utils/getImages.dart';
 import 'package:spaco/utils/inputwidget.dart';
+import 'package:spaco/utils/loading.dart';
 
 class Partners extends StatefulWidget {
   @override
@@ -34,49 +37,72 @@ class _PartnersState extends State<Partners> {
               height: height * 0.3,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
                 ),
                 color: primaryColor,
               ),
               child: Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(13.0),
                 child: Column(
                   children: [
-                    Icon(
-                      Iconsax.layer,
-                      size: 128,
-                      color: secondaryColor,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    PartnerModel().partnerName != ''
-                        ? Text(
-                            PartnerModel().partnerName,
-                            style: style2.copyWith(
-                                color: fourthColor, fontSize: 18),
+                    Container(
+                        height: height * 0.21,
+                        child: Lottie.asset('assets/animation/partners.json')),
+                    Container(
+                      height: height * 0.05,
+                      width: width * 0.933,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        color: secondaryColor,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(2),
+                            height: height * 0.2,
+                            width: width * 0.46,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              color: fifthColor,
+                            ),
+                            child: Center(
+                                child: Text(
+                              'Hai azi',
+                              style: style2.copyWith(color: secondaryColor),
+                            )),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(2),
+                            height: height * 0.2,
+                            width: width * 0.45,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              color: tertiaryColor,
+                            ),
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  addPartner(height, width);
+                                },
+                                child: Text(
+                                  'Add new partner',
+                                  style: style2.copyWith(color: secondaryColor),
+                                ),
+                              ),
+                            ),
                           )
-                        : Text('No Partners',
-                            style: style2.copyWith(
-                                color: fourthColor, fontSize: 18))
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
-            SizedBox(
-              height: height * 0.02,
-            ),
             partnerDetailsContainer(height, width),
-            Container(
-              width: width * 0.5,
-              height: height * 0.13,
-              child: ElevatedButton(
-                  onPressed: () {
-                    addPartner(height, width);
-                  },
-                  child: Text('pushMe')),
-            )
           ],
         ),
       ),
@@ -172,42 +198,92 @@ class _PartnersState extends State<Partners> {
   }
 
   partnerDetailsContainer(height, width) {
-    return Container(
-      width: width * 0.5,
-      height: height * 0.13,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-        color: primaryColor,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Iconsax.hierarchy_square,
-                  color: secondaryColor,
-                  size: 44,
+    CollectionReference partnersCollection =
+        FirebaseFirestore.instance.collection('partners');
+
+    return StreamBuilder(
+        stream: partnersCollection.snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: loading(),
+            );
+          } else {
+            List<DocumentSnapshot> partnersList = snapshot.data.docs;
+            if (partnersList.isEmpty) {
+              return Container(
+                height: height * 0.1,
+                child: Icon(
+                  Iconsax.battery_empty,
+                  color: primaryColor,
+                  size: 64,
                 ),
-                SizedBox(
-                  width: width * 0.05,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Hello!',
-                        style: style2.copyWith(
-                            color: secondaryColor, fontSize: 18)),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+              );
+            } else {
+              return Container(
+                height: height,
+                width: width,
+                padding: EdgeInsets.all(12),
+                child: GridView.builder(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                            childAspectRatio: 3 / 2,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20),
+                    itemCount: partnersList.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return Container(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  partnersList[index]['profileurl'] == ''
+                                      ? Icon(
+                                          Iconsax.hierarchy_square,
+                                          color: secondaryColor,
+                                          size: 44,
+                                        )
+                                      : GetImage(
+                                          imagePath: partnersList[index]
+                                              ['profileurl'],
+                                          width: 45,
+                                          height: 45,
+                                        ),
+                                  SizedBox(
+                                    width: width * 0.05,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(partnersList[index]['partnername'],
+                                          style: style2.copyWith(
+                                              color: secondaryColor,
+                                              fontSize: 18)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      );
+                    }),
+              );
+            }
+          }
+        });
   }
 }
