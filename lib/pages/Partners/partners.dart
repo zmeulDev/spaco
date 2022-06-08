@@ -32,77 +32,65 @@ class _PartnersState extends State<Partners> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
+            topContainer(height, width),
+            partnerDetailsContainer(height, width),
+          ],
+        ),
+      ),
+    );
+  }
+
+  topContainer(height, width) {
+    return Container(
+      width: width,
+      height: height * 0.3,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+        color: primaryColor,
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(13.0),
+        child: Column(
+          children: [
             Container(
-              width: width,
-              height: height * 0.3,
+                height: height * 0.21,
+                child: Lottie.asset('assets/animation/partners.json')),
+            Container(
+              height: height * 0.05,
+              width: width * 0.933,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-                color: primaryColor,
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                color: secondaryColor,
               ),
-              child: Padding(
-                padding: EdgeInsets.all(13.0),
-                child: Column(
-                  children: [
-                    Container(
-                        height: height * 0.21,
-                        child: Lottie.asset('assets/animation/partners.json')),
-                    Container(
-                      height: height * 0.05,
-                      width: width * 0.933,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        color: secondaryColor,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.all(2),
-                            height: height * 0.2,
-                            width: width * 0.46,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
-                              color: fifthColor,
-                            ),
-                            child: Center(
-                                child: Text(
-                              'Hai azi',
-                              style: style2.copyWith(color: secondaryColor),
-                            )),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(2),
-                            height: height * 0.2,
-                            width: width * 0.45,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
-                              color: tertiaryColor,
-                            ),
-                            child: Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  addPartner(height, width);
-                                },
-                                child: Text(
-                                  'Add new partner',
-                                  style: style2.copyWith(color: secondaryColor),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(2),
+                    height: height * 0.2,
+                    width: width * 0.30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      color: tertiaryColor,
+                    ),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          addPartner(height, width);
+                        },
+                        child: Text(
+                          'Add partner',
+                          style: style2.copyWith(color: secondaryColor),
+                        ),
                       ),
                     ),
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
-            partnerDetailsContainer(height, width),
           ],
         ),
       ),
@@ -115,10 +103,14 @@ class _PartnersState extends State<Partners> {
         margin: EdgeInsets.all(20),
         child: Column(
           children: [
+            Text(
+              'Add new partner',
+              style: style1.copyWith(color: secondaryColor),
+            ),
             spacoInput('Type partner name', 'Name', TextInputType.text,
                 Iconsax.text, nameController),
             spacoInput('Type email', 'Email', TextInputType.emailAddress,
-                Iconsax.message4, emailController),
+                Iconsax.text, emailController),
             Container(
               margin: EdgeInsets.only(top: height * 0.08),
               padding: const EdgeInsets.all(8.0),
@@ -221,24 +213,31 @@ class _PartnersState extends State<Partners> {
               );
             } else {
               return Container(
-                height: height,
-                width: width,
                 padding: EdgeInsets.all(12),
                 child: GridView.builder(
                     physics: ScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            childAspectRatio: 3 / 2,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 20),
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 2 / 1,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
                     itemCount: partnersList.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return Container(
-                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: sixthColor,
+                          image: DecorationImage(
+                            image: AssetImage('assets/card_bck.jpeg'),
+                            fit: BoxFit.cover,
+                            colorFilter: ColorFilter.mode(
+                                primaryColor, BlendMode.hardLight),
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.only(
+                              top: 5, left: 10, right: 5, bottom: 5),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -256,6 +255,7 @@ class _PartnersState extends State<Partners> {
                                               ['profileurl'],
                                           width: 45,
                                           height: 45,
+                                          radius: 12,
                                         ),
                                   SizedBox(
                                     width: width * 0.05,
@@ -264,20 +264,22 @@ class _PartnersState extends State<Partners> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(partnersList[index]['partnername'],
-                                          style: style2.copyWith(
-                                              color: secondaryColor,
-                                              fontSize: 18)),
+                                      Text(
+                                        partnersList[index]['partnername'],
+                                        style: style2.copyWith(
+                                            color: secondaryColor),
+                                      ),
+                                      Text(
+                                        partnersList[index]['partnername'],
+                                        style: style2.copyWith(
+                                            color: secondaryColor),
+                                      ),
                                     ],
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(12),
                         ),
                       );
                     }),

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const primaryColor = Color(0xFF0A0D25);
-const secondaryColor = Color(0xFFFFFFFF);
-const tertiaryColor = Color(0xFF4E7D96);
-const fourthColor = Color(0xFFFF844B);
-const fifthColor = Color(0xFF9FC9DD);
-const sixthColor = Color(0xFFE3EDF2);
+const primaryColor = Color(0xFF19282f);
+const secondaryColor = Color(0xFFFAFAFA);
+const tertiaryColor = Color(0xFF0ba678);
+const fourthColor = Color(0xFF6E6E73);
+const fifthColor = Color(0xFF7c8f8c);
+const sixthColor = Color(0xFFdaded7);
 
 // Message colors
 
 const successColor = Color(0XFF4E7376);
 const errorColor = Color(0XFFEF4B4C);
-const warningColor = Color(0XFFFBC63D);
+const warningColor = Color(0XFFf1f1f1);
 
 String tempUserImg = 'assets/user.png';
 
