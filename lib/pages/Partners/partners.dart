@@ -1,25 +1,59 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/utils/constant.dart';
+import 'package:spaco/utils/displayImage.dart';
 import 'package:spaco/utils/getImages.dart';
 import 'package:spaco/utils/inputwidget.dart';
 import 'package:spaco/utils/loading.dart';
 
 class Partners extends StatefulWidget {
+  const Partners({Key? key}) : super(key: key);
+
   @override
   State<Partners> createState() => _PartnersState();
 }
 
 class _PartnersState extends State<Partners> {
   bool isLoading = false;
-  TextEditingController nameController = TextEditingController();
+  TextEditingController partnerNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
+  File? _image;
+
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
+  uploadPartner() async {
+    String imageUrl =
+        await PartnerServices.uploadPartnerImageToFirebase(_image);
+
+    PartnerServices.uploadPartnerDataToFirestore(
+            partnerName: partnerNameController.text,
+            email: emailController.text,
+            profileUrl: imageUrl)
+        .whenComplete(() {
+      Get.back();
+      Get.snackbar('Info', 'Profile updated.');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +141,49 @@ class _PartnersState extends State<Partners> {
               'Add new partner',
               style: style1.copyWith(color: secondaryColor),
             ),
+            SizedBox(
+              height: height * 0.02,
+            ),
+            Stack(
+              children: [
+                Container(
+                  height: 120,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: primaryColor.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(1, 1), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: displayImage(),
+                ),
+                Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: CircleAvatar(
+                      backgroundColor: fourthColor,
+                      child: IconButton(
+                        onPressed: () {
+                          getImage();
+                        },
+                        icon: Icon(
+                          Icons.edit_outlined,
+                          size: 20,
+                          color: secondaryColor,
+                        ),
+                        splashRadius: 5.0,
+                        splashColor: Colors.grey,
+                      ),
+                    ))
+              ],
+            ),
             spacoInput('Type partner name', 'Name', TextInputType.text,
-                Iconsax.text, nameController),
+                Iconsax.text, partnerNameController),
             spacoInput('Type email', 'Email', TextInputType.emailAddress,
                 Iconsax.text, emailController),
             Container(
@@ -149,18 +224,7 @@ class _PartnersState extends State<Partners> {
                     child: Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          PartnerServices.uploadPartnerDataToFirestore(
-                                  partnerName: nameController.text,
-                                  email: emailController.text)
-                              .then(
-                            (value) => Get.snackbar(
-                              'Success',
-                              'data stored',
-                              icon: Icon(Iconsax.save_add),
-                              backgroundColor: successColor,
-                            ),
-                          );
-                          Get.back();
+                          uploadPartner();
                         },
                         style: ElevatedButton.styleFrom(
                             primary: secondaryColor,
@@ -204,11 +268,17 @@ class _PartnersState extends State<Partners> {
             List<DocumentSnapshot> partnersList = snapshot.data.docs;
             if (partnersList.isEmpty) {
               return Container(
-                height: height * 0.1,
-                child: Icon(
-                  Iconsax.battery_empty,
-                  color: primaryColor,
-                  size: 64,
+                height: height * 0.4,
+                padding: EdgeInsets.only(top: 10),
+                child: Column(
+                  children: [
+                    Text('There are no partners at the moment.'),
+                    Icon(
+                      Iconsax.battery_empty,
+                      color: primaryColor,
+                      size: 64,
+                    ),
+                  ],
                 ),
               );
             } else {

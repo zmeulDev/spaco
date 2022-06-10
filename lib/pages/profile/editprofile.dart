@@ -8,9 +8,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:spaco/Services/auth_services.dart';
 import 'package:spaco/models/user_model.dart';
 import 'package:spaco/utils/constant.dart';
+import 'package:spaco/utils/displayImage.dart';
 import 'package:spaco/utils/helper.dart';
 import 'package:spaco/utils/inputwidget.dart';
-import 'package:spaco/widgets/createAvatarWidget.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -65,28 +65,6 @@ class _EditProfileState extends State<EditProfile> {
     }
     if (UserModel().email != null || UserModel().email != "") {
       emailController.text = UserModel().email;
-    }
-  }
-
-  Widget displayImage() {
-    if (_image == null) {
-      return Container(
-        height: 150,
-        width: 150,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: tertiaryColor,
-        ),
-        child: createAvatarWidget(75),
-      );
-    } else {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(75),
-        child: Image.file(
-          _image!,
-          fit: BoxFit.cover,
-        ),
-      );
     }
   }
 

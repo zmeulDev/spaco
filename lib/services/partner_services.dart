@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,7 +9,6 @@ class PartnerServices {
   static final firestoreRef = FirebaseFirestore.instance;
   static final userRef = firestoreRef.collection("users");
   static final partnerRef = firestoreRef.collection("partners");
-  static final _firebaseStorage = FirebaseStorage.instance.ref();
 
   static Future<void> uploadPartnerDataToFirestore({
     String? uid,
@@ -28,50 +25,6 @@ class PartnerServices {
     } catch (e) {
       print(e);
     }
-  }
-
-  static Future<String> updatePartnerDataInFirestore(
-      File imageFile, String userId) async {
-    String res;
-    try {
-      PartnerModel().profileUrl =
-          await uploadPartnerImageToStorage(imageFile, userId);
-      await partnerRef.doc(PartnerModel().uid).update(PartnerModel().toJson());
-      res = "Success";
-    } catch (e) {
-      res = e.toString();
-    }
-    return res;
-  }
-
-  static Future<String> updatePartnerDataInFirestoreWithoutImage(
-      String userId) async {
-    String res;
-    try {
-      await partnerRef.doc(PartnerModel().uid).update(PartnerModel().toJson());
-      res = "Success";
-    } catch (e) {
-      res = e.toString();
-    }
-    return res;
-  }
-
-  static Future<String> uploadPartnerImageToStorage(
-      File imageFile, String userId) async {
-    var url;
-
-    try {
-      Reference storageReference = _firebaseStorage.child("partners/${userId}");
-      UploadTask storageUploadTask = storageReference.putFile(imageFile);
-      url = await (await storageUploadTask.whenComplete(() => true))
-          .ref
-          .getDownloadURL();
-      return url;
-    } catch (e) {
-      // Helper.showSnack(, e.toString());
-      print(e.toString());
-    }
-    return url;
   }
 
   static Future<void> deletePartener(doc) async {
@@ -92,5 +45,20 @@ class PartnerServices {
 
   static Future<void> deletePartnerImage(String ref) async {
     await FirebaseStorage.instance.refFromURL(ref).delete();
+  }
+
+  static Future<String> uploadPartnerImageToFirebase(image) async {
+    final String fileName = DateTime.now().toString();
+    String url;
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('partners/$fileName');
+    TaskSnapshot snapshot = await firebaseStorageRef.putFile(image);
+    if (snapshot.state == TaskState.success) {
+      url = await snapshot.ref.getDownloadURL();
+    } else {
+      print('Error from image repo ${snapshot.state.toString()}');
+      throw ('This file is not an image');
+    }
+    return url;
   }
 }
