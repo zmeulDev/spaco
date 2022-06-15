@@ -121,7 +121,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ],
                   ),
-                  child: displayImage(),
+                  child: displayImage('profile'),
                 ),
                 Positioned(
                     right: 0,

@@ -4,9 +4,11 @@ String partnerModelToJson(PartnerModel data) => json.encode(data.toJson());
 
 class PartnerModel {
   String uid = '';
-  String profileUrl = '';
+  String partnerContact = '';
+  String partnerProfile = '';
   String partnerName = '';
-  String email = '';
+  String partnerEmail = '';
+  String partnerPhone = '';
 
   static final PartnerModel partnerModel = PartnerModel._internal();
 
@@ -18,8 +20,10 @@ class PartnerModel {
 
   Map<String, dynamic> toJson() => {
         "uid": uid,
-        "profileurl": profileUrl,
+        "partnercontact": partnerContact,
+        "profileurl": partnerProfile,
         "partnername": partnerName,
-        "email": email,
+        "email": partnerEmail,
+        "partnerphone": partnerPhone
       };
 }

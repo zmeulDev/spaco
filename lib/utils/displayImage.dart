@@ -4,11 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/widgets/createAvatarWidget.dart';
+import 'package:spaco/widgets/createPartnerWidget.dart';
 
 File? _image;
 
-Widget displayImage() {
-  if (_image == null) {
+Widget displayImage(String widgetType) {
+  if (_image == '' || _image == null) {
     return Container(
       height: 120,
       width: 120,
@@ -16,7 +17,9 @@ Widget displayImage() {
         shape: BoxShape.circle,
         color: tertiaryColor,
       ),
-      child: createAvatarWidget(75),
+      child: widgetType == 'profile'
+          ? createAvatarWidget(75)
+          : createPartnerWidget(75),
     );
   } else {
     return ClipRRect(

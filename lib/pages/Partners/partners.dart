@@ -24,8 +24,10 @@ class Partners extends StatefulWidget {
 
 class _PartnersState extends State<Partners> {
   bool isLoading = false;
+  TextEditingController partnerContactController = TextEditingController();
   TextEditingController partnerNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController partnerEmailController = TextEditingController();
+  TextEditingController partnerPhoneController = TextEditingController();
 
   File? _image;
 
@@ -41,40 +43,25 @@ class _PartnersState extends State<Partners> {
     }
   }
 
-  uploadPartner() async {
-    String imageUrl =
-        await PartnerServices.uploadPartnerImageToFirebase(_image);
+  partnerStore() async {
+    var partnerImageUrlController = _image == null
+        ? null
+        : await PartnerServices.uploadPartnerImageToFirebase(_image);
 
     PartnerServices.uploadPartnerDataToFirestore(
+            uid: PartnerServices.partnerRef.doc().id,
+            partnerContact: partnerContactController.text,
+            partnerProfile: partnerImageUrlController,
             partnerName: partnerNameController.text,
-            email: emailController.text,
-            profileUrl: imageUrl)
+            partnerEmail: partnerEmailController.text,
+            partnerPhone: partnerPhoneController.text)
         .whenComplete(() {
       Get.back();
-      Get.snackbar('Info', 'Profile updated.');
+      Get.snackbar('Info', 'Partner added.');
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
-    return Scaffold(
-      appBar: getAppBar('Partners'),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            topContainer(height, width),
-            partnerDetailsContainer(height, width),
-          ],
-        ),
-      ),
-    );
-  }
-
-  topContainer(height, width) {
+  partnerTopContainer(height, width) {
     return Container(
       width: width,
       height: height * 0.3,
@@ -113,7 +100,7 @@ class _PartnersState extends State<Partners> {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          addPartner(height, width);
+                          partnerAdd(height, width);
                         },
                         child: Text(
                           'Add partner',
@@ -131,9 +118,10 @@ class _PartnersState extends State<Partners> {
     );
   }
 
-  addPartner(height, width) {
+  partnerAdd(height, width) {
     return Get.bottomSheet(
       Container(
+        height: height * 0.6,
         margin: EdgeInsets.all(20),
         child: Column(
           children: [
@@ -160,7 +148,7 @@ class _PartnersState extends State<Partners> {
                       ),
                     ],
                   ),
-                  child: displayImage(),
+                  child: displayImage('partner'),
                 ),
                 Positioned(
                     right: 0,
@@ -182,12 +170,49 @@ class _PartnersState extends State<Partners> {
                     ))
               ],
             ),
-            spacoInput('Type partner name', 'Name', TextInputType.text,
-                Iconsax.text, partnerNameController),
-            spacoInput('Type email', 'Email', TextInputType.emailAddress,
-                Iconsax.text, emailController),
+            SizedBox(
+              height: height * 0.02,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: spacoInput('Partner name', 'Name', TextInputType.text,
+                      Iconsax.note5, partnerNameController),
+                ),
+                Expanded(
+                  child: spacoInput(
+                      'Partner email',
+                      'Email',
+                      TextInputType.emailAddress,
+                      Iconsax.message,
+                      partnerEmailController),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: spacoInput(
+                      'Partner contact',
+                      'Contact',
+                      TextInputType.text,
+                      Iconsax.profile_tick,
+                      partnerContactController),
+                ),
+                Expanded(
+                  child: spacoInput(
+                      'Partner phone',
+                      'Phone',
+                      TextInputType.phone,
+                      Iconsax.mobile,
+                      partnerPhoneController),
+                ),
+              ],
+            ),
             Container(
-              margin: EdgeInsets.only(top: height * 0.08),
+              margin: EdgeInsets.only(top: height * 0.05),
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -224,7 +249,7 @@ class _PartnersState extends State<Partners> {
                     child: Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          uploadPartner();
+                          partnerStore();
                         },
                         style: ElevatedButton.styleFrom(
                             primary: secondaryColor,
@@ -246,6 +271,8 @@ class _PartnersState extends State<Partners> {
         ),
       ),
       backgroundColor: primaryColor,
+      isDismissible: true,
+      isScrollControlled: true,
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -253,7 +280,7 @@ class _PartnersState extends State<Partners> {
     );
   }
 
-  partnerDetailsContainer(height, width) {
+  partnerContainer(height, width) {
     CollectionReference partnersCollection =
         FirebaseFirestore.instance.collection('partners');
 
@@ -268,19 +295,9 @@ class _PartnersState extends State<Partners> {
             List<DocumentSnapshot> partnersList = snapshot.data.docs;
             if (partnersList.isEmpty) {
               return Container(
-                height: height * 0.4,
-                padding: EdgeInsets.only(top: 10),
-                child: Column(
-                  children: [
-                    Text('There are no partners at the moment.'),
-                    Icon(
-                      Iconsax.battery_empty,
-                      color: primaryColor,
-                      size: 64,
-                    ),
-                  ],
-                ),
-              );
+                  height: height * 0.4,
+                  padding: EdgeInsets.all(20),
+                  child: Lottie.asset('assets/animation/nothing.json'));
             } else {
               return Container(
                 padding: EdgeInsets.all(12),
@@ -294,61 +311,67 @@ class _PartnersState extends State<Partners> {
                         mainAxisSpacing: 10),
                     itemCount: partnersList.length,
                     itemBuilder: (BuildContext ctx, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: sixthColor,
-                          image: DecorationImage(
-                            image: AssetImage('assets/card_bck.jpeg'),
-                            fit: BoxFit.cover,
-                            colorFilter: ColorFilter.mode(
-                                primaryColor, BlendMode.hardLight),
+                      return GestureDetector(
+                        onTap: () {
+                          partnerDetailsContainer(
+                              height, width, partnersList[index]['uid']);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: sixthColor,
+                            image: DecorationImage(
+                              image: AssetImage('assets/card_bck.jpeg'),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  primaryColor, BlendMode.hardLight),
+                            ),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 5, left: 10, right: 5, bottom: 5),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  partnersList[index]['profileurl'] == ''
-                                      ? Icon(
-                                          Iconsax.hierarchy_square,
-                                          color: secondaryColor,
-                                          size: 44,
-                                        )
-                                      : GetImage(
-                                          imagePath: partnersList[index]
-                                              ['profileurl'],
-                                          width: 45,
-                                          height: 45,
-                                          radius: 12,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 5, left: 10, right: 5, bottom: 5),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    partnersList[index]['profileurl'] == ''
+                                        ? Icon(
+                                            Iconsax.hierarchy_square,
+                                            color: secondaryColor,
+                                            size: 44,
+                                          )
+                                        : GetImage(
+                                            imagePath: partnersList[index]
+                                                ['profileurl'],
+                                            width: 45,
+                                            height: 45,
+                                            radius: 12,
+                                          ),
+                                    SizedBox(
+                                      width: width * 0.05,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          partnersList[index]['partnername'],
+                                          style: style2.copyWith(
+                                              color: secondaryColor),
                                         ),
-                                  SizedBox(
-                                    width: width * 0.05,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        partnersList[index]['partnername'],
-                                        style: style2.copyWith(
-                                            color: secondaryColor),
-                                      ),
-                                      Text(
-                                        partnersList[index]['partnername'],
-                                        style: style2.copyWith(
-                                            color: secondaryColor),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                                        Text(
+                                          partnersList[index]['partnercontact'],
+                                          style: style2.copyWith(
+                                              color: secondaryColor),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -357,5 +380,214 @@ class _PartnersState extends State<Partners> {
             }
           }
         });
+  }
+
+  partnerDetailsContainer(height, width, uid) {
+    CollectionReference partnerDetailCollection =
+        FirebaseFirestore.instance.collection('partners');
+
+    return Get.bottomSheet(
+      SingleChildScrollView(
+        child: Container(
+          height: height * 0.7,
+          margin: EdgeInsets.all(20),
+          child: StreamBuilder<QuerySnapshot>(
+            stream: partnerDetailCollection
+                .where('uid', isEqualTo: uid)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot detail = snapshot.data!.docs[index];
+                      return Column(
+                        children: [
+                          Text(
+                            'Partner details',
+                            style: style1.copyWith(color: secondaryColor),
+                          ),
+                          SizedBox(
+                            height: height * 0.02,
+                          ),
+                          Stack(
+                            children: [
+                              Container(
+                                height: 120,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: primaryColor.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
+                                      offset: Offset(
+                                          1, 1), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: displayImage('partner'),
+                              ),
+                              Positioned(
+                                  right: 0,
+                                  bottom: 0,
+                                  child: CircleAvatar(
+                                    backgroundColor: fourthColor,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.edit_outlined,
+                                        size: 20,
+                                        color: secondaryColor,
+                                      ),
+                                      splashRadius: 5.0,
+                                      splashColor: Colors.grey,
+                                    ),
+                                  ))
+                            ],
+                          ),
+                          SizedBox(
+                            height: height * 0.02,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: spacoInput(
+                                    'Partner name',
+                                    detail['partnername'],
+                                    TextInputType.text,
+                                    Iconsax.note5,
+                                    partnerNameController),
+                              ),
+                              Expanded(
+                                child: spacoInput(
+                                    'Partner email',
+                                    detail['email'],
+                                    TextInputType.emailAddress,
+                                    Iconsax.message,
+                                    partnerEmailController),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: spacoInput(
+                                    'Partner contact',
+                                    detail['partnercontact'],
+                                    TextInputType.text,
+                                    Iconsax.profile_tick,
+                                    partnerContactController),
+                              ),
+                              Expanded(
+                                child: spacoInput(
+                                    'Partner phone',
+                                    detail['partnerphone'],
+                                    TextInputType.phone,
+                                    Iconsax.mobile,
+                                    partnerPhoneController),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: height * 0.05),
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 52,
+                                  width: 80,
+                                  child: Center(
+                                    child: ElevatedButton(
+                                      onPressed: isLoading == true
+                                          ? () {}
+                                          : () {
+                                              Get.back();
+                                            },
+                                      style: ElevatedButton.styleFrom(
+                                          primary: secondaryColor,
+                                          padding: const EdgeInsets.all(13),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          )),
+                                      child: Text(
+                                        'Cancel',
+                                        style: style2,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Container(
+                                  height: 52,
+                                  width: 80,
+                                  child: Center(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        partnerStore();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          primary: secondaryColor,
+                                          padding: const EdgeInsets.all(13),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          )),
+                                      child: Text(
+                                        'Save',
+                                        style: style2,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    });
+              } else {
+                return Text("No data");
+              }
+            },
+          ),
+        ),
+      ),
+      backgroundColor: primaryColor,
+      isDismissible: true,
+      isScrollControlled: true,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      appBar: getAppBar('Partners'),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            partnerTopContainer(height, width),
+            partnerContainer(height, width),
+          ],
+        ),
+      ),
+    );
   }
 }

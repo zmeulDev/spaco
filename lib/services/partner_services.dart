@@ -12,16 +12,19 @@ class PartnerServices {
 
   static Future<void> uploadPartnerDataToFirestore({
     String? uid,
-    String? profileUrl,
-    String? partnerName,
-    @required String? email,
+    String? partnerContact,
+    String? partnerProfile,
+    @required String? partnerName,
+    String? partnerEmail,
+    String? partnerPhone,
   }) async {
     try {
       PartnerModel().uid = uid ?? '';
-      PartnerModel().profileUrl = profileUrl ?? '';
+      PartnerModel().partnerContact = partnerContact ?? '';
+      PartnerModel().partnerProfile = partnerProfile ?? '';
       PartnerModel().partnerName = partnerName ?? '';
-      PartnerModel().email = email ?? '';
-      await partnerRef.doc(uid).set(PartnerModel().toJson());
+      PartnerModel().partnerEmail = partnerEmail ?? '';
+      await partnerRef.doc().set(PartnerModel().toJson());
     } catch (e) {
       print(e);
     }
