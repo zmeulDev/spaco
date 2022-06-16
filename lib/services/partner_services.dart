@@ -24,14 +24,11 @@ class PartnerServices {
       PartnerModel().partnerProfile = partnerProfile ?? '';
       PartnerModel().partnerName = partnerName ?? '';
       PartnerModel().partnerEmail = partnerEmail ?? '';
+      PartnerModel().partnerPhone = partnerPhone ?? '';
       await partnerRef.doc().set(PartnerModel().toJson());
     } catch (e) {
       print(e);
     }
-  }
-
-  static Future<void> deletePartener(doc) async {
-    return partnerRef.doc(doc).delete();
   }
 
   static Future<void> favPartner(doc, String isFav) async {
@@ -44,6 +41,10 @@ class PartnerServices {
     return partnerRef.doc(doc).update(
       {'isMain': '$isMain'},
     );
+  }
+
+  static Future<void> deletePartener(doc) async {
+    return partnerRef.doc(doc).delete();
   }
 
   static Future<void> deletePartnerImage(String ref) async {

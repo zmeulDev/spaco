@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:avatar_view/avatar_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +25,19 @@ class Partners extends StatefulWidget {
 
 class _PartnersState extends State<Partners> {
   bool isLoading = false;
+
   TextEditingController partnerContactController = TextEditingController();
   TextEditingController partnerNameController = TextEditingController();
   TextEditingController partnerEmailController = TextEditingController();
   TextEditingController partnerPhoneController = TextEditingController();
+
+  void clearForm() {
+    // clear all forms
+    partnerContactController.clear();
+    partnerNameController.clear();
+    partnerEmailController.clear();
+    partnerPhoneController.clear();
+  }
 
   File? _image;
 
@@ -44,6 +54,7 @@ class _PartnersState extends State<Partners> {
   }
 
   partnerStore() async {
+    // store partner in firebase
     var partnerImageUrlController = _image == null
         ? null
         : await PartnerServices.uploadPartnerImageToFirebase(_image);
@@ -57,68 +68,22 @@ class _PartnersState extends State<Partners> {
             partnerPhone: partnerPhoneController.text)
         .whenComplete(() {
       Get.back();
+      clearForm();
       Get.snackbar('Info', 'Partner added.');
     });
   }
 
-  partnerTopContainer(height, width) {
-    return Container(
-      width: width,
-      height: height * 0.3,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
-        ),
-        color: primaryColor,
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(13.0),
-        child: Column(
-          children: [
-            Container(
-                height: height * 0.21,
-                child: Lottie.asset('assets/animation/partners.json')),
-            Container(
-              height: height * 0.05,
-              width: width * 0.933,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-                color: secondaryColor,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(2),
-                    height: height * 0.2,
-                    width: width * 0.30,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: tertiaryColor,
-                    ),
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          partnerAdd(height, width);
-                        },
-                        child: Text(
-                          'Add partner',
-                          style: style2.copyWith(color: secondaryColor),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  partnerDelete(detail) async {
+    // delete partner from firebase and related image storage
+    PartnerServices.deletePartener(detail.id);
+    detail['profileurl'] != ''
+        ? PartnerServices.deletePartnerImage(detail['profileurl'])
+        : null;
+    Get.back();
+    Get.snackbar('Delete', 'partner deleted');
   }
 
-  partnerAdd(height, width) {
+  partnerAddSheet(height, width) {
     return Get.bottomSheet(
       Container(
         height: height * 0.6,
@@ -252,14 +217,14 @@ class _PartnersState extends State<Partners> {
                           partnerStore();
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: secondaryColor,
+                            primary: tertiaryColor,
                             padding: const EdgeInsets.all(13),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             )),
                         child: Text(
                           'Save',
-                          style: style2,
+                          style: style2.copyWith(color: secondaryColor),
                         ),
                       ),
                     ),
@@ -280,7 +245,64 @@ class _PartnersState extends State<Partners> {
     );
   }
 
-  partnerContainer(height, width) {
+  partnerTopHeader(height, width) {
+    return Container(
+      width: width,
+      height: height * 0.3,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+        color: primaryColor,
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(13.0),
+        child: Column(
+          children: [
+            Container(
+                height: height * 0.21,
+                child: Lottie.asset('assets/animation/partners.json')),
+            Container(
+              height: height * 0.05,
+              width: width * 0.933,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                color: secondaryColor,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(2),
+                    height: height * 0.2,
+                    width: width * 0.30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      color: tertiaryColor,
+                    ),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          partnerAddSheet(height, width);
+                        },
+                        child: Text(
+                          'Add partner',
+                          style: style2.copyWith(color: secondaryColor),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  partnerBody(height, width) {
     CollectionReference partnersCollection =
         FirebaseFirestore.instance.collection('partners');
 
@@ -313,7 +335,7 @@ class _PartnersState extends State<Partners> {
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
                         onTap: () {
-                          partnerDetailsContainer(
+                          partnerBodyDetails(
                               height, width, partnersList[index]['uid']);
                         },
                         child: Container(
@@ -382,7 +404,7 @@ class _PartnersState extends State<Partners> {
         });
   }
 
-  partnerDetailsContainer(height, width, uid) {
+  partnerBodyDetails(height, width, uid) {
     CollectionReference partnerDetailCollection =
         FirebaseFirestore.instance.collection('partners');
 
@@ -427,7 +449,29 @@ class _PartnersState extends State<Partners> {
                                     ),
                                   ],
                                 ),
-                                child: displayImage('partner'),
+                                child: AvatarView(
+                                  radius: 75,
+                                  borderColor: secondaryColor,
+                                  avatarType: AvatarType.CIRCLE,
+                                  backgroundColor: primaryColor,
+                                  imagePath: detail['profileurl'] == ''
+                                      ? 'assets/user.png'
+                                      : detail['profileurl'],
+                                  placeHolder: Container(
+                                    color: secondaryColor,
+                                    child: Icon(
+                                      Iconsax.user,
+                                      size: 36,
+                                    ),
+                                  ),
+                                  errorWidget: Container(
+                                    color: fourthColor,
+                                    child: Icon(
+                                      Iconsax.user1,
+                                      size: 36,
+                                    ),
+                                  ),
+                                ),
                               ),
                               Positioned(
                                   right: 0,
@@ -466,7 +510,7 @@ class _PartnersState extends State<Partners> {
                               Expanded(
                                 child: spacoInput(
                                     'Partner email',
-                                    detail['email'],
+                                    detail['partneremail'],
                                     TextInputType.emailAddress,
                                     Iconsax.message,
                                     partnerEmailController),
@@ -533,6 +577,31 @@ class _PartnersState extends State<Partners> {
                                   child: Center(
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        partnerDelete(detail);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          primary: secondaryColor,
+                                          padding: const EdgeInsets.all(13),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          )),
+                                      child: Text(
+                                        'Delete',
+                                        style: style2,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Container(
+                                  height: 52,
+                                  width: 80,
+                                  child: Center(
+                                    child: ElevatedButton(
+                                      onPressed: () {
                                         partnerStore();
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -583,8 +652,8 @@ class _PartnersState extends State<Partners> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            partnerTopContainer(height, width),
-            partnerContainer(height, width),
+            partnerTopHeader(height, width),
+            partnerBody(height, width),
           ],
         ),
       ),

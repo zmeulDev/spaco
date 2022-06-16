@@ -23,7 +23,7 @@ class PartnerModel {
         "partnercontact": partnerContact,
         "profileurl": partnerProfile,
         "partnername": partnerName,
-        "email": partnerEmail,
+        "partneremail": partnerEmail,
         "partnerphone": partnerPhone
       };
 }
