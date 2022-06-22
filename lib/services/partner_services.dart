@@ -31,6 +31,29 @@ class PartnerServices {
     }
   }
 
+  static Future<String> updatePartnerDataInFirestore(
+      uid,
+      partnerContactController,
+      partnerImageUrlController,
+      partnerNameController,
+      partnerEmailController,
+      partnerPhoneController) async {
+    String res;
+    try {
+      await partnerRef.doc(uid).update({
+        "partnercontact": partnerContactController,
+        "profileurl": partnerImageUrlController,
+        "partnername": partnerNameController,
+        "partneremail": partnerEmailController,
+        "partnerphone": partnerPhoneController
+      });
+      res = "Success";
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
   static Future<void> favPartner(doc, String isFav) async {
     return partnerRef.doc(doc).update(
       {'isFav': '$isFav'},

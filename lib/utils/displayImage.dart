@@ -15,7 +15,7 @@ Widget displayImage(String widgetType) {
       width: 120,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: tertiaryColor,
+        color: secondaryColor,
       ),
       child: widgetType == 'profile'
           ? createAvatarWidget(75)

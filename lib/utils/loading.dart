@@ -4,7 +4,7 @@ import 'package:spaco/utils/constant.dart';
 
 Widget loading() {
   return SpinKitThreeBounce(
-    size: 20.0,
+    size: 30.0,
     itemBuilder: (BuildContext context, int index) {
       return DecoratedBox(
         decoration: BoxDecoration(

@@ -6,14 +6,14 @@ Widget spacoInput(hintText, labelText, keyboardType, suffixIcon,
   return Container(
     child: TextField(
       controller: controller,
-      cursorColor: sixthColor,
+      cursorColor: secondaryColor,
       cursorHeight: 20,
       keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,
-        hintStyle: style2.copyWith(color: sixthColor),
-        labelStyle: style3.copyWith(color: sixthColor),
+        hintStyle: style2,
+        labelStyle: style3,
         contentPadding: EdgeInsets.only(left: 8, bottom: 12, right: 5, top: 5),
         suffixIcon: Icon(
           suffixIcon,
@@ -24,18 +24,18 @@ Widget spacoInput(hintText, labelText, keyboardType, suffixIcon,
           borderRadius: BorderRadius.circular(50),
           borderSide: BorderSide(
             width: 1,
-            color: primaryColor,
+            color: Colors.transparent,
           ),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(50),
           borderSide: BorderSide(
             width: 1,
-            color: sixthColor,
+            color: secondaryColor,
           ),
         ),
       ),
-      style: style2.copyWith(color: secondaryColor),
+      style: style2,
     ),
   );
 }
