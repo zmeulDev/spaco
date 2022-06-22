@@ -33,11 +33,12 @@ class _PartnersState extends State<Partners> {
   TextEditingController partnerPhoneController = TextEditingController();
 
   void clearForm() {
-    partnerContactController.clear();
-    partnerNameController.clear();
-    partnerEmailController.clear();
-    partnerPhoneController.clear();
-    super.dispose();
+    setState(() {
+      partnerContactController.clear();
+      partnerNameController.clear();
+      partnerEmailController.clear();
+      partnerPhoneController.clear();
+    });
   }
 
   File? _image;
@@ -113,6 +114,7 @@ class _PartnersState extends State<Partners> {
   partnerDelete(detail) async {
     // delete partner from firebase and related image storage
     // TODO: close bottomsheet on delete
+    // TODO snackbar color to red
     PartnerServices.deletePartener(detail.id);
     detail['profileurl'] != ''
         ? PartnerServices.deletePartnerImage(detail['profileurl'])
@@ -644,6 +646,7 @@ class _PartnersState extends State<Partners> {
                                     child: Center(
                                       child: ElevatedButton(
                                         onPressed: () {
+                                          Get.back();
                                           Get.dialog(
                                             AlertDialog(
                                               title: const Text('Warning'),

@@ -24,7 +24,7 @@ Widget spacoInput(hintText, labelText, keyboardType, suffixIcon,
           borderRadius: BorderRadius.circular(50),
           borderSide: BorderSide(
             width: 1,
-            color: Colors.transparent,
+            color: secondaryColor,
           ),
         ),
         focusedBorder: UnderlineInputBorder(
