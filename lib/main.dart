@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'zmeul',
+      title: 'spaco',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           textTheme: GoogleFonts.nunitoTextTheme(),

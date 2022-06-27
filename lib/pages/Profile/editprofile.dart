@@ -220,7 +220,7 @@ class _EditProfileState extends State<EditProfile> {
                             )),
                         child: Text(
                           'Cancel',
-                          style: style2,
+                          style: style2.copyWith(color: primaryColor),
                         ),
                       ),
                     ),
@@ -237,7 +237,7 @@ class _EditProfileState extends State<EditProfile> {
                           updateData();
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: secondaryColor,
+                            primary: tertiaryColor,
                             padding: const EdgeInsets.all(13),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

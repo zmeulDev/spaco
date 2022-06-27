@@ -392,7 +392,7 @@ class _PartnersState extends State<Partners> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: height * 0.05),
+                margin: EdgeInsets.only(top: height * 0.04),
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -607,7 +607,7 @@ class _PartnersState extends State<Partners> {
                               ],
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: height * 0.1),
+                              margin: EdgeInsets.only(top: height * 0.05),
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

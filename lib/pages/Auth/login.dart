@@ -19,7 +19,8 @@ class Login extends StatelessWidget {
         body: Container(
           child: Column(
             children: [
-              upperImage(),
+              upperImage(context),
+              SizedBox(height: 25,),
               loginForm(context),
               loginArrowButton(() {
                 if (phoneNoController.text.isEmpty) {
@@ -31,7 +32,7 @@ class Login extends StatelessWidget {
             ],
           ),
         ),
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
       ),
     );
   }
@@ -53,23 +54,18 @@ class Login extends StatelessWidget {
     );
   }
 
-  upperImage() {
-    return Container(
-      margin: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: LinearGradient(colors: [
-            tertiaryColor.withOpacity(0.3),
-            tertiaryColor.withOpacity(0.6),
-          ])),
-      child: Center(
-          child: Padding(
-        padding: EdgeInsets.all(1.0),
+  upperImage(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
         child: Image(
-          image: AssetImage('assets/profile_4.png'),
-          fit: BoxFit.fill,
+      image: AssetImage('assets/profile_4.png'),
+      fit: BoxFit.cover,
         ),
-      )),
+      ),
     );
   }
 

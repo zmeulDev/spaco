@@ -29,7 +29,7 @@ class _ProfileState extends State<Profile> {
         children: [
           Container(
             width: width,
-            height: height * 0.3,
+            height: height * 0.35,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
