@@ -6,6 +6,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:spaco/pages/Booking/booking.dart';
 import 'package:spaco/pages/Partners/partners.dart';
+import 'package:spaco/pages/Rooms/rooms.dart';
 import 'package:spaco/pages/home.dart';
 import 'package:spaco/pages/profile/profile.dart';
 import 'package:spaco/utils/constant.dart';
@@ -22,6 +23,7 @@ class NavigationBar extends State<NavBar> {
   final List<Widget> _pages = [
     Home(),
     Bookings(),
+    Rooms(),
     Partners(),
     Profile(),
   ];
@@ -84,21 +86,25 @@ class NavigationBar extends State<NavBar> {
               gap: 2,
               iconSize: 26,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              duration: const Duration(milliseconds: 300),
+              duration:  Duration(milliseconds: 300),
               tabs: [
-                const GButton(
+                 GButton(
                   icon: Iconsax.home,
                   text: 'Home',
                 ),
-                const GButton(
+                 GButton(
                   icon: Iconsax.calendar_2,
                   text: 'Bookings',
                 ),
-                const GButton(
+                 GButton(
+                  icon: Iconsax.aquarius,
+                  text: 'Rooms',
+                ),
+                 GButton(
                   icon: Iconsax.layer,
                   text: 'Partners',
                 ),
-                const GButton(
+                 GButton(
                   icon: Iconsax.user,
                   text: 'Profile',
                 )

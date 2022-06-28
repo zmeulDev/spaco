@@ -11,20 +11,21 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/partner_services.dart';
+import 'package:spaco/services/room_services.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/displayImage.dart';
 import 'package:spaco/utils/getImages.dart';
 import 'package:spaco/utils/inputwidget.dart';
 import 'package:spaco/utils/loading.dart';
 
-class Partners extends StatefulWidget {
-  const Partners({Key? key}) : super(key: key);
+class Rooms extends StatefulWidget {
+  const Rooms({Key? key}) : super(key: key);
 
   @override
-  State<Partners> createState() => _PartnersState();
+  State<Rooms> createState() => _RoomsState();
 }
 
-class _PartnersState extends State<Partners> {
+class _RoomsState extends State<Rooms> {
   bool isLoading = false;
 
   TextEditingController partnerContactController = TextEditingController();
@@ -48,7 +49,7 @@ class _PartnersState extends State<Partners> {
   Future getImage() async {
     // TODO clear image cache on multiple add and update
     final pickedFile =
-        await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
+    await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -56,34 +57,34 @@ class _PartnersState extends State<Partners> {
     }
   }
 
-  partnerStore() async {
+  roomStore() async {
     // store partner in firebase
     // TODO remove uid
     var partnerImageUrlController = _image == null
         ? null
         : await PartnerServices.uploadPartnerImageToFirebase(_image);
 
-    PartnerServices.uploadPartnerDataToFirestore(
-            uid: PartnerServices.partnerRef.doc().id,
-            partnerContact: partnerContactController.text,
-            partnerProfile: partnerImageUrlController,
-            partnerName: partnerNameController.text,
-            partnerEmail: partnerEmailController.text,
-            partnerPhone: partnerPhoneController.text)
+    RoomServices.uploadRoomDataToFirestore(
+        uid: RoomServices.roomRef.doc().id,
+        partnerContact: partnerContactController.text,
+        partnerProfile: partnerImageUrlController,
+        partnerName: partnerNameController.text,
+        partnerEmail: partnerEmailController.text,
+        partnerPhone: partnerPhoneController.text)
         .whenComplete(() {
       Get.back();
-      Get.snackbar('Info', 'Partner added.');
+      Get.snackbar('Info', 'Room added.');
     });
   }
 
-  partnerUpdate(detail) async {
+  roomUpdate(detail) async {
     var partnerContactUpdate = partnerContactController.text.isEmpty
         ? detail['partnercontact']
         : partnerContactController.text;
 
     var partnerImageUrlController = _image == null
         ? detail['profileurl']
-        : await PartnerServices.uploadPartnerImageToFirebase(_image);
+        : await RoomServices.uploadRoomImageToFirebase(_image);
 
     var partnerNameUpdate = partnerNameController.text.isEmpty
         ? detail['partnername']
@@ -97,33 +98,33 @@ class _PartnersState extends State<Partners> {
         ? detail['partnerphone']
         : partnerPhoneController.text;
 
-    PartnerServices.updatePartnerDataInFirestore(
-            detail.reference.id,
-            partnerContactUpdate,
-            partnerImageUrlController,
-            partnerNameUpdate,
-            partnerEmailUpdate,
-            partnerPhoneUpdate)
+    RoomServices.updateRoomDataInFirestore(
+        detail.reference.id,
+        partnerContactUpdate,
+        partnerImageUrlController,
+        partnerNameUpdate,
+        partnerEmailUpdate,
+        partnerPhoneUpdate)
         .whenComplete(() {
       clearForm();
       Get.back();
-      Get.snackbar('Info', 'Partner updated.');
+      Get.snackbar('Info', 'Room updated.');
     });
   }
 
-  partnerDelete(detail) async {
+  roomDelete(detail) async {
     // delete partner from firebase and related image storage
     // TODO: close bottomsheet on delete
     // TODO snackbar color to red
-    PartnerServices.deletePartener(detail.id);
+    RoomServices.deleteRoom(detail.id);
     detail['profileurl'] != ''
-        ? PartnerServices.deletePartnerImage(detail['profileurl'])
+        ? RoomServices.deleteRoomImage(detail['profileurl'])
         : null;
     Get.back();
     Get.snackbar('Delete', 'partner deleted');
   }
 
-  partnerTopHeader(height, width) {
+  roomTopHeader(height, width) {
     return Container(
       width: width,
       height: height * 0.37,
@@ -140,7 +141,7 @@ class _PartnersState extends State<Partners> {
           children: [
             Container(
                 height: height * 0.27,
-                child: Lottie.asset('assets/animation/partners.json')),
+                child: Lottie.asset('assets/animation/meeting.json')),
             Container(
               height: height * 0.05,
               width: width * 0.933,
@@ -163,10 +164,10 @@ class _PartnersState extends State<Partners> {
                       child: GestureDetector(
                         onTap: () {
                           clearForm();
-                          partnerAddSheet(height, width);
+                          roomAddSheet(height, width);
                         },
                         child: Text(
-                          'Add partner',
+                          'Add room',
                           style: style2.copyWith(color: secondaryColor),
                         ),
                       ),
@@ -181,12 +182,12 @@ class _PartnersState extends State<Partners> {
     );
   }
 
-  partnerBody(height, width) {
-    CollectionReference partnersCollection =
-        FirebaseFirestore.instance.collection('partners');
+  roomBody(height, width) {
+    CollectionReference roomsCollection =
+    FirebaseFirestore.instance.collection('rooms');
 
     return StreamBuilder(
-        stream: partnersCollection.snapshots(),
+        stream: roomsCollection.snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -214,7 +215,7 @@ class _PartnersState extends State<Partners> {
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
                         onTap: () {
-                          partnerDetailSheet(
+                          roomDetailSheet(
                               height, width, partnersList[index]['uid']);
                         },
                         child: Container(
@@ -224,7 +225,7 @@ class _PartnersState extends State<Partners> {
                               image: AssetImage('assets/card_bck.jpeg'),
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
-                                  primaryColor, BlendMode.hardLight),
+                                  fourthColor, BlendMode.modulate),
                             ),
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -239,23 +240,23 @@ class _PartnersState extends State<Partners> {
                                   children: [
                                     partnersList[index]['profileurl'] == ''
                                         ? Icon(
-                                            Iconsax.hierarchy_square,
-                                            color: secondaryColor,
-                                            size: 44,
-                                          )
+                                      Iconsax.hierarchy_square,
+                                      color: secondaryColor,
+                                      size: 44,
+                                    )
                                         : GetImage(
-                                            imagePath: partnersList[index]
-                                                ['profileurl'],
-                                            width: 45,
-                                            height: 45,
-                                            radius: 12,
-                                          ),
+                                      imagePath: partnersList[index]
+                                      ['profileurl'],
+                                      width: 45,
+                                      height: 45,
+                                      radius: 12,
+                                    ),
                                     SizedBox(
                                       width: width * 0.05,
                                     ),
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           partnersList[index]['partnername'],
@@ -283,7 +284,7 @@ class _PartnersState extends State<Partners> {
         });
   }
 
-  partnerAddSheet(height, width) {
+  roomAddSheet(height, width) {
     return Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
@@ -291,7 +292,7 @@ class _PartnersState extends State<Partners> {
           image: DecorationImage(
             image: AssetImage('assets/card_bck.jpeg'),
             fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(primaryColor, BlendMode.hardLight),
+            colorFilter: ColorFilter.mode(fourthColor, BlendMode.modulate),
           ),
           borderRadius: BorderRadius.circular(12),
         ),
@@ -302,7 +303,7 @@ class _PartnersState extends State<Partners> {
           child: Column(
             children: [
               Text(
-                'Add new partner',
+                'Add new room',
                 style: style1.copyWith(color: secondaryColor),
               ),
               SizedBox(
@@ -405,8 +406,8 @@ class _PartnersState extends State<Partners> {
                           onPressed: isLoading == true
                               ? () {}
                               : () {
-                                  Get.back();
-                                },
+                            Get.back();
+                          },
                           style: ElevatedButton.styleFrom(
                               primary: secondaryColor,
                               padding: const EdgeInsets.all(13),
@@ -429,7 +430,7 @@ class _PartnersState extends State<Partners> {
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            partnerStore();
+                            roomStore();
                           },
                           style: ElevatedButton.styleFrom(
                               primary: tertiaryColor,
@@ -461,9 +462,9 @@ class _PartnersState extends State<Partners> {
     );
   }
 
-  partnerDetailSheet(height, width, uid) {
-    CollectionReference partnerDetailCollection =
-        FirebaseFirestore.instance.collection('partners');
+  roomDetailSheet(height, width, uid) {
+    CollectionReference roomDetailCollection =
+    FirebaseFirestore.instance.collection('rooms');
 
     return Get.bottomSheet(
       SingleChildScrollView(
@@ -473,14 +474,14 @@ class _PartnersState extends State<Partners> {
             image: DecorationImage(
               image: AssetImage('assets/card_bck.jpeg'),
               fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(primaryColor, BlendMode.hardLight),
+              colorFilter: ColorFilter.mode(fourthColor, BlendMode.modulate),
             ),
             borderRadius: BorderRadius.circular(12),
           ),
           height: height * 0.6,
           margin: EdgeInsets.all(10),
           child: StreamBuilder<QuerySnapshot>(
-            stream: partnerDetailCollection
+            stream: roomDetailCollection
                 .where('uid', isEqualTo: uid)
                 .snapshots(),
             builder: (context, snapshot) {
@@ -494,7 +495,7 @@ class _PartnersState extends State<Partners> {
                         child: Column(
                           children: [
                             Text(
-                              'Partner details',
+                              'Room details',
                               style: style1.copyWith(color: secondaryColor),
                             ),
                             SizedBox(
@@ -620,14 +621,14 @@ class _PartnersState extends State<Partners> {
                                         onPressed: isLoading == true
                                             ? () {}
                                             : () {
-                                                Get.back();
-                                              },
+                                          Get.back();
+                                        },
                                         style: ElevatedButton.styleFrom(
                                             primary: secondaryColor,
                                             padding: const EdgeInsets.all(13),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(8),
+                                              BorderRadius.circular(8),
                                             )),
                                         child: Text(
                                           'Cancel',
@@ -651,7 +652,7 @@ class _PartnersState extends State<Partners> {
                                             AlertDialog(
                                               title: const Text('Warning'),
                                               content: const Text(
-                                                  'Partner will be deleted!'),
+                                                  'Room will be deleted!'),
                                               actions: [
                                                 TextButton(
                                                   child: const Text("Close"),
@@ -660,7 +661,7 @@ class _PartnersState extends State<Partners> {
                                                 TextButton(
                                                   child: const Text("Delete"),
                                                   onPressed: () =>
-                                                      partnerDelete(detail),
+                                                      roomDelete(detail),
                                                 ),
                                               ],
                                             ),
@@ -671,7 +672,7 @@ class _PartnersState extends State<Partners> {
                                             padding: const EdgeInsets.all(13),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(8),
+                                              BorderRadius.circular(8),
                                             )),
                                         child: Text(
                                           'Delete',
@@ -689,14 +690,14 @@ class _PartnersState extends State<Partners> {
                                     child: Center(
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          partnerUpdate(detail);
+                                          roomUpdate(detail);
                                         },
                                         style: ElevatedButton.styleFrom(
                                             primary: tertiaryColor,
                                             padding: const EdgeInsets.all(13),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(8),
+                                              BorderRadius.circular(8),
                                             )),
                                         child: Text(
                                           'Update',
@@ -736,13 +737,13 @@ class _PartnersState extends State<Partners> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: getAppBar('Partners'),
+      appBar: getAppBar('Rooms'),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            partnerTopHeader(height, width),
-            partnerBody(height, width),
+            roomTopHeader(height, width),
+            roomBody(height, width),
           ],
         ),
       ),
