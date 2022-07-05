@@ -4,6 +4,7 @@ import 'package:spaco/utils/constant.dart';
 Widget spacoInput(hintText, labelText, keyboardType, suffixIcon,
     TextEditingController controller) {
   return Container(
+    margin: EdgeInsets.all(5),
     child: TextField(
       controller: controller,
       cursorColor: secondaryColor,
@@ -11,24 +12,22 @@ Widget spacoInput(hintText, labelText, keyboardType, suffixIcon,
       keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hintText,
+        hintStyle: style2.copyWith(color: secondaryColor.withOpacity(0.3)),
         labelText: labelText,
-        hintStyle: style2,
         labelStyle: style3,
-        contentPadding: EdgeInsets.only(left: 8, bottom: 12, right: 5, top: 5),
+        contentPadding: EdgeInsets.all(8),
         suffixIcon: Icon(
           suffixIcon,
           color: secondaryColor,
           size: 20,
         ),
-        enabledBorder: UnderlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
+        enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            width: 1,
+            width: 0,
             color: secondaryColor,
           ),
         ),
-        focusedBorder: UnderlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
+        focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 1,
             color: secondaryColor,

@@ -27,6 +27,7 @@ class Rooms extends StatefulWidget {
 
 class _RoomsState extends State<Rooms> {
   bool isLoading = false;
+  bool isChecked = false;
 
   TextEditingController partnerContactController = TextEditingController();
   TextEditingController partnerNameController = TextEditingController();
@@ -49,7 +50,7 @@ class _RoomsState extends State<Rooms> {
   Future getImage() async {
     // TODO clear image cache on multiple add and update
     final pickedFile =
-    await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -65,12 +66,12 @@ class _RoomsState extends State<Rooms> {
         : await PartnerServices.uploadPartnerImageToFirebase(_image);
 
     RoomServices.uploadRoomDataToFirestore(
-        uid: RoomServices.roomRef.doc().id,
-        partnerContact: partnerContactController.text,
-        partnerProfile: partnerImageUrlController,
-        partnerName: partnerNameController.text,
-        partnerEmail: partnerEmailController.text,
-        partnerPhone: partnerPhoneController.text)
+            uid: RoomServices.roomRef.doc().id,
+            partnerContact: partnerContactController.text,
+            partnerProfile: partnerImageUrlController,
+            partnerName: partnerNameController.text,
+            partnerEmail: partnerEmailController.text,
+            partnerPhone: partnerPhoneController.text)
         .whenComplete(() {
       Get.back();
       Get.snackbar('Info', 'Room added.');
@@ -99,12 +100,12 @@ class _RoomsState extends State<Rooms> {
         : partnerPhoneController.text;
 
     RoomServices.updateRoomDataInFirestore(
-        detail.reference.id,
-        partnerContactUpdate,
-        partnerImageUrlController,
-        partnerNameUpdate,
-        partnerEmailUpdate,
-        partnerPhoneUpdate)
+            detail.reference.id,
+            partnerContactUpdate,
+            partnerImageUrlController,
+            partnerNameUpdate,
+            partnerEmailUpdate,
+            partnerPhoneUpdate)
         .whenComplete(() {
       clearForm();
       Get.back();
@@ -184,7 +185,7 @@ class _RoomsState extends State<Rooms> {
 
   roomBody(height, width) {
     CollectionReference roomsCollection =
-    FirebaseFirestore.instance.collection('rooms');
+        FirebaseFirestore.instance.collection('rooms');
 
     return StreamBuilder(
         stream: roomsCollection.snapshots(),
@@ -240,23 +241,23 @@ class _RoomsState extends State<Rooms> {
                                   children: [
                                     partnersList[index]['profileurl'] == ''
                                         ? Icon(
-                                      Iconsax.hierarchy_square,
-                                      color: secondaryColor,
-                                      size: 44,
-                                    )
+                                            Iconsax.hierarchy_square,
+                                            color: secondaryColor,
+                                            size: 44,
+                                          )
                                         : GetImage(
-                                      imagePath: partnersList[index]
-                                      ['profileurl'],
-                                      width: 45,
-                                      height: 45,
-                                      radius: 12,
-                                    ),
+                                            imagePath: partnersList[index]
+                                                ['profileurl'],
+                                            width: 45,
+                                            height: 45,
+                                            radius: 12,
+                                          ),
                                     SizedBox(
                                       width: width * 0.05,
                                     ),
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           partnersList[index]['partnername'],
@@ -297,14 +298,14 @@ class _RoomsState extends State<Rooms> {
           borderRadius: BorderRadius.circular(12),
         ),
         height: height * 0.6,
-        margin: EdgeInsets.all(10),
+        margin: EdgeInsets.all(0),
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
               Text(
                 'Add new room',
-                style: style1.copyWith(color: secondaryColor),
+                style: style1,
               ),
               SizedBox(
                 height: height * 0.02,
@@ -406,8 +407,8 @@ class _RoomsState extends State<Rooms> {
                           onPressed: isLoading == true
                               ? () {}
                               : () {
-                            Get.back();
-                          },
+                                  Get.back();
+                                },
                           style: ElevatedButton.styleFrom(
                               primary: secondaryColor,
                               padding: const EdgeInsets.all(13),
@@ -464,7 +465,7 @@ class _RoomsState extends State<Rooms> {
 
   roomDetailSheet(height, width, uid) {
     CollectionReference roomDetailCollection =
-    FirebaseFirestore.instance.collection('rooms');
+        FirebaseFirestore.instance.collection('rooms');
 
     return Get.bottomSheet(
       SingleChildScrollView(
@@ -478,12 +479,10 @@ class _RoomsState extends State<Rooms> {
             ),
             borderRadius: BorderRadius.circular(12),
           ),
-          height: height * 0.6,
-          margin: EdgeInsets.all(10),
+          height: height * 0.85,
           child: StreamBuilder<QuerySnapshot>(
-            stream: roomDetailCollection
-                .where('uid', isEqualTo: uid)
-                .snapshots(),
+            stream:
+                roomDetailCollection.where('uid', isEqualTo: uid).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -607,6 +606,20 @@ class _RoomsState extends State<Rooms> {
                                 ),
                               ],
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Checkbox(
+                                      value: isChecked,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          isChecked = value!;
+                                        });
+                                      }),
+                                ),
+                              ],
+                            ),
                             Container(
                               margin: EdgeInsets.only(top: height * 0.05),
                               padding: const EdgeInsets.all(8.0),
@@ -621,19 +634,20 @@ class _RoomsState extends State<Rooms> {
                                         onPressed: isLoading == true
                                             ? () {}
                                             : () {
-                                          Get.back();
-                                        },
+                                                Get.back();
+                                              },
                                         style: ElevatedButton.styleFrom(
                                             primary: secondaryColor,
                                             padding: const EdgeInsets.all(13),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(8),
+                                                  BorderRadius.circular(8),
                                             )),
                                         child: Text(
                                           'Cancel',
                                           style: style2.copyWith(
                                               color: primaryColor),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ),
@@ -672,7 +686,7 @@ class _RoomsState extends State<Rooms> {
                                             padding: const EdgeInsets.all(13),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(8),
+                                                  BorderRadius.circular(8),
                                             )),
                                         child: Text(
                                           'Delete',
@@ -697,7 +711,7 @@ class _RoomsState extends State<Rooms> {
                                             padding: const EdgeInsets.all(13),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(8),
+                                                  BorderRadius.circular(8),
                                             )),
                                         child: Text(
                                           'Update',

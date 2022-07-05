@@ -296,7 +296,6 @@ class _PartnersState extends State<Partners> {
           borderRadius: BorderRadius.circular(12),
         ),
         height: height * 0.6,
-        margin: EdgeInsets.all(10),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -478,7 +477,6 @@ class _PartnersState extends State<Partners> {
             borderRadius: BorderRadius.circular(12),
           ),
           height: height * 0.6,
-          margin: EdgeInsets.all(10),
           child: StreamBuilder<QuerySnapshot>(
             stream: partnerDetailCollection
                 .where('uid', isEqualTo: uid)

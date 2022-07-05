@@ -57,8 +57,7 @@ class NavigationBar extends State<NavBar> {
         body: _pages[_currentIndex],
         extendBody: true,
         bottomNavigationBar: Container(
-          margin: EdgeInsets.all(10.0),
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 17),
           decoration: BoxDecoration(
             color: primaryColor,
             borderRadius: BorderRadius.all(
@@ -83,28 +82,28 @@ class NavigationBar extends State<NavBar> {
               color: secondaryColor,
               activeColor: secondaryColor,
               tabBorderRadius: 12,
-              gap: 2,
+              gap: 5,
               iconSize: 26,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              duration:  Duration(milliseconds: 300),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              duration: Duration(milliseconds: 300),
               tabs: [
-                 GButton(
+                GButton(
                   icon: Iconsax.home,
                   text: 'Home',
                 ),
-                 GButton(
+                GButton(
                   icon: Iconsax.calendar_2,
                   text: 'Bookings',
                 ),
-                 GButton(
+                GButton(
                   icon: Iconsax.aquarius,
                   text: 'Rooms',
                 ),
-                 GButton(
+                GButton(
                   icon: Iconsax.layer,
                   text: 'Partners',
                 ),
-                 GButton(
+                GButton(
                   icon: Iconsax.user,
                   text: 'Profile',
                 )

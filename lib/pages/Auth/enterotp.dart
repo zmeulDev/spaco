@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:spaco/Services/auth_services.dart';
 import 'package:spaco/pages/navbar.dart';
@@ -62,6 +63,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
+        backgroundColor: primaryColor,
         body: Container(
           margin: EdgeInsets.only(left: 20, right: 20),
           child: Column(
@@ -89,11 +91,11 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                       ),
                       Text(
                         'We have send your access code Via SMS for',
-                        style: style2,
+                        style: style3.copyWith(color: secondaryColor),
                       ),
                       Text(
                         'mobile number verification.',
-                        style: style2,
+                        style: style3.copyWith(color: secondaryColor),
                       ),
                       SizedBox(
                         height: size.height * 0.01,
@@ -115,7 +117,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                                 child: Text('Wait for: $minutes:$seconds',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: primaryColor,
+                                        color: secondaryColor,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16)));
                           }),
@@ -132,7 +134,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                               length: 6,
                               obscureText: false,
                               obscuringCharacter: '•',
-                              textStyle: style1.copyWith(color: primaryColor),
+                              textStyle: style1,
                               blinkWhenObscuring: true,
                               animationType: AnimationType.fade,
                               validator: (v) {
@@ -202,38 +204,40 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
               SizedBox(
                 height: size.height * 0.08,
               ),
-              // Expanded(
-              //   flex: 2,
-              //   child: Container(
-              //     child: Column(
-              //       children: [
-              //         Row(
-              //           mainAxisAlignment: MainAxisAlignment.center,
-              //           children: [
-              //             Text(
-              //               'Don\'t receive the',
-              //               style: style2.copyWith(color: tertiaryColor),
-              //             ),
-              //             Text(
-              //               'OTP?',
-              //               style: style2.copyWith(
-              //                   color: tertiaryColor,
-              //                   fontWeight: FontWeight.bold),
-              //             ),
-              //           ],
-              //         ),
-              //         SizedBox(
-              //           height: size.height * 0.005,
-              //         ),
-              //         InkWell(
-              //           onTap: () {},
-              //           child: Text('Resend code', style: style2),
-              //           borderRadius: BorderRadius.circular(10),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Don\'t receive the',
+                            style: style2.copyWith(color: tertiaryColor),
+                          ),
+                          Text(
+                            ' OTP?',
+                            style: style2.copyWith(
+                                color: tertiaryColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: size.height * 0.005,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Text('Try again', style: style2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -348,7 +352,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                 setState(() {
                   isLoading = false;
                 });
-                Helper.showSnack(context, "Logged In Successfully");
+                Get.snackbar('Hello', 'Welcome to spaco!');
                 res = true;
                 Helper.toReplacementScreen(context, NavBar());
               } else {

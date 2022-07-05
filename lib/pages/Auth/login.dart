@@ -20,7 +20,9 @@ class Login extends StatelessWidget {
           child: Column(
             children: [
               upperImage(context),
-              SizedBox(height: 25,),
+              SizedBox(
+                height: 25,
+              ),
               loginForm(context),
               loginArrowButton(() {
                 if (phoneNoController.text.isEmpty) {
@@ -62,8 +64,8 @@ class Login extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(10.0),
         child: Image(
-      image: AssetImage('assets/profile_4.png'),
-      fit: BoxFit.cover,
+          image: AssetImage('assets/profile_4.png'),
+          fit: BoxFit.cover,
         ),
       ),
     );
@@ -88,6 +90,7 @@ class Login extends StatelessWidget {
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
               controller: phoneNoController,
+              keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),
