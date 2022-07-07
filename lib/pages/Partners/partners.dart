@@ -72,7 +72,13 @@ class _PartnersState extends State<Partners> {
             partnerPhone: partnerPhoneController.text)
         .whenComplete(() {
       Get.back();
-      Get.snackbar('Info', 'Partner added.');
+      Get.snackbar('Create', 'Partner created successfully.',
+          colorText: secondaryColor,
+          icon: Icon(
+            Iconsax.info_circle,
+            color: secondaryColor,
+          ),
+          backgroundColor: tertiaryColor);
     });
   }
 
@@ -107,7 +113,13 @@ class _PartnersState extends State<Partners> {
         .whenComplete(() {
       clearForm();
       Get.back();
-      Get.snackbar('Info', 'Partner updated.');
+      Get.snackbar('Update', 'Partner updated successfully.',
+          colorText: secondaryColor,
+          icon: Icon(
+            Iconsax.info_circle,
+            color: secondaryColor,
+          ),
+          backgroundColor: tertiaryColor);
     });
   }
 
@@ -120,7 +132,13 @@ class _PartnersState extends State<Partners> {
         ? PartnerServices.deletePartnerImage(detail['profileurl'])
         : null;
     Get.back();
-    Get.snackbar('Delete', 'partner deleted');
+    Get.snackbar('Delete', 'Partner deleted successfully.',
+        colorText: secondaryColor,
+        icon: Icon(
+          Iconsax.info_circle,
+          color: secondaryColor,
+        ),
+        backgroundColor: errorColor);
   }
 
   partnerTopHeader(height, width) {
@@ -167,7 +185,7 @@ class _PartnersState extends State<Partners> {
                         },
                         child: Text(
                           'Add partner',
-                          style: style2.copyWith(color: secondaryColor),
+                          style: style3,
                         ),
                       ),
                     ),
@@ -257,15 +275,16 @@ class _PartnersState extends State<Partners> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          partnersList[index]['partnername'],
-                                          style: style2.copyWith(
-                                              color: secondaryColor),
+                                        FittedBox(
+                                          fit: BoxFit.fitWidth,
+                                          child: Text(
+                                            partnersList[index]['partnername'],
+                                            style: style2,
+                                          ),
                                         ),
                                         Text(
                                           partnersList[index]['partnercontact'],
-                                          style: style2.copyWith(
-                                              color: secondaryColor),
+                                          style: style3,
                                         ),
                                       ],
                                     ),
@@ -468,12 +487,7 @@ class _PartnersState extends State<Partners> {
       SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
-            color: sixthColor,
-            image: DecorationImage(
-              image: AssetImage('assets/card_bck.jpeg'),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(primaryColor, BlendMode.hardLight),
-            ),
+            color: primaryColor,
             borderRadius: BorderRadius.circular(12),
           ),
           height: height * 0.6,
@@ -610,98 +624,54 @@ class _PartnersState extends State<Partners> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    height: 52,
-                                    width: 80,
-                                    child: Center(
-                                      child: ElevatedButton(
-                                        onPressed: isLoading == true
-                                            ? () {}
-                                            : () {
-                                                Get.back();
-                                              },
-                                        style: ElevatedButton.styleFrom(
-                                            primary: secondaryColor,
-                                            padding: const EdgeInsets.all(13),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            )),
-                                        child: Text(
-                                          'Cancel',
-                                          style: style2.copyWith(
-                                              color: primaryColor),
-                                        ),
-                                      ),
+                                  IconButton(
+                                    onPressed: isLoading == true
+                                        ? () {}
+                                        : () {
+                                            Get.back();
+                                          },
+                                    icon: Icon(
+                                      Iconsax.arrow_circle_left,
+                                      size: 28,
+                                      color: secondaryColor,
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Container(
-                                    height: 52,
-                                    width: 80,
-                                    child: Center(
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          Get.back();
-                                          Get.dialog(
-                                            AlertDialog(
-                                              title: const Text('Warning'),
-                                              content: const Text(
-                                                  'Partner will be deleted!'),
-                                              actions: [
-                                                TextButton(
-                                                  child: const Text("Close"),
-                                                  onPressed: () => Get.back(),
-                                                ),
-                                                TextButton(
-                                                  child: const Text("Delete"),
-                                                  onPressed: () =>
-                                                      partnerDelete(detail),
-                                                ),
-                                              ],
+                                  IconButton(
+                                    onPressed: () {
+                                      Get.back();
+                                      Get.dialog(
+                                        AlertDialog(
+                                          title: const Text('Warning'),
+                                          content: const Text(
+                                              'Partner will be deleted!'),
+                                          actions: [
+                                            TextButton(
+                                              child: const Text("Close"),
+                                              onPressed: () => Get.back(),
                                             ),
-                                          );
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            primary: errorColor,
-                                            padding: const EdgeInsets.all(13),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            )),
-                                        child: Text(
-                                          'Delete',
-                                          style: style2,
+                                            TextButton(
+                                              child: const Text("Delete"),
+                                              onPressed: () =>
+                                                  partnerDelete(detail),
+                                            ),
+                                          ],
                                         ),
-                                      ),
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Iconsax.close_circle,
+                                      size: 28,
+                                      color: errorColor,
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Container(
-                                    height: 52,
-                                    width: 80,
-                                    child: Center(
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          partnerUpdate(detail);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            primary: tertiaryColor,
-                                            padding: const EdgeInsets.all(13),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            )),
-                                        child: Text(
-                                          'Update',
-                                          style: style2.copyWith(
-                                              color: secondaryColor),
-                                        ),
-                                      ),
+                                  IconButton(
+                                    onPressed: () {
+                                      partnerUpdate(detail);
+                                    },
+                                    icon: Icon(
+                                      Iconsax.play_circle,
+                                      size: 28,
+                                      color: tertiaryColor,
                                     ),
                                   ),
                                 ],

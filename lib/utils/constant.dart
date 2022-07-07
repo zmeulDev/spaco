@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const scaffoldColor = Color(0xFFdaded7);
 const primaryColor = Color(0xFF19282f);
 const secondaryColor = Color(0xFFFAFAFA);
 const tertiaryColor = Color(0xFF0ba678);
@@ -16,22 +17,22 @@ const warningColor = Color(0XFFEDBF48);
 
 String tempUserImg = 'assets/user.png';
 
-var style1 = GoogleFonts.roboto(
-  fontSize: 26.0,
+var style1 = GoogleFonts.poppins(
+  fontSize: 24.0,
   color: secondaryColor,
-  fontWeight: FontWeight.w900,
+  fontWeight: FontWeight.w700,
   wordSpacing: 1,
   letterSpacing: 0.5,
 );
-var style2 = GoogleFonts.roboto(
+var style2 = GoogleFonts.poppins(
   fontSize: 16.0,
   color: secondaryColor,
   wordSpacing: 0.5,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
 );
-var style3 = GoogleFonts.roboto(
-  fontSize: 14.0,
+var style3 = GoogleFonts.poppins(
+  fontSize: 13.0,
   color: secondaryColor,
   wordSpacing: 0.5,
   letterSpacing: 0.5,

@@ -13,23 +13,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  CollectionReference qrCollection =
-      FirebaseFirestore.instance.collection('codes');
-
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
-    return Scaffold(
-      appBar: getAppBar('spaco'),
-      body: getBody(height, width),
-    );
   }
 
   getBody(height, width) {
@@ -88,55 +74,6 @@ class _HomeState extends State<Home> {
                 ),
               ],
             ),
-            SizedBox(
-              height: height * 0.03,
-            ),
-            StreamBuilder(
-                stream: qrCollection
-                    .where('uid', isEqualTo: UserModel().uid)
-                    .where('isMain', isEqualTo: '1')
-                    .limit(1)
-                    .snapshots(),
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: loading(),
-                    );
-                  } else {
-                    List<DocumentSnapshot> list = snapshot.data.docs;
-                    if (list.isEmpty) {
-                      return Container(
-                        height: height * 0.1,
-                        child: Icon(
-                          Iconsax.hierarchy_square,
-                          color: secondaryColor,
-                          size: 64,
-                        ),
-                      );
-                    } else {
-                      return Container(
-                        height: height * 0.35,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: list.length,
-                          itemBuilder: (BuildContext context, int index) =>
-                              Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                color: secondaryColor,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: GetImage(
-                              imagePath: list[index]['qrUrl'],
-                              width: 45,
-                              height: 45,
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                  }
-                }),
           ],
         ),
       ),
@@ -180,6 +117,17 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      appBar: getAppBar('spaco'),
+      body: getBody(height, width),
     );
   }
 }

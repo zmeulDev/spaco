@@ -14,13 +14,12 @@ class ChooseLoginSignup extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: secondaryColor,
+      backgroundColor: tertiaryColor,
       body: Column(
         children: [
           Expanded(
             flex: 2,
             child: Container(
-              color: secondaryColor,
               child: ClipPath(
                 clipper: OvalBottomBorderClipper(),
                 child: Container(

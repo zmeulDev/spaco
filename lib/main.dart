@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spaco/pages/splash.dart';
+import 'package:spaco/utils/constant.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,9 +24,9 @@ class MyApp extends StatelessWidget {
       title: 'spaco',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          textTheme: GoogleFonts.nunitoTextTheme(),
-          primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: Colors.white,
+          textTheme: GoogleFonts.poppinsTextTheme(),
+          primarySwatch: Colors.lightBlue,
+          scaffoldBackgroundColor: scaffoldColor,
           canvasColor: Colors.white),
       home: Splash(),
     );
