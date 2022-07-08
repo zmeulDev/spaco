@@ -60,8 +60,9 @@ class NavigationBar extends State<NavBar> {
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 17),
           decoration: BoxDecoration(
             color: primaryColor,
-            borderRadius: BorderRadius.all(
-              Radius.circular(12.0),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12),
+              topRight: Radius.circular(12),
             ),
             boxShadow: [
               BoxShadow(

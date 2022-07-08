@@ -125,8 +125,6 @@ class _PartnersState extends State<Partners> {
 
   partnerDelete(detail) async {
     // delete partner from firebase and related image storage
-    // TODO: close bottomsheet on delete
-    // TODO snackbar color to red
     PartnerServices.deletePartener(detail.id);
     detail['profileurl'] != ''
         ? PartnerServices.deletePartnerImage(detail['profileurl'])
@@ -237,14 +235,17 @@ class _PartnersState extends State<Partners> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: sixthColor,
-                            image: DecorationImage(
-                              image: AssetImage('assets/card_bck.jpeg'),
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  primaryColor, BlendMode.hardLight),
-                            ),
-                            borderRadius: BorderRadius.circular(12),
+                            color: secondaryColor,
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: sixthColor,
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset:
+                                    Offset(1, 1), // changes position of shadow
+                              ),
+                            ],
                           ),
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -258,7 +259,7 @@ class _PartnersState extends State<Partners> {
                                     partnersList[index]['profileurl'] == ''
                                         ? Icon(
                                             Iconsax.hierarchy_square,
-                                            color: secondaryColor,
+                                            color: primaryColor,
                                             size: 44,
                                           )
                                         : GetImage(
@@ -279,12 +280,14 @@ class _PartnersState extends State<Partners> {
                                           fit: BoxFit.fitWidth,
                                           child: Text(
                                             partnersList[index]['partnername'],
-                                            style: style2,
+                                            style: style2.copyWith(
+                                                color: primaryColor),
                                           ),
                                         ),
                                         Text(
                                           partnersList[index]['partnercontact'],
-                                          style: style3,
+                                          style: style3.copyWith(
+                                              color: primaryColor),
                                         ),
                                       ],
                                     ),
@@ -488,7 +491,10 @@ class _PartnersState extends State<Partners> {
         child: Container(
           decoration: BoxDecoration(
             color: primaryColor,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(12.0),
+              topLeft: Radius.circular(12.0),
+            ),
           ),
           height: height * 0.6,
           child: StreamBuilder<QuerySnapshot>(
@@ -502,16 +508,9 @@ class _PartnersState extends State<Partners> {
                     itemBuilder: (context, index) {
                       DocumentSnapshot detail = snapshot.data!.docs[index];
                       return Padding(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: EdgeInsets.all(12.0),
                         child: Column(
                           children: [
-                            Text(
-                              'Partner details',
-                              style: style1.copyWith(color: secondaryColor),
-                            ),
-                            SizedBox(
-                              height: height * 0.02,
-                            ),
                             Stack(
                               children: [
                                 Container(
@@ -573,6 +572,10 @@ class _PartnersState extends State<Partners> {
                                     ))
                               ],
                             ),
+                            Text(
+                              detail['partnername'],
+                              style: style1,
+                            ),
                             SizedBox(
                               height: height * 0.02,
                             ),
@@ -619,8 +622,8 @@ class _PartnersState extends State<Partners> {
                               ],
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: height * 0.05),
-                              padding: const EdgeInsets.all(8.0),
+                              margin: EdgeInsets.only(top: height * 0.09),
+                              padding: EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -631,7 +634,7 @@ class _PartnersState extends State<Partners> {
                                             Get.back();
                                           },
                                     icon: Icon(
-                                      Iconsax.arrow_circle_left,
+                                      Iconsax.arrow_left,
                                       size: 28,
                                       color: secondaryColor,
                                     ),
@@ -659,7 +662,7 @@ class _PartnersState extends State<Partners> {
                                       );
                                     },
                                     icon: Icon(
-                                      Iconsax.close_circle,
+                                      Iconsax.trash,
                                       size: 28,
                                       color: errorColor,
                                     ),
@@ -669,7 +672,7 @@ class _PartnersState extends State<Partners> {
                                       partnerUpdate(detail);
                                     },
                                     icon: Icon(
-                                      Iconsax.play_circle,
+                                      Iconsax.document_upload,
                                       size: 28,
                                       color: tertiaryColor,
                                     ),
