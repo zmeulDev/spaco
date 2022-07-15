@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // https://undraw.co/illustrations
+// this is awsome
 
 const scaffoldColor = Color(0xFFdaded7);
 const primaryColor = Color(0xFF19282f);
