@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spaco/Services/auth_services.dart';
 import 'package:spaco/models/user_model.dart';
+import 'package:spaco/pages/Auth/chooseloginsignup.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/displayImage.dart';
 import 'package:spaco/utils/helper.dart';
@@ -149,7 +150,7 @@ class _EditProfileState extends State<EditProfile> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: spacoInput('Choose your name', 'UserName',
-                  TextInputType.text, Iconsax.user, nameController),
+                  TextInputType.text, FeatherIcons.user, nameController),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -157,7 +158,7 @@ class _EditProfileState extends State<EditProfile> {
                   'Choose your email',
                   'Email',
                   TextInputType.emailAddress,
-                  Iconsax.message4,
+                  FeatherIcons.mail,
                   emailController),
             ),
             Padding(
@@ -249,6 +250,22 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ),
                   ),
+                  Container(
+                    height: 44,
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          AuthServices.signOut().then((value) {
+                            Helper.toReplacementScreen(
+                                context, ChooseLoginSignup());
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: tertiaryColor,
+                          onPrimary: Colors.white,
+                        ),
+                        child: Text('Logout')),
+                  ),
                 ],
               ),
             ),
@@ -265,7 +282,7 @@ class _EditProfileState extends State<EditProfile> {
             Get.back();
           },
           icon: Icon(
-            Iconsax.arrow_left,
+            FeatherIcons.arrowLeft,
             color: secondaryColor,
           )),
       backgroundColor: primaryColor,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:spaco/pages/Auth/login.dart';
 import 'package:spaco/utils/constant.dart';
 
@@ -30,7 +30,7 @@ class ChooseLoginSignup extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Iconsax.hierarchy_square,
+                        FeatherIcons.coffee,
                         color: secondaryColor,
                         size: 128,
                       ),

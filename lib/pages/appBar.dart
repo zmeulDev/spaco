@@ -1,44 +1,35 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:spaco/pages/Profile/profile.dart';
 import 'package:spaco/pages/home.dart';
 import 'package:spaco/utils/constant.dart';
-import 'package:spaco/widgets/createAvatarWidget.dart';
 
-getAppBar(String screenName) {
+getAppBar(String screenName, context) {
   return AppBar(
     leading: IconButton(
       onPressed: () {
-        Get.to(Home());
+        Get.to(() => Home());
       },
       icon: Icon(
-        Iconsax.hierarchy_square,
-        color: secondaryColor,
+        FeatherIcons.coffee,
+        color: primaryColor,
       ),
     ),
-    backgroundColor: primaryColor,
+    backgroundColor: scaffoldColor,
     automaticallyImplyLeading: true,
     elevation: 0.0,
     centerTitle: true,
     title: Text(
       screenName,
-      style: style1,
+      style: style2.copyWith(color: primaryColor),
     ),
     actions: [
-      InkWell(
-        onTap: () {},
-        child: Row(
-          children: [
-            Center(
-              child: Padding(
-                padding: EdgeInsets.only(top: 5, bottom: 5, right: 15),
-                child: createAvatarWidget(12),
-              ),
-            ),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
+      IconButton(
+        onPressed: () {
+          Get.to(() => Profile());
+        },
+        icon: Icon(FeatherIcons.user),
       ),
     ],
   );

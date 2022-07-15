@@ -1,14 +1,13 @@
 import 'dart:io';
-
 import 'package:avatar_view/avatar_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/services/room_services.dart';
@@ -125,65 +124,30 @@ class _RoomsState extends State<Rooms> {
     Get.snackbar('Delete', 'partner deleted');
   }
 
-  roomTopHeader(height, width) {
+  roomTopHeader() {
     return Container(
-      width: width,
-      height: height * 0.37,
+      width: Get.width,
+      height: Get.height * 0.20,
+      margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
         ),
-        color: primaryColor,
       ),
       child: Padding(
-        padding: EdgeInsets.all(13.0),
+        padding: EdgeInsets.all(1.0),
         child: Column(
           children: [
             Container(
-                height: height * 0.27,
-                child: Lottie.asset('assets/animation/meeting.json')),
-            Container(
-              height: height * 0.05,
-              width: width * 0.933,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-                color: secondaryColor,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(2),
-                    height: height * 0.2,
-                    width: width * 0.30,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: tertiaryColor,
-                    ),
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          clearForm();
-                          roomAddSheet(height, width);
-                        },
-                        child: Text(
-                          'Add room',
-                          style: style2.copyWith(color: secondaryColor),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                height: Get.height * 0.18,
+                child: SvgPicture.asset('assets/svg/rooms.svg')),
           ],
         ),
       ),
     );
   }
 
-  roomBody(height, width) {
+  roomBody() {
     CollectionReference roomsCollection =
         FirebaseFirestore.instance.collection('rooms');
 
@@ -195,87 +159,135 @@ class _RoomsState extends State<Rooms> {
               child: loading(),
             );
           } else {
-            List<DocumentSnapshot> partnersList = snapshot.data.docs;
-            if (partnersList.isEmpty) {
+            List<DocumentSnapshot> roomsList = snapshot.data.docs;
+            if (roomsList.isEmpty) {
               return Container(
-                  height: height * 0.4,
+                  height: Get.height * 0.4,
                   padding: EdgeInsets.all(20),
-                  child: Lottie.asset('assets/animation/nothing.json'));
+                  child: SvgPicture.asset('assets/svg/nothing.svg'));
             } else {
               return Container(
-                padding: EdgeInsets.all(12),
+                margin: EdgeInsets.all(12),
                 child: GridView.builder(
                     physics: ScrollPhysics(),
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200,
-                        childAspectRatio: 2 / 1,
+                        childAspectRatio: 1.3 / 1.8,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10),
-                    itemCount: partnersList.length,
+                    itemCount: roomsList.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
                         onTap: () {
-                          roomDetailSheet(
-                              height, width, partnersList[index]['uid']);
+                          roomDetailSheet(roomsList[index]['uid']);
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: sixthColor,
-                            image: DecorationImage(
-                              image: AssetImage('assets/card_bck.jpeg'),
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  fourthColor, BlendMode.modulate),
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: secondaryColor,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 5, left: 10, right: 5, bottom: 5),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            Column(
                               children: [
-                                Row(
-                                  children: [
-                                    partnersList[index]['profileurl'] == ''
-                                        ? Icon(
-                                            Iconsax.hierarchy_square,
-                                            color: secondaryColor,
-                                            size: 44,
-                                          )
-                                        : GetImage(
-                                            imagePath: partnersList[index]
-                                                ['profileurl'],
-                                            width: 45,
-                                            height: 45,
-                                            radius: 12,
-                                          ),
-                                    SizedBox(
-                                      width: width * 0.05,
+                                Container(
+                                  margin: EdgeInsets.all(8),
+                                  height: Get.height * 0.2,
+                                  decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    borderRadius: BorderRadius.circular(12),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          roomsList[index]['profileurl']),
+                                      fit: BoxFit.cover,
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                  ),
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        top: 8, left: 12, right: 12, bottom: 5),
+                                    child: Column(
                                       children: [
-                                        Text(
-                                          partnersList[index]['partnername'],
-                                          style: style2.copyWith(
-                                              color: secondaryColor),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              roomsList[index]['partnername'],
+                                              style: style2.copyWith(
+                                                  color: primaryColor),
+                                            ),
+                                            Text(
+                                              roomsList[index]['partneremail'],
+                                              style: style3.copyWith(
+                                                  color: primaryColor),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          partnersList[index]['partnercontact'],
-                                          style: style2.copyWith(
-                                              color: secondaryColor),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Row(
+                                              children: <Widget>[
+                                                Icon(
+                                                  FeatherIcons.users,
+                                                  size: 13,
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  "8",
+                                                  style: style3.copyWith(
+                                                      color: primaryColor),
+                                                )
+                                              ],
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                Icon(
+                                                  FeatherIcons.monitor,
+                                                  size: 13,
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  "1",
+                                                  style: style3.copyWith(
+                                                      color: primaryColor),
+                                                )
+                                              ],
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                Icon(
+                                                  FeatherIcons.wind,
+                                                  size: 13,
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  "Yes",
+                                                  style: style3.copyWith(
+                                                      color: primaryColor),
+                                                )
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ],
-                                    ),
-                                  ],
-                                ),
+                                    ))
                               ],
                             ),
-                          ),
+                          ],
                         ),
                       );
                     }),
@@ -285,7 +297,44 @@ class _RoomsState extends State<Rooms> {
         });
   }
 
-  roomAddSheet(height, width) {
+  roomAddWidget() {
+    return Container(
+      height: Get.height * 0.05,
+      width: Get.width * 0.933,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        color: secondaryColor,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            margin: EdgeInsets.all(2),
+            height: Get.height * 0.2,
+            width: Get.width * 0.30,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              color: tertiaryColor,
+            ),
+            child: Center(
+              child: GestureDetector(
+                onTap: () {
+                  clearForm();
+                  roomAddSheet();
+                },
+                child: Text(
+                  'Add room',
+                  style: style2.copyWith(color: secondaryColor),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  roomAddSheet() {
     return Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
@@ -297,7 +346,7 @@ class _RoomsState extends State<Rooms> {
           ),
           borderRadius: BorderRadius.circular(12),
         ),
-        height: height * 0.6,
+        height: Get.height * 0.6,
         margin: EdgeInsets.all(0),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -308,7 +357,7 @@ class _RoomsState extends State<Rooms> {
                 style: style1,
               ),
               SizedBox(
-                height: height * 0.02,
+                height: Get.height * 0.02,
               ),
               Stack(
                 children: [
@@ -349,7 +398,7 @@ class _RoomsState extends State<Rooms> {
                 ],
               ),
               SizedBox(
-                height: height * 0.02,
+                height: Get.height * 0.02,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -359,7 +408,7 @@ class _RoomsState extends State<Rooms> {
                         'Partner name',
                         'Name',
                         TextInputType.text,
-                        Iconsax.note5,
+                        FeatherIcons.file,
                         partnerNameController),
                   ),
                   Expanded(
@@ -367,7 +416,7 @@ class _RoomsState extends State<Rooms> {
                         'Partner email',
                         'Email',
                         TextInputType.emailAddress,
-                        Iconsax.message,
+                        FeatherIcons.mail,
                         partnerEmailController),
                   ),
                 ],
@@ -380,7 +429,7 @@ class _RoomsState extends State<Rooms> {
                         'Partner contact',
                         'Contact',
                         TextInputType.text,
-                        Iconsax.profile_tick,
+                        FeatherIcons.user,
                         partnerContactController),
                   ),
                   Expanded(
@@ -388,13 +437,13 @@ class _RoomsState extends State<Rooms> {
                         'Partner phone',
                         'Phone',
                         TextInputType.phone,
-                        Iconsax.mobile,
+                        FeatherIcons.phone,
                         partnerPhoneController),
                   ),
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: height * 0.04),
+                margin: EdgeInsets.only(top: Get.height * 0.04),
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -463,7 +512,7 @@ class _RoomsState extends State<Rooms> {
     );
   }
 
-  roomDetailSheet(height, width, uid) {
+  roomDetailSheet(uid) {
     CollectionReference roomDetailCollection =
         FirebaseFirestore.instance.collection('rooms');
 
@@ -479,7 +528,7 @@ class _RoomsState extends State<Rooms> {
             ),
             borderRadius: BorderRadius.circular(12),
           ),
-          height: height * 0.85,
+          height: Get.height * 0.85,
           child: StreamBuilder<QuerySnapshot>(
             stream:
                 roomDetailCollection.where('uid', isEqualTo: uid).snapshots(),
@@ -498,7 +547,7 @@ class _RoomsState extends State<Rooms> {
                               style: style1.copyWith(color: secondaryColor),
                             ),
                             SizedBox(
-                              height: height * 0.02,
+                              height: Get.height * 0.02,
                             ),
                             Stack(
                               children: [
@@ -528,14 +577,14 @@ class _RoomsState extends State<Rooms> {
                                     placeHolder: Container(
                                       color: secondaryColor,
                                       child: Icon(
-                                        Iconsax.user,
+                                        FeatherIcons.user,
                                         size: 36,
                                       ),
                                     ),
                                     errorWidget: Container(
                                       color: fourthColor,
                                       child: Icon(
-                                        Iconsax.user1,
+                                        FeatherIcons.user,
                                         size: 36,
                                       ),
                                     ),
@@ -562,7 +611,7 @@ class _RoomsState extends State<Rooms> {
                               ],
                             ),
                             SizedBox(
-                              height: height * 0.02,
+                              height: Get.height * 0.02,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -572,7 +621,7 @@ class _RoomsState extends State<Rooms> {
                                       'Partner name',
                                       detail['partnername'],
                                       TextInputType.text,
-                                      Iconsax.note5,
+                                      FeatherIcons.file,
                                       partnerNameController),
                                 ),
                                 Expanded(
@@ -580,7 +629,7 @@ class _RoomsState extends State<Rooms> {
                                       'Partner email',
                                       detail['partneremail'],
                                       TextInputType.emailAddress,
-                                      Iconsax.message,
+                                      FeatherIcons.mail,
                                       partnerEmailController),
                                 ),
                               ],
@@ -593,7 +642,7 @@ class _RoomsState extends State<Rooms> {
                                       'Partner contact',
                                       detail['partnercontact'],
                                       TextInputType.text,
-                                      Iconsax.profile_tick,
+                                      FeatherIcons.users,
                                       partnerContactController),
                                 ),
                                 Expanded(
@@ -601,7 +650,7 @@ class _RoomsState extends State<Rooms> {
                                       'Partner phone',
                                       detail['partnerphone'],
                                       TextInputType.phone,
-                                      Iconsax.mobile,
+                                      FeatherIcons.phone,
                                       partnerPhoneController),
                                 ),
                               ],
@@ -621,7 +670,7 @@ class _RoomsState extends State<Rooms> {
                               ],
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: height * 0.05),
+                              margin: EdgeInsets.only(top: Get.height * 0.05),
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -747,17 +796,15 @@ class _RoomsState extends State<Rooms> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
-      appBar: getAppBar('Rooms'),
+      appBar: getAppBar('Rooms', context),
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
-            roomTopHeader(height, width),
-            roomBody(height, width),
+            roomTopHeader(),
+            roomAddWidget(),
+            roomBody(),
           ],
         ),
       ),

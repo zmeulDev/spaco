@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:spaco/pages/Booking/booking.dart';
 import 'package:spaco/pages/Partners/partners.dart';
 import 'package:spaco/pages/Rooms/rooms.dart';
@@ -56,58 +56,61 @@ class NavigationBar extends State<NavBar> {
       child: Scaffold(
         body: _pages[_currentIndex],
         extendBody: true,
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 17),
-          decoration: BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.all(
-              Radius.circular(12.0),
-            ),
-            boxShadow: [
-              BoxShadow(
-                spreadRadius: -10,
-                blurRadius: 60,
-                color: Colors.orange.withOpacity(.20),
-                offset: const Offset(0, 10),
-              )
-            ],
-          ),
-          child: GNav(
-              selectedIndex: _currentIndex,
-              onTabChange: onTabTapped,
-              haptic: true,
-              rippleColor: secondaryColor,
-              hoverColor: secondaryColor,
-              tabBackgroundColor: tertiaryColor,
-              color: secondaryColor,
-              activeColor: secondaryColor,
-              tabBorderRadius: 12,
-              gap: 5,
-              iconSize: 26,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              duration: Duration(milliseconds: 300),
-              tabs: [
-                GButton(
-                  icon: Iconsax.home,
-                  text: 'Home',
-                ),
-                GButton(
-                  icon: Iconsax.calendar_2,
-                  text: 'Bookings',
-                ),
-                GButton(
-                  icon: Iconsax.aquarius,
-                  text: 'Rooms',
-                ),
-                GButton(
-                  icon: Iconsax.layer,
-                  text: 'Partners',
-                ),
-                GButton(
-                  icon: Iconsax.user,
-                  text: 'Profile',
+        bottomNavigationBar: SafeArea(
+          minimum: EdgeInsets.all(10.0),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            decoration: BoxDecoration(
+              color: primaryColor,
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  spreadRadius: -10,
+                  blurRadius: 60,
+                  color: Colors.orange.withOpacity(.20),
+                  offset: const Offset(0, 10),
                 )
-              ]),
+              ],
+            ),
+            child: GNav(
+                selectedIndex: _currentIndex,
+                onTabChange: onTabTapped,
+                haptic: true,
+                rippleColor: secondaryColor,
+                hoverColor: secondaryColor,
+                tabBackgroundColor: tertiaryColor,
+                color: secondaryColor,
+                activeColor: secondaryColor,
+                tabBorderRadius: 10,
+                gap: 5,
+                iconSize: 24,
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                duration: Duration(milliseconds: 300),
+                tabs: [
+                  GButton(
+                    icon: FeatherIcons.home,
+                    text: 'Home',
+                  ),
+                  GButton(
+                    icon: FeatherIcons.calendar,
+                    text: 'Bookings',
+                  ),
+                  GButton(
+                    icon: FeatherIcons.airplay,
+                    text: 'Rooms',
+                  ),
+                  GButton(
+                    icon: FeatherIcons.hexagon,
+                    text: 'Partners',
+                  ),
+                  GButton(
+                    icon: FeatherIcons.user,
+                    text: 'Profile',
+                  )
+                ]),
+          ),
         ),
       ),
     );

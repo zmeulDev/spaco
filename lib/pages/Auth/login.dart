@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:spaco/pages/Auth/enterotp.dart';
 import 'package:spaco/utils/constant.dart';
 
@@ -103,7 +103,7 @@ class Login extends StatelessWidget {
                 fillColor: secondaryColor,
                 prefix: Text('+'),
                 prefixIcon: Icon(
-                  Iconsax.mobile,
+                  FeatherIcons.phone,
                   color: primaryColor,
                 ),
               ),

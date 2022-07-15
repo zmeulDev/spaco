@@ -5,10 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/utils/constant.dart';
@@ -75,10 +75,10 @@ class _PartnersState extends State<Partners> {
       Get.snackbar('Create', 'Partner created successfully.',
           colorText: secondaryColor,
           icon: Icon(
-            Iconsax.info_circle,
+            FeatherIcons.info,
             color: secondaryColor,
           ),
-          backgroundColor: tertiaryColor);
+          backgroundColor: successColor);
     });
   }
 
@@ -116,17 +116,15 @@ class _PartnersState extends State<Partners> {
       Get.snackbar('Update', 'Partner updated successfully.',
           colorText: secondaryColor,
           icon: Icon(
-            Iconsax.info_circle,
+            FeatherIcons.info,
             color: secondaryColor,
           ),
-          backgroundColor: tertiaryColor);
+          backgroundColor: successColor);
     });
   }
 
   partnerDelete(detail) async {
     // delete partner from firebase and related image storage
-    // TODO: close bottomsheet on delete
-    // TODO snackbar color to red
     PartnerServices.deletePartener(detail.id);
     detail['profileurl'] != ''
         ? PartnerServices.deletePartnerImage(detail['profileurl'])
@@ -135,71 +133,73 @@ class _PartnersState extends State<Partners> {
     Get.snackbar('Delete', 'Partner deleted successfully.',
         colorText: secondaryColor,
         icon: Icon(
-          Iconsax.info_circle,
+          FeatherIcons.info,
           color: secondaryColor,
         ),
         backgroundColor: errorColor);
   }
 
-  partnerTopHeader(height, width) {
+  partnerTopHeader() {
     return Container(
-      width: width,
-      height: height * 0.37,
+      width: Get.width,
+      height: Get.height * 0.20,
+      margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
         ),
-        color: primaryColor,
       ),
       child: Padding(
-        padding: EdgeInsets.all(13.0),
+        padding: EdgeInsets.all(2.0),
         child: Column(
           children: [
             Container(
-                height: height * 0.27,
-                child: Lottie.asset('assets/animation/partners.json')),
-            Container(
-              height: height * 0.05,
-              width: width * 0.933,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-                color: secondaryColor,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(2),
-                    height: height * 0.2,
-                    width: width * 0.30,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: tertiaryColor,
-                    ),
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          clearForm();
-                          partnerAddSheet(height, width);
-                        },
-                        child: Text(
-                          'Add partner',
-                          style: style3,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                height: Get.height * 0.18,
+                child: SvgPicture.asset('assets/svg/partners.svg')),
           ],
         ),
       ),
     );
   }
 
-  partnerBody(height, width) {
+  partnerAddWidget() {
+    return Container(
+      height: Get.height * 0.05,
+      width: Get.width * 0.933,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        color: secondaryColor,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            margin: EdgeInsets.all(2),
+            height: Get.height * 0.2,
+            width: Get.width * 0.30,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              color: tertiaryColor,
+            ),
+            child: Center(
+              child: GestureDetector(
+                onTap: () {
+                  clearForm();
+                  partnerAddSheet();
+                },
+                child: Text(
+                  'Add partner',
+                  style: style3,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  partnerBody() {
     CollectionReference partnersCollection =
         FirebaseFirestore.instance.collection('partners');
 
@@ -214,9 +214,9 @@ class _PartnersState extends State<Partners> {
             List<DocumentSnapshot> partnersList = snapshot.data.docs;
             if (partnersList.isEmpty) {
               return Container(
-                  height: height * 0.4,
+                  height: Get.height * 0.4,
                   padding: EdgeInsets.all(20),
-                  child: Lottie.asset('assets/animation/nothing.json'));
+                  child: SvgPicture.asset('assets/svg/nothing.svg'));
             } else {
               return Container(
                 padding: EdgeInsets.all(12),
@@ -232,8 +232,7 @@ class _PartnersState extends State<Partners> {
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
                         onTap: () {
-                          partnerDetailSheet(
-                              height, width, partnersList[index]['uid']);
+                          partnerDetailSheet(partnersList[index]['uid']);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -257,7 +256,7 @@ class _PartnersState extends State<Partners> {
                                   children: [
                                     partnersList[index]['profileurl'] == ''
                                         ? Icon(
-                                            Iconsax.hierarchy_square,
+                                            FeatherIcons.coffee,
                                             color: secondaryColor,
                                             size: 44,
                                           )
@@ -269,7 +268,7 @@ class _PartnersState extends State<Partners> {
                                             radius: 12,
                                           ),
                                     SizedBox(
-                                      width: width * 0.05,
+                                      width: Get.width * 0.05,
                                     ),
                                     Column(
                                       crossAxisAlignment:
@@ -302,7 +301,7 @@ class _PartnersState extends State<Partners> {
         });
   }
 
-  partnerAddSheet(height, width) {
+  partnerAddSheet() {
     return Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
@@ -314,7 +313,7 @@ class _PartnersState extends State<Partners> {
           ),
           borderRadius: BorderRadius.circular(12),
         ),
-        height: height * 0.6,
+        height: Get.height * 0.6,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -324,7 +323,7 @@ class _PartnersState extends State<Partners> {
                 style: style1.copyWith(color: secondaryColor),
               ),
               SizedBox(
-                height: height * 0.02,
+                height: Get.height * 0.02,
               ),
               Stack(
                 children: [
@@ -365,7 +364,7 @@ class _PartnersState extends State<Partners> {
                 ],
               ),
               SizedBox(
-                height: height * 0.02,
+                height: Get.height * 0.02,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -375,7 +374,7 @@ class _PartnersState extends State<Partners> {
                         'Partner name',
                         'Name',
                         TextInputType.text,
-                        Iconsax.note5,
+                        FeatherIcons.file,
                         partnerNameController),
                   ),
                   Expanded(
@@ -383,7 +382,7 @@ class _PartnersState extends State<Partners> {
                         'Partner email',
                         'Email',
                         TextInputType.emailAddress,
-                        Iconsax.message,
+                        FeatherIcons.mail,
                         partnerEmailController),
                   ),
                 ],
@@ -396,7 +395,7 @@ class _PartnersState extends State<Partners> {
                         'Partner contact',
                         'Contact',
                         TextInputType.text,
-                        Iconsax.profile_tick,
+                        FeatherIcons.users,
                         partnerContactController),
                   ),
                   Expanded(
@@ -404,62 +403,39 @@ class _PartnersState extends State<Partners> {
                         'Partner phone',
                         'Phone',
                         TextInputType.phone,
-                        Iconsax.mobile,
+                        FeatherIcons.phone,
                         partnerPhoneController),
                   ),
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: height * 0.04),
+                margin: EdgeInsets.only(top: Get.height * 0.04),
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      height: 52,
-                      width: 80,
-                      child: Center(
-                        child: ElevatedButton(
-                          onPressed: isLoading == true
-                              ? () {}
-                              : () {
-                                  Get.back();
-                                },
-                          style: ElevatedButton.styleFrom(
-                              primary: secondaryColor,
-                              padding: const EdgeInsets.all(13),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              )),
-                          child: Text(
-                            'Cancel',
-                            style: style2.copyWith(color: primaryColor),
-                          ),
-                        ),
+                    IconButton(
+                      onPressed: isLoading == true
+                          ? () {}
+                          : () {
+                              Get.back();
+                            },
+                      icon: Icon(
+                        FeatherIcons.x,
+                        size: 28,
+                        color: secondaryColor,
                       ),
                     ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 52,
-                      width: 80,
-                      child: Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            partnerStore();
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: tertiaryColor,
-                              padding: const EdgeInsets.all(13),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              )),
-                          child: Text(
-                            'Save',
-                            style: style2.copyWith(color: secondaryColor),
-                          ),
-                        ),
+                    IconButton(
+                      onPressed: isLoading == true
+                          ? () {}
+                          : () {
+                              partnerStore();
+                            },
+                      icon: Icon(
+                        FeatherIcons.save,
+                        size: 28,
+                        color: tertiaryColor,
                       ),
                     ),
                   ],
@@ -479,7 +455,7 @@ class _PartnersState extends State<Partners> {
     );
   }
 
-  partnerDetailSheet(height, width, uid) {
+  partnerDetailSheet(uid) {
     CollectionReference partnerDetailCollection =
         FirebaseFirestore.instance.collection('partners');
 
@@ -490,7 +466,7 @@ class _PartnersState extends State<Partners> {
             color: primaryColor,
             borderRadius: BorderRadius.circular(12),
           ),
-          height: height * 0.6,
+          height: Get.height * 0.6,
           child: StreamBuilder<QuerySnapshot>(
             stream: partnerDetailCollection
                 .where('uid', isEqualTo: uid)
@@ -510,7 +486,7 @@ class _PartnersState extends State<Partners> {
                               style: style1.copyWith(color: secondaryColor),
                             ),
                             SizedBox(
-                              height: height * 0.02,
+                              height: Get.height * 0.02,
                             ),
                             Stack(
                               children: [
@@ -540,14 +516,14 @@ class _PartnersState extends State<Partners> {
                                     placeHolder: Container(
                                       color: secondaryColor,
                                       child: Icon(
-                                        Iconsax.user,
+                                        FeatherIcons.user,
                                         size: 36,
                                       ),
                                     ),
                                     errorWidget: Container(
                                       color: fourthColor,
                                       child: Icon(
-                                        Iconsax.user1,
+                                        FeatherIcons.user,
                                         size: 36,
                                       ),
                                     ),
@@ -574,7 +550,7 @@ class _PartnersState extends State<Partners> {
                               ],
                             ),
                             SizedBox(
-                              height: height * 0.02,
+                              height: Get.height * 0.02,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -584,7 +560,7 @@ class _PartnersState extends State<Partners> {
                                       'Partner name',
                                       detail['partnername'],
                                       TextInputType.text,
-                                      Iconsax.note5,
+                                      FeatherIcons.file,
                                       partnerNameController),
                                 ),
                                 Expanded(
@@ -592,7 +568,7 @@ class _PartnersState extends State<Partners> {
                                       'Partner email',
                                       detail['partneremail'],
                                       TextInputType.emailAddress,
-                                      Iconsax.message,
+                                      FeatherIcons.mail,
                                       partnerEmailController),
                                 ),
                               ],
@@ -605,7 +581,7 @@ class _PartnersState extends State<Partners> {
                                       'Partner contact',
                                       detail['partnercontact'],
                                       TextInputType.text,
-                                      Iconsax.profile_tick,
+                                      FeatherIcons.users,
                                       partnerContactController),
                                 ),
                                 Expanded(
@@ -613,13 +589,13 @@ class _PartnersState extends State<Partners> {
                                       'Partner phone',
                                       detail['partnerphone'],
                                       TextInputType.phone,
-                                      Iconsax.mobile,
+                                      FeatherIcons.phone,
                                       partnerPhoneController),
                                 ),
                               ],
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: height * 0.05),
+                              margin: EdgeInsets.only(top: Get.height * 0.05),
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -631,7 +607,7 @@ class _PartnersState extends State<Partners> {
                                             Get.back();
                                           },
                                     icon: Icon(
-                                      Iconsax.arrow_circle_left,
+                                      FeatherIcons.x,
                                       size: 28,
                                       color: secondaryColor,
                                     ),
@@ -641,16 +617,29 @@ class _PartnersState extends State<Partners> {
                                       Get.back();
                                       Get.dialog(
                                         AlertDialog(
-                                          title: const Text('Warning'),
-                                          content: const Text(
-                                              'Partner will be deleted!'),
+                                          backgroundColor: primaryColor,
+                                          title: Text(
+                                            'Warning',
+                                            style: style2,
+                                          ),
+                                          content: Text(
+                                            'Partner [ ${detail['partnername']} ] will be deleted!',
+                                            style: style2,
+                                          ),
                                           actions: [
                                             TextButton(
-                                              child: const Text("Close"),
+                                              child: Text(
+                                                "Close",
+                                                style: style3,
+                                              ),
                                               onPressed: () => Get.back(),
                                             ),
                                             TextButton(
-                                              child: const Text("Delete"),
+                                              child: Text(
+                                                "Delete",
+                                                style: style3.copyWith(
+                                                    color: errorColor),
+                                              ),
                                               onPressed: () =>
                                                   partnerDelete(detail),
                                             ),
@@ -659,7 +648,7 @@ class _PartnersState extends State<Partners> {
                                       );
                                     },
                                     icon: Icon(
-                                      Iconsax.close_circle,
+                                      FeatherIcons.trash,
                                       size: 28,
                                       color: errorColor,
                                     ),
@@ -669,7 +658,7 @@ class _PartnersState extends State<Partners> {
                                       partnerUpdate(detail);
                                     },
                                     icon: Icon(
-                                      Iconsax.play_circle,
+                                      FeatherIcons.save,
                                       size: 28,
                                       color: tertiaryColor,
                                     ),
@@ -700,17 +689,15 @@ class _PartnersState extends State<Partners> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
-      appBar: getAppBar('Partners'),
+      appBar: getAppBar('Partners', context),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            partnerTopHeader(height, width),
-            partnerBody(height, width),
+            partnerTopHeader(),
+            partnerAddWidget(),
+            partnerBody(),
           ],
         ),
       ),

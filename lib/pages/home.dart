@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:get/get.dart';
 import 'package:spaco/models/user_model.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/utils/constant.dart';
@@ -18,7 +19,7 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  getBody(height, width) {
+  getBody() {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
@@ -26,11 +27,11 @@ class _HomeState extends State<Home> {
           Container(
             child: Column(
               children: [
-                homeInfoContainer(height, width),
+                homeInfoContainer(),
                 SizedBox(
-                  height: height * 0.02,
+                  height: Get.height * 0.02,
                 ),
-                homeDetailsContainer(height, width),
+                homeDetailsContainer(),
               ],
             ),
           ),
@@ -39,16 +40,23 @@ class _HomeState extends State<Home> {
     );
   }
 
-  homeInfoContainer(height, width) {
+  homeInfoContainer() {
     return Container(
-      width: width,
-      height: height * 0.3,
+      width: Get.width,
+      height: Get.height * 0.30,
+      margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
         ),
-        color: primaryColor,
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            fourthColor,
+            primaryColor,
+          ],
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -80,10 +88,10 @@ class _HomeState extends State<Home> {
     );
   }
 
-  homeDetailsContainer(height, width) {
+  homeDetailsContainer() {
     return Container(
-      width: width * 0.5,
-      height: height * 0.13,
+      width: Get.width * 0.5,
+      height: Get.height * 0.13,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         color: primaryColor,
@@ -97,12 +105,12 @@ class _HomeState extends State<Home> {
             Row(
               children: [
                 Icon(
-                  Iconsax.hierarchy_square,
+                  FeatherIcons.coffee,
                   color: secondaryColor,
                   size: 44,
                 ),
                 SizedBox(
-                  width: width * 0.05,
+                  width: Get.width * 0.05,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,8 +134,8 @@ class _HomeState extends State<Home> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: getAppBar('spaco'),
-      body: getBody(height, width),
+      appBar: getAppBar('spaco', context),
+      body: getBody(),
     );
   }
 }
