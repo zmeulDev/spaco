@@ -11,7 +11,7 @@ import 'package:spaco/pages/Auth/chooseloginsignup.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/displayImage.dart';
 import 'package:spaco/utils/helper.dart';
-import 'package:spaco/utils/inputwidget.dart';
+import 'package:spaco/utils/spacoInputWidget.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);

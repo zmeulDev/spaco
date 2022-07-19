@@ -15,8 +15,7 @@ createPartnerWidget(double radius) {
     backgroundColor: primaryColor,
     imagePath: PartnerModel().partnerProfile == ''
         ? tempUserImg
-        : PartnerModel()
-            .partnerProfile, // TODO aici e problema de cache pe imagine
+        : PartnerModel().partnerProfile,
     placeHolder: Container(
       color: secondaryColor,
       child: Icon(

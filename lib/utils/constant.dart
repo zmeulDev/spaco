@@ -14,27 +14,27 @@ const sixthColor = Color(0xFFdaded7);
 
 // Message colors
 
-const successColor = Color(0XFF86F6C);
+const successColor = Color(0XFF4E7D96);
 const errorColor = Color(0XFFF25D50);
 const warningColor = Color(0XFFFFA652);
 
 String tempUserImg = 'assets/user.png';
 
-var style1 = GoogleFonts.archivo(
+var style1 = GoogleFonts.questrial(
   fontSize: 24.0,
   color: secondaryColor,
   fontWeight: FontWeight.w700,
   wordSpacing: 1,
   letterSpacing: 0.5,
 );
-var style2 = GoogleFonts.archivo(
+var style2 = GoogleFonts.questrial(
   fontSize: 16.0,
   color: secondaryColor,
   wordSpacing: 0.5,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
 );
-var style3 = GoogleFonts.archivo(
+var style3 = GoogleFonts.questrial(
   fontSize: 13.0,
   color: secondaryColor,
   wordSpacing: 0.5,

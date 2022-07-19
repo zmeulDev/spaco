@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -6,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:spaco/pages/Booking/booking.dart';
 import 'package:spaco/pages/Partners/partners.dart';
-import 'package:spaco/pages/Rooms/rooms.dart';
+import 'package:spaco/pages/Spaces/spaces.dart';
 import 'package:spaco/pages/home.dart';
 import 'package:spaco/pages/profile/profile.dart';
 import 'package:spaco/utils/constant.dart';
@@ -23,7 +22,7 @@ class NavigationBar extends State<NavBar> {
   final List<Widget> _pages = [
     Home(),
     Bookings(),
-    Rooms(),
+    Spaces(),
     Partners(),
     Profile(),
   ];
@@ -59,7 +58,7 @@ class NavigationBar extends State<NavBar> {
         bottomNavigationBar: SafeArea(
           minimum: EdgeInsets.all(10.0),
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
             decoration: BoxDecoration(
               color: primaryColor,
               borderRadius: BorderRadius.all(
@@ -99,7 +98,7 @@ class NavigationBar extends State<NavBar> {
                   ),
                   GButton(
                     icon: FeatherIcons.airplay,
-                    text: 'Rooms',
+                    text: 'Spaces',
                   ),
                   GButton(
                     icon: FeatherIcons.hexagon,

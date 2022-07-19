@@ -1,18 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:spaco/models/user_model.dart';
-import 'package:spaco/pages/Auth/chooseloginsignup.dart';
 import 'package:spaco/pages/Booking/booking.dart';
-import 'package:spaco/pages/Rooms/rooms.dart';
+import 'package:spaco/pages/Spaces/spaces.dart';
 import 'package:spaco/pages/home.dart';
-import 'package:spaco/pages/imageview.dart';
 import 'package:spaco/pages/profile/editprofile.dart';
-import 'package:spaco/services/auth_services.dart';
 import 'package:spaco/utils/constant.dart';
-import 'package:spaco/utils/helper.dart';
-import 'package:spaco/utils/spacoCard.dart';
+import 'package:spaco/utils/spacoCardWidget.dart';
 import 'package:spaco/widgets/createAvatarWidget.dart';
 
 class Profile extends StatefulWidget {
@@ -150,7 +145,7 @@ class _ProfileState extends State<Profile> {
               spacoCard(scaffoldColor, 'Partners', '#colaborate',
                   FeatherIcons.hexagon, Home()),
               spacoCard(scaffoldColor, 'Rooms', '#space', FeatherIcons.airplay,
-                  Rooms()),
+                  Spaces()),
             ],
           )
         ],

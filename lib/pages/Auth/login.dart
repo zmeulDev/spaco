@@ -10,9 +10,6 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: primaryColor,
@@ -57,9 +54,6 @@ class Login extends StatelessWidget {
   }
 
   upperImage(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
     return Expanded(
       child: Padding(
         padding: EdgeInsets.all(10.0),
@@ -72,9 +66,6 @@ class Login extends StatelessWidget {
   }
 
   loginForm(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
     return Container(
       child: Column(
         children: [

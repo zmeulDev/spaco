@@ -12,7 +12,7 @@ Widget spacoInput(hintText, labelText, keyboardType, suffixIcon,
       keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: style2.copyWith(color: secondaryColor.withOpacity(0.3)),
+        hintStyle: style3.copyWith(color: secondaryColor.withOpacity(0.3)),
         labelText: labelText,
         labelStyle: style3,
         contentPadding: EdgeInsets.all(8),

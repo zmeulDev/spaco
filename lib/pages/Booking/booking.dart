@@ -1,16 +1,14 @@
 import 'package:avatar_view/avatar_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:spaco/models/user_model.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/booking_service.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/getImages.dart';
-import 'package:spaco/utils/inputwidget.dart';
+import 'package:spaco/utils/spacoInputWidget.dart';
 import 'package:spaco/utils/loading.dart';
 
 class Bookings extends StatefulWidget {
@@ -71,8 +69,6 @@ class _BookingsState extends State<Bookings> {
 
   bookingDelete(detail) async {
     // delete booking from firebase and related image storage
-    // TODO: close bottomsheet on delete
-    // TODO snackbar color to red
     BookingServices.deleteBooking(detail.id);
     detail['profileurl'] != ''
         ? BookingServices.deleteBookingImage(detail['profileurl'])

@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:spaco/models/user_model.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/utils/constant.dart';
-import 'package:spaco/utils/getImages.dart';
-import 'package:spaco/utils/loading.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -130,9 +127,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: getAppBar('spaco', context),
       body: getBody(),

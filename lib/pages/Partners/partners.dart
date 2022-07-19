@@ -1,10 +1,7 @@
 import 'dart:io';
-
 import 'package:avatar_view/avatar_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -14,7 +11,7 @@ import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/displayImage.dart';
 import 'package:spaco/utils/getImages.dart';
-import 'package:spaco/utils/inputwidget.dart';
+import 'package:spaco/utils/spacoInputWidget.dart';
 import 'package:spaco/utils/loading.dart';
 
 class Partners extends StatefulWidget {
@@ -46,7 +43,6 @@ class _PartnersState extends State<Partners> {
   final picker = ImagePicker();
 
   Future getImage() async {
-    // TODO clear image cache on multiple add and update
     final pickedFile =
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
     if (pickedFile != null) {
@@ -58,7 +54,6 @@ class _PartnersState extends State<Partners> {
 
   partnerStore() async {
     // store partner in firebase
-    // TODO remove uid
     var partnerImageUrlController = _image == null
         ? null
         : await PartnerServices.uploadPartnerImageToFirebase(_image);

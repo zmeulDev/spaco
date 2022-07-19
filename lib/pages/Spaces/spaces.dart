@@ -1,44 +1,62 @@
 import 'dart:io';
 import 'package:avatar_view/avatar_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spaco/pages/appBar.dart';
-import 'package:spaco/services/partner_services.dart';
-import 'package:spaco/services/room_services.dart';
+import 'package:spaco/services/space_services.dart';
 import 'package:spaco/utils/constant.dart';
-import 'package:spaco/utils/displayImage.dart';
-import 'package:spaco/utils/getImages.dart';
-import 'package:spaco/utils/inputwidget.dart';
+import 'package:spaco/utils/spacoInputWidget.dart';
 import 'package:spaco/utils/loading.dart';
 
-class Rooms extends StatefulWidget {
-  const Rooms({Key? key}) : super(key: key);
+class Spaces extends StatefulWidget {
+  const Spaces({Key? key}) : super(key: key);
 
   @override
-  State<Rooms> createState() => _RoomsState();
+  State<Spaces> createState() => _SpacesState();
 }
 
-class _RoomsState extends State<Rooms> {
+class _SpacesState extends State<Spaces> {
   bool isLoading = false;
   bool isChecked = false;
 
-  TextEditingController partnerContactController = TextEditingController();
-  TextEditingController partnerNameController = TextEditingController();
-  TextEditingController partnerEmailController = TextEditingController();
-  TextEditingController partnerPhoneController = TextEditingController();
+  TextEditingController spaceNameController = TextEditingController();
+  TextEditingController spaceEmailController = TextEditingController();
+  TextEditingController spaceNoPeopleController = TextEditingController();
+  TextEditingController spaceTVController = TextEditingController();
+  TextEditingController spaceWhiteBoardController = TextEditingController();
+  TextEditingController spaceAirConditioningController =
+      TextEditingController();
+  TextEditingController spaceImage1Controller = TextEditingController();
+  TextEditingController spaceImage2Controller = TextEditingController();
+  TextEditingController spaceImage3Controller = TextEditingController();
+  TextEditingController spaceImage4Controller = TextEditingController();
+  TextEditingController spaceImage5Controller = TextEditingController();
+  TextEditingController spaceIsFavoriteController = TextEditingController();
+  TextEditingController spaceIsMainController = TextEditingController();
+  TextEditingController spaceStatusController = TextEditingController();
+  TextEditingController spaceWifiController = TextEditingController();
 
   void clearForm() {
     setState(() {
-      partnerContactController.clear();
-      partnerNameController.clear();
-      partnerEmailController.clear();
-      partnerPhoneController.clear();
+      spaceNameController.clear();
+      spaceEmailController.clear();
+      spaceNoPeopleController.clear();
+      spaceTVController.clear();
+      spaceWhiteBoardController.clear();
+      spaceAirConditioningController.clear();
+      spaceImage1Controller.clear();
+      spaceImage2Controller.clear();
+      spaceImage3Controller.clear();
+      spaceImage4Controller.clear();
+      spaceImage5Controller.clear();
+      spaceIsFavoriteController.clear();
+      spaceIsMainController.clear();
+      spaceStatusController.clear();
+      spaceWifiController.clear();
     });
   }
 
@@ -47,7 +65,6 @@ class _RoomsState extends State<Rooms> {
   final picker = ImagePicker();
 
   Future getImage() async {
-    // TODO clear image cache on multiple add and update
     final pickedFile =
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
     if (pickedFile != null) {
@@ -57,74 +74,161 @@ class _RoomsState extends State<Rooms> {
     }
   }
 
-  roomStore() async {
+  spaceStore() async {
     // store partner in firebase
-    // TODO remove uid
-    var partnerImageUrlController = _image == null
+    var spaceImage1 = _image == null
         ? null
-        : await PartnerServices.uploadPartnerImageToFirebase(_image);
+        : await SpaceServices.uploadSpaceImageToFirebase(_image);
 
-    RoomServices.uploadRoomDataToFirestore(
-            uid: RoomServices.roomRef.doc().id,
-            partnerContact: partnerContactController.text,
-            partnerProfile: partnerImageUrlController,
-            partnerName: partnerNameController.text,
-            partnerEmail: partnerEmailController.text,
-            partnerPhone: partnerPhoneController.text)
-        .whenComplete(() {
+    SpaceServices.storeSpaceDataToFirestore(
+      uid: SpaceServices.spaceRef.doc().id,
+      spaceName: spaceNameController.text,
+      spaceEmail: spaceEmailController.text,
+      spaceNoPeople: spaceNoPeopleController.text,
+      spaceTV: spaceTVController.text,
+      spaceWhiteBoard: spaceWhiteBoardController.text,
+      spaceAirConditioning: spaceAirConditioningController.text,
+      spaceImage1: spaceImage1Controller.text,
+      spaceImage2: spaceImage2Controller.text,
+      spaceImage3: spaceImage3Controller.text,
+      spaceImage4: spaceImage4Controller.text,
+      spaceImage5: spaceImage5Controller.text,
+      spaceIsFavorite: spaceIsFavoriteController.text,
+      spaceIsMain: spaceIsMainController.text,
+      spaceStatus: spaceStatusController.text,
+      spaceWifi: spaceWifiController.text,
+    ).whenComplete(() {
       Get.back();
-      Get.snackbar('Info', 'Room added.');
+      Get.snackbar('Stored', 'Space added successfully.',
+          colorText: secondaryColor,
+          icon: Icon(
+            FeatherIcons.info,
+            color: secondaryColor,
+          ),
+          backgroundColor: successColor);
     });
   }
 
-  roomUpdate(detail) async {
-    var partnerContactUpdate = partnerContactController.text.isEmpty
-        ? detail['partnercontact']
-        : partnerContactController.text;
+  spaceUpdate(detail) async {
+    var spaceNameUpdate = spaceNameController.text.isEmpty
+        ? detail['spaceName']
+        : spaceNameController.text;
 
-    var partnerImageUrlController = _image == null
-        ? detail['profileurl']
-        : await RoomServices.uploadRoomImageToFirebase(_image);
+    var spaceEmailUpdate = spaceEmailController.text.isEmpty
+        ? detail['spaceEmail']
+        : spaceEmailController.text;
 
-    var partnerNameUpdate = partnerNameController.text.isEmpty
-        ? detail['partnername']
-        : partnerNameController.text;
+    var spaceNoPeopleUpdate = spaceNoPeopleController.text.isEmpty
+        ? detail['spaceNoPeople']
+        : spaceNoPeopleController.text;
 
-    var partnerEmailUpdate = partnerEmailController.text.isEmpty
-        ? detail['partneremail']
-        : partnerEmailController.text;
+    var spaceTVUpdate = spaceTVController.text.isEmpty
+        ? detail['spaceTV']
+        : spaceTVController.text;
 
-    var partnerPhoneUpdate = partnerPhoneController.text.isEmpty
-        ? detail['partnerphone']
-        : partnerPhoneController.text;
+    var spaceWhiteBoardUpdate = spaceWhiteBoardController.text.isEmpty
+        ? detail['spaceWhiteBoard']
+        : spaceWhiteBoardController.text;
 
-    RoomServices.updateRoomDataInFirestore(
+    var spaceAirConditioningUpdate = spaceAirConditioningController.text.isEmpty
+        ? detail['spaceAirConditioning']
+        : spaceAirConditioningController.text;
+
+    var spaceImage1Update = spaceImage1Controller.text.isEmpty
+        ? detail['spaceImage1']
+        : spaceImage1Controller.text;
+
+    var spaceImage2Update = spaceImage2Controller.text.isEmpty
+        ? detail['spaceImage2']
+        : spaceImage2Controller.text;
+
+    var spaceImage3Update = spaceImage3Controller.text.isEmpty
+        ? detail['spaceImage3']
+        : spaceImage3Controller.text;
+
+    var spaceImage4Update = spaceImage4Controller.text.isEmpty
+        ? detail['spaceImage4']
+        : spaceImage4Controller.text;
+
+    var spaceImage5Update = spaceImage5Controller.text.isEmpty
+        ? detail['spaceImage5']
+        : spaceImage5Controller.text;
+
+    var spaceIsFavoriteUpdate = spaceIsFavoriteController.text.isEmpty
+        ? detail['spaceIsFavorite']
+        : spaceIsFavoriteController.text;
+
+    var spaceIsMainUpdate = spaceIsMainController.text.isEmpty
+        ? detail['spaceIsMain']
+        : spaceIsMainController.text;
+
+    var spaceStatusUpdate = spaceStatusController.text.isEmpty
+        ? detail['spaceStatus']
+        : spaceStatusController.text;
+
+    var spaceWifiUpdate = spaceWifiController.text.isEmpty
+        ? detail['spaceWifi']
+        : spaceWifiController.text;
+
+    SpaceServices.updateSpaceDataInFirestore(
             detail.reference.id,
-            partnerContactUpdate,
-            partnerImageUrlController,
-            partnerNameUpdate,
-            partnerEmailUpdate,
-            partnerPhoneUpdate)
+            spaceNameUpdate,
+            spaceEmailUpdate,
+            spaceNoPeopleUpdate,
+            spaceTVUpdate,
+            spaceWhiteBoardUpdate,
+            spaceAirConditioningUpdate,
+            spaceImage1Update,
+            spaceImage2Update,
+            spaceImage3Update,
+            spaceImage4Update,
+            spaceImage5Update,
+            spaceIsFavoriteUpdate,
+            spaceIsMainUpdate,
+            spaceStatusUpdate,
+            spaceWifiUpdate)
         .whenComplete(() {
       clearForm();
       Get.back();
-      Get.snackbar('Info', 'Room updated.');
+      Get.snackbar('Update', 'Space updated successfully.',
+          colorText: secondaryColor,
+          icon: Icon(
+            FeatherIcons.info,
+            color: secondaryColor,
+          ),
+          backgroundColor: successColor);
     });
   }
 
-  roomDelete(detail) async {
+  spaceDelete(spaceDetail) async {
     // delete partner from firebase and related image storage
-    // TODO: close bottomsheet on delete
-    // TODO snackbar color to red
-    RoomServices.deleteRoom(detail.id);
-    detail['profileurl'] != ''
-        ? RoomServices.deleteRoomImage(detail['profileurl'])
+    SpaceServices.deleteSpace(spaceDetail.id);
+    spaceDetail['spaceImage1'] != ''
+        ? SpaceServices.deleteSpaceImage(spaceDetail['spaceImage1'])
+        : null;
+    spaceDetail['spaceImage2'] != ''
+        ? SpaceServices.deleteSpaceImage(spaceDetail['spaceImage2'])
+        : null;
+    spaceDetail['spaceImage3'] != ''
+        ? SpaceServices.deleteSpaceImage(spaceDetail['spaceImage3'])
+        : null;
+    spaceDetail['spaceImage4'] != ''
+        ? SpaceServices.deleteSpaceImage(spaceDetail['spaceImage4'])
+        : null;
+    spaceDetail['spaceImage5'] != ''
+        ? SpaceServices.deleteSpaceImage(spaceDetail['spaceImage5'])
         : null;
     Get.back();
-    Get.snackbar('Delete', 'partner deleted');
+    Get.snackbar('Deleted', 'Space deleted successfully.',
+        colorText: secondaryColor,
+        icon: Icon(
+          FeatherIcons.info,
+          color: secondaryColor,
+        ),
+        backgroundColor: errorColor);
   }
 
-  roomTopHeader() {
+  spaceTopHeader() {
     return Container(
       width: Get.width,
       height: Get.height * 0.20,
@@ -140,27 +244,27 @@ class _RoomsState extends State<Rooms> {
           children: [
             Container(
                 height: Get.height * 0.18,
-                child: SvgPicture.asset('assets/svg/rooms.svg')),
+                child: SvgPicture.asset('assets/svg/spaces.svg')),
           ],
         ),
       ),
     );
   }
 
-  roomBody() {
-    CollectionReference roomsCollection =
-        FirebaseFirestore.instance.collection('rooms');
+  spaceBody() {
+    CollectionReference spacesCollection =
+        FirebaseFirestore.instance.collection('spaces');
 
     return StreamBuilder(
-        stream: roomsCollection.snapshots(),
+        stream: spacesCollection.snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(
               child: loading(),
             );
           } else {
-            List<DocumentSnapshot> roomsList = snapshot.data.docs;
-            if (roomsList.isEmpty) {
+            List<DocumentSnapshot> spacesList = snapshot.data.docs;
+            if (spacesList.isEmpty) {
               return Container(
                   height: Get.height * 0.4,
                   padding: EdgeInsets.all(20),
@@ -176,11 +280,11 @@ class _RoomsState extends State<Rooms> {
                         childAspectRatio: 1.3 / 1.8,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10),
-                    itemCount: roomsList.length,
+                    itemCount: spacesList.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
                         onTap: () {
-                          roomDetailSheet(roomsList[index]['uid']);
+                          spaceDetailSheet(spacesList[index]['uid']);
                         },
                         child: Stack(
                           children: [
@@ -200,7 +304,7 @@ class _RoomsState extends State<Rooms> {
                                     borderRadius: BorderRadius.circular(12),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          roomsList[index]['profileurl']),
+                                          spacesList[index]['spaceImage1']),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -215,12 +319,12 @@ class _RoomsState extends State<Rooms> {
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Text(
-                                              roomsList[index]['partnername'],
+                                              spacesList[index]['spaceName'],
                                               style: style2.copyWith(
                                                   color: primaryColor),
                                             ),
                                             Text(
-                                              roomsList[index]['partneremail'],
+                                              spacesList[index]['spaceEmail'],
                                               style: style3.copyWith(
                                                   color: primaryColor),
                                             ),
@@ -243,7 +347,8 @@ class _RoomsState extends State<Rooms> {
                                                   width: 5,
                                                 ),
                                                 Text(
-                                                  "8",
+                                                  spacesList[index]
+                                                      ['spaceNoPeople'],
                                                   style: style3.copyWith(
                                                       color: primaryColor),
                                                 )
@@ -259,7 +364,7 @@ class _RoomsState extends State<Rooms> {
                                                   width: 5,
                                                 ),
                                                 Text(
-                                                  "1",
+                                                  spacesList[index]['spaceTV'],
                                                   style: style3.copyWith(
                                                       color: primaryColor),
                                                 )
@@ -275,7 +380,8 @@ class _RoomsState extends State<Rooms> {
                                                   width: 5,
                                                 ),
                                                 Text(
-                                                  "Yes",
+                                                  spacesList[index]
+                                                      ['spaceAirConditioning'],
                                                   style: style3.copyWith(
                                                       color: primaryColor),
                                                 )
@@ -297,7 +403,7 @@ class _RoomsState extends State<Rooms> {
         });
   }
 
-  roomAddWidget() {
+  spaceAddWidget() {
     return Container(
       height: Get.height * 0.05,
       width: Get.width * 0.933,
@@ -320,10 +426,10 @@ class _RoomsState extends State<Rooms> {
               child: GestureDetector(
                 onTap: () {
                   clearForm();
-                  roomAddSheet();
+                  spaceAddSheet();
                 },
                 child: Text(
-                  'Add room',
+                  'Add space',
                   style: style2.copyWith(color: secondaryColor),
                 ),
               ),
@@ -334,16 +440,11 @@ class _RoomsState extends State<Rooms> {
     );
   }
 
-  roomAddSheet() {
+  spaceAddSheet() {
     return Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
-          color: sixthColor,
-          image: DecorationImage(
-            image: AssetImage('assets/card_bck.jpeg'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(fourthColor, BlendMode.modulate),
-          ),
+          color: primaryColor,
           borderRadius: BorderRadius.circular(12),
         ),
         height: Get.height * 0.6,
@@ -352,50 +453,12 @@ class _RoomsState extends State<Rooms> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Text(
-                'Add new room',
-                style: style1,
-              ),
-              SizedBox(
-                height: Get.height * 0.02,
-              ),
-              Stack(
-                children: [
-                  Container(
-                    height: 120,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: primaryColor.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: Offset(1, 1), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: displayImage('partner'),
-                  ),
-                  Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: CircleAvatar(
-                        backgroundColor: fourthColor,
-                        child: IconButton(
-                          onPressed: () {
-                            getImage();
-                          },
-                          icon: Icon(
-                            Icons.edit_outlined,
-                            size: 20,
-                            color: secondaryColor,
-                          ),
-                          splashRadius: 5.0,
-                          splashColor: Colors.grey,
-                        ),
-                      ))
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Add new space',
+                  style: style1,
+                ),
               ),
               SizedBox(
                 height: Get.height * 0.02,
@@ -404,20 +467,16 @@ class _RoomsState extends State<Rooms> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: spacoInput(
-                        'Partner name',
-                        'Name',
-                        TextInputType.text,
-                        FeatherIcons.file,
-                        partnerNameController),
+                    child: spacoInput('Space name', 'Name', TextInputType.text,
+                        FeatherIcons.file, spaceNameController),
                   ),
                   Expanded(
                     child: spacoInput(
-                        'Partner email',
+                        'Space email',
                         'Email',
                         TextInputType.emailAddress,
                         FeatherIcons.mail,
-                        partnerEmailController),
+                        spaceEmailController),
                   ),
                 ],
               ),
@@ -426,19 +485,57 @@ class _RoomsState extends State<Rooms> {
                 children: [
                   Expanded(
                     child: spacoInput(
-                        'Partner contact',
-                        'Contact',
+                        'Ex: 8',
+                        'Number of people',
                         TextInputType.text,
-                        FeatherIcons.user,
-                        partnerContactController),
+                        FeatherIcons.users,
+                        spaceNoPeopleController),
                   ),
                   Expanded(
                     child: spacoInput(
-                        'Partner phone',
-                        'Phone',
+                        'TV or video projector?',
+                        'TV',
+                        TextInputType.text,
+                        FeatherIcons.monitor,
+                        spaceTVController),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: spacoInput(
+                        'Yes or No',
+                        'Whiteboard',
+                        TextInputType.text,
+                        FeatherIcons.penTool,
+                        spaceWhiteBoardController),
+                  ),
+                  Expanded(
+                    child: spacoInput(
+                        'Yes or No',
+                        'Air Conditioner',
                         TextInputType.phone,
-                        FeatherIcons.phone,
-                        partnerPhoneController),
+                        FeatherIcons.wind,
+                        spaceAirConditioningController),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: spacoInput('Yes or No', 'Wi-Fi', TextInputType.text,
+                        FeatherIcons.wifi, spaceWifiController),
+                  ),
+                  Expanded(
+                    child: spacoInput(
+                        'Available or not',
+                        'Status',
+                        TextInputType.phone,
+                        FeatherIcons.info,
+                        spaceStatusController),
                   ),
                 ],
               ),
@@ -480,7 +577,7 @@ class _RoomsState extends State<Rooms> {
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            roomStore();
+                            spaceStore();
                           },
                           style: ElevatedButton.styleFrom(
                               primary: tertiaryColor,
@@ -512,9 +609,9 @@ class _RoomsState extends State<Rooms> {
     );
   }
 
-  roomDetailSheet(uid) {
-    CollectionReference roomDetailCollection =
-        FirebaseFirestore.instance.collection('rooms');
+  spaceDetailSheet(uid) {
+    CollectionReference spaceDetailCollection =
+        FirebaseFirestore.instance.collection('spaces');
 
     return Get.bottomSheet(
       SingleChildScrollView(
@@ -531,7 +628,7 @@ class _RoomsState extends State<Rooms> {
           height: Get.height * 0.85,
           child: StreamBuilder<QuerySnapshot>(
             stream:
-                roomDetailCollection.where('uid', isEqualTo: uid).snapshots(),
+                spaceDetailCollection.where('uid', isEqualTo: uid).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -543,7 +640,7 @@ class _RoomsState extends State<Rooms> {
                         child: Column(
                           children: [
                             Text(
-                              'Room details',
+                              'Space details',
                               style: style1.copyWith(color: secondaryColor),
                             ),
                             SizedBox(
@@ -571,9 +668,9 @@ class _RoomsState extends State<Rooms> {
                                     borderColor: secondaryColor,
                                     avatarType: AvatarType.CIRCLE,
                                     backgroundColor: primaryColor,
-                                    imagePath: detail['profileurl'] == ''
-                                        ? 'assets/user.png'
-                                        : detail['profileurl'],
+                                    imagePath: detail['spaceImage1'] == ''
+                                        ? 'assets/card_bck.jpeg'
+                                        : detail['spaceImage1'],
                                     placeHolder: Container(
                                       color: secondaryColor,
                                       child: Icon(
@@ -618,19 +715,19 @@ class _RoomsState extends State<Rooms> {
                               children: [
                                 Expanded(
                                   child: spacoInput(
-                                      'Partner name',
-                                      detail['partnername'],
+                                      'Space name',
+                                      detail['spaceName'],
                                       TextInputType.text,
                                       FeatherIcons.file,
-                                      partnerNameController),
+                                      spaceNameController),
                                 ),
                                 Expanded(
                                   child: spacoInput(
-                                      'Partner email',
-                                      detail['partneremail'],
+                                      'Email',
+                                      detail['spaceEmail'],
                                       TextInputType.emailAddress,
                                       FeatherIcons.mail,
-                                      partnerEmailController),
+                                      spaceEmailController),
                                 ),
                               ],
                             ),
@@ -639,19 +736,40 @@ class _RoomsState extends State<Rooms> {
                               children: [
                                 Expanded(
                                   child: spacoInput(
-                                      'Partner contact',
-                                      detail['partnercontact'],
+                                      'No. of people',
+                                      detail['spaceNoPeople'],
                                       TextInputType.text,
                                       FeatherIcons.users,
-                                      partnerContactController),
+                                      spaceNoPeopleController),
                                 ),
                                 Expanded(
                                   child: spacoInput(
-                                      'Partner phone',
-                                      detail['partnerphone'],
+                                      'TV',
+                                      detail['spaceTV'],
                                       TextInputType.phone,
                                       FeatherIcons.phone,
-                                      partnerPhoneController),
+                                      spaceTVController),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: spacoInput(
+                                      'Whiteboard',
+                                      detail['spaceWhiteBoard'],
+                                      TextInputType.text,
+                                      FeatherIcons.users,
+                                      spaceWhiteBoardController),
+                                ),
+                                Expanded(
+                                  child: spacoInput(
+                                      'Air Conditioner',
+                                      detail['spaceAirConditioning'],
+                                      TextInputType.phone,
+                                      FeatherIcons.phone,
+                                      spaceAirConditioningController),
                                 ),
                               ],
                             ),
@@ -715,7 +833,7 @@ class _RoomsState extends State<Rooms> {
                                             AlertDialog(
                                               title: const Text('Warning'),
                                               content: const Text(
-                                                  'Room will be deleted!'),
+                                                  'space will be deleted!'),
                                               actions: [
                                                 TextButton(
                                                   child: const Text("Close"),
@@ -724,7 +842,7 @@ class _RoomsState extends State<Rooms> {
                                                 TextButton(
                                                   child: const Text("Delete"),
                                                   onPressed: () =>
-                                                      roomDelete(detail),
+                                                      spaceDelete(detail),
                                                 ),
                                               ],
                                             ),
@@ -753,7 +871,7 @@ class _RoomsState extends State<Rooms> {
                                     child: Center(
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          roomUpdate(detail);
+                                          spaceUpdate(detail);
                                         },
                                         style: ElevatedButton.styleFrom(
                                             primary: tertiaryColor,
@@ -797,14 +915,14 @@ class _RoomsState extends State<Rooms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar('Rooms', context),
+      appBar: getAppBar('spaces', context),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
-            roomTopHeader(),
-            roomAddWidget(),
-            roomBody(),
+            spaceTopHeader(),
+            spaceAddWidget(),
+            spaceBody(),
           ],
         ),
       ),
