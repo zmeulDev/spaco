@@ -71,23 +71,24 @@ class SpaceServices {
     String res;
     try {
       await spaceRef.doc(uid).update({
-        "spaceName": spaceNameController.text,
-        "spaceEmail": spaceEmailController.text,
-        "spaceNoPeople": spaceNoPeopleController.text,
-        "spaceTV": spaceTVController.text,
-        "spaceWhiteBoard": spaceWhiteBoardController.text,
-        "spaceAirConditioning": spaceAirConditioningController.text,
-        "spaceImage1": spaceImage1Controller.text,
-        "spaceImage2": spaceImage2Controller.text,
-        "spaceImage3": spaceImage3Controller.text,
-        "spaceImage4": spaceImage4Controller.text,
-        "spaceImage5": spaceImage5Controller.text,
-        "spaceIsFavorite": spaceIsFavoriteController.text,
-        "spaceIsMain": spaceIsMainController.text,
-        "spaceStatus": spaceStatusController.text,
-        "spaceWifi": spaceWifiController.text,
+        "spaceName": spaceNameController.toString(),
+        "spaceEmail": spaceEmailController.toString(),
+        "spaceNoPeople": spaceNoPeopleController.toString(),
+        "spaceTV": spaceTVController.toString(),
+        "spaceWhiteBoard": spaceWhiteBoardController.toString(),
+        "spaceAirConditioning": spaceAirConditioningController.toString(),
+        "spaceImage1": spaceImage1Controller.toString(),
+        "spaceImage2": spaceImage2Controller.toString(),
+        "spaceImage3": spaceImage3Controller.toString(),
+        "spaceImage4": spaceImage4Controller.toString(),
+        "spaceImage5": spaceImage5Controller.toString(),
+        "spaceIsFavorite": spaceIsFavoriteController.toString(),
+        "spaceIsMain": spaceIsMainController.toString(),
+        "spaceStatus": spaceStatusController.toString(),
+        "spaceWifi": spaceWifiController.toString(),
       });
       res = "Success";
+
     } catch (e) {
       res = e.toString();
     }

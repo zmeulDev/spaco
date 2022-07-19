@@ -188,6 +188,7 @@ class _SpacesState extends State<Spaces> {
             spaceStatusUpdate,
             spaceWifiUpdate)
         .whenComplete(() {
+
       clearForm();
       Get.back();
       Get.snackbar('Update', 'Space updated successfully.',
@@ -284,6 +285,7 @@ class _SpacesState extends State<Spaces> {
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
                         onTap: () {
+                          clearForm();
                           spaceDetailSheet(spacesList[index]['uid']);
                         },
                         child: Stack(
@@ -831,16 +833,16 @@ class _SpacesState extends State<Spaces> {
                                           Get.back();
                                           Get.dialog(
                                             AlertDialog(
-                                              title: const Text('Warning'),
-                                              content: const Text(
+                                              title:  Text('Warning'),
+                                              content:  Text(
                                                   'space will be deleted!'),
                                               actions: [
                                                 TextButton(
-                                                  child: const Text("Close"),
+                                                  child:  Text("Close"),
                                                   onPressed: () => Get.back(),
                                                 ),
                                                 TextButton(
-                                                  child: const Text("Delete"),
+                                                  child:  Text("Delete"),
                                                   onPressed: () =>
                                                       spaceDelete(detail),
                                                 ),
@@ -850,7 +852,7 @@ class _SpacesState extends State<Spaces> {
                                         },
                                         style: ElevatedButton.styleFrom(
                                             primary: errorColor,
-                                            padding: const EdgeInsets.all(13),
+                                            padding:  EdgeInsets.all(13),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(8),

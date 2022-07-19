@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'spaco',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          textTheme: GoogleFonts.poppinsTextTheme(),
+          textTheme: GoogleFonts.questrialTextTheme(),
           primarySwatch: Colors.lightBlue,
           scaffoldBackgroundColor: scaffoldColor,
           canvasColor: Colors.white),
