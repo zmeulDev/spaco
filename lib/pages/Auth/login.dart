@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:spaco/pages/Auth/enterotp.dart';
 import 'package:spaco/utils/constant.dart';
@@ -16,14 +17,20 @@ class Login extends StatelessWidget {
         body: Container(
           child: Column(
             children: [
-              upperImage(context),
+              loginTopHeader(),
               SizedBox(
-                height: 25,
+                height: Get.height * 0.05,
               ),
               loginForm(context),
               loginArrowButton(() {
                 if (phoneNoController.text.isEmpty) {
-                  Get.snackbar('Error', 'Please enter yor phone number.');
+                  Get.snackbar('Error', 'Please enter yor phone number.',
+                      colorText: secondaryColor,
+                      icon: Icon(
+                        FeatherIcons.info,
+                        color: secondaryColor,
+                      ),
+                      backgroundColor: errorColor);
                 } else {
                   Get.to(() => EnterOTPScreen(phoneNoController.text));
                 }
@@ -53,15 +60,11 @@ class Login extends StatelessWidget {
     );
   }
 
-  upperImage(BuildContext context) {
+  loginTopHeader() {
     return Expanded(
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Image(
-          image: AssetImage('assets/profile_4.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
+      child: Container(
+          margin: EdgeInsets.only(top: 50),
+          child: SvgPicture.asset('assets/svg/phone_login.svg')),
     );
   }
 
@@ -71,14 +74,18 @@ class Login extends StatelessWidget {
         children: [
           Text(
             'Log in',
-            style: style1.copyWith(color: secondaryColor),
-          ),
-          Text(
-            'Enter your phone number with country prefix.',
-            style: style3.copyWith(color: secondaryColor),
+            style: style1,
           ),
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Enter your phone number with country prefix.',
+              style: style3,
+            ),
+          ),
+          Container(
+            width: Get.width * 0.8,
+            margin: EdgeInsets.only(top: 10),
             child: TextFormField(
               controller: phoneNoController,
               keyboardType: TextInputType.phone,

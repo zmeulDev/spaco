@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:avatar_view/avatar_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -9,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/space_services.dart';
 import 'package:spaco/utils/constant.dart';
+import 'package:spaco/utils/spacoImageCard.dart';
 import 'package:spaco/utils/spacoInputWidget.dart';
 import 'package:spaco/utils/loading.dart';
 
@@ -60,25 +60,90 @@ class _SpacesState extends State<Spaces> {
     });
   }
 
-  File? _image;
+  File? _image1;
+  File? _image2;
+  File? _image3;
+  File? _image4;
+  File? _image5;
 
   final picker = ImagePicker();
+  final picker2 = ImagePicker();
+  final picker3 = ImagePicker();
+  final picker4 = ImagePicker();
+  final picker5 = ImagePicker();
 
   Future getImage() async {
-    final pickedFile =
+    final pickedFile1 =
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
+    if (pickedFile1 != null) {
+      setState(() {
+        _image1 = File(pickedFile1.path);
+      });
+    }
+  }
+
+  Future getImage2() async {
+    final pickedFile =
+        await picker2.pickImage(source: ImageSource.gallery, imageQuality: 10);
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        _image2 = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future getImage3() async {
+    final pickedFile =
+        await picker3.pickImage(source: ImageSource.gallery, imageQuality: 10);
+    if (pickedFile != null) {
+      setState(() {
+        _image3 = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future getImage4() async {
+    final pickedFile =
+        await picker4.pickImage(source: ImageSource.gallery, imageQuality: 10);
+    if (pickedFile != null) {
+      setState(() {
+        _image4 = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future getImage5() async {
+    final pickedFile =
+        await picker5.pickImage(source: ImageSource.gallery, imageQuality: 10);
+    if (pickedFile != null) {
+      setState(() {
+        _image5 = File(pickedFile.path);
       });
     }
   }
 
   spaceStore() async {
     // store partner in firebase
-    var spaceImage1 = _image == null
-        ? null
-        : await SpaceServices.uploadSpaceImageToFirebase(_image);
+
+    var spaceImage1Store = _image1 == null
+        ? ''
+        : await SpaceServices.uploadSpaceImageToFirebase(_image1);
+
+    var spaceImage2Store = _image2 == null
+        ? ''
+        : await SpaceServices.uploadSpaceImageToFirebase(_image2);
+
+    var spaceImage3Store = _image3 == null
+        ? ''
+        : await SpaceServices.uploadSpaceImageToFirebase(_image3);
+
+    var spaceImage4Store = _image4 == null
+        ? ''
+        : await SpaceServices.uploadSpaceImageToFirebase(_image4);
+
+    var spaceImage5Store = _image5 == null
+        ? ''
+        : await SpaceServices.uploadSpaceImageToFirebase(_image5);
 
     SpaceServices.storeSpaceDataToFirestore(
       uid: SpaceServices.spaceRef.doc().id,
@@ -88,11 +153,11 @@ class _SpacesState extends State<Spaces> {
       spaceTV: spaceTVController.text,
       spaceWhiteBoard: spaceWhiteBoardController.text,
       spaceAirConditioning: spaceAirConditioningController.text,
-      spaceImage1: spaceImage1Controller.text,
-      spaceImage2: spaceImage2Controller.text,
-      spaceImage3: spaceImage3Controller.text,
-      spaceImage4: spaceImage4Controller.text,
-      spaceImage5: spaceImage5Controller.text,
+      spaceImage1: spaceImage1Store,
+      spaceImage2: spaceImage2Store,
+      spaceImage3: spaceImage3Store,
+      spaceImage4: spaceImage4Store,
+      spaceImage5: spaceImage5Store,
       spaceIsFavorite: spaceIsFavoriteController.text,
       spaceIsMain: spaceIsMainController.text,
       spaceStatus: spaceStatusController.text,
@@ -134,25 +199,25 @@ class _SpacesState extends State<Spaces> {
         ? detail['spaceAirConditioning']
         : spaceAirConditioningController.text;
 
-    var spaceImage1Update = spaceImage1Controller.text.isEmpty
-        ? detail['spaceImage1']
-        : spaceImage1Controller.text;
+    var spaceImage1Update = _image1 == null
+        ? 'empty'
+        : await SpaceServices.uploadSpaceImageToFirebase(_image1);
 
-    var spaceImage2Update = spaceImage2Controller.text.isEmpty
+    var spaceImage2Update = _image2 == null
         ? detail['spaceImage2']
-        : spaceImage2Controller.text;
+        : await SpaceServices.uploadSpaceImageToFirebase(_image2);
 
-    var spaceImage3Update = spaceImage3Controller.text.isEmpty
+    var spaceImage3Update = _image3 == null
         ? detail['spaceImage3']
-        : spaceImage3Controller.text;
+        : await SpaceServices.uploadSpaceImageToFirebase(_image3);
 
-    var spaceImage4Update = spaceImage4Controller.text.isEmpty
+    var spaceImage4Update = _image4 == null
         ? detail['spaceImage4']
-        : spaceImage4Controller.text;
+        : await SpaceServices.uploadSpaceImageToFirebase(_image4);
 
-    var spaceImage5Update = spaceImage5Controller.text.isEmpty
+    var spaceImage5Update = _image5 == null
         ? detail['spaceImage5']
-        : spaceImage5Controller.text;
+        : await SpaceServices.uploadSpaceImageToFirebase(_image5);
 
     var spaceIsFavoriteUpdate = spaceIsFavoriteController.text.isEmpty
         ? detail['spaceIsFavorite']
@@ -188,7 +253,6 @@ class _SpacesState extends State<Spaces> {
             spaceStatusUpdate,
             spaceWifiUpdate)
         .whenComplete(() {
-
       clearForm();
       Get.back();
       Get.snackbar('Update', 'Space updated successfully.',
@@ -304,11 +368,17 @@ class _SpacesState extends State<Spaces> {
                                   decoration: BoxDecoration(
                                     color: primaryColor,
                                     borderRadius: BorderRadius.circular(12),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          spacesList[index]['spaceImage1']),
-                                      fit: BoxFit.cover,
-                                    ),
+                                    image: spacesList[index]['spaceImage1'] !=
+                                            ''
+                                        ? DecorationImage(
+                                            image: NetworkImage(
+                                                spacesList[index]
+                                                    ['spaceImage1']),
+                                            fit: BoxFit.cover)
+                                        : DecorationImage(
+                                            image:
+                                                AssetImage('assets/logo.png'),
+                                            fit: BoxFit.cover),
                                   ),
                                 ),
                                 Container(
@@ -648,66 +718,23 @@ class _SpacesState extends State<Spaces> {
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
-                            Stack(
-                              children: [
-                                Container(
-                                  height: 120,
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: primaryColor.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 1,
-                                        offset: Offset(
-                                            1, 1), // changes position of shadow
-                                      ),
+                            Container(
+                              width: Get.width,
+                              height: Get.height * 0.2,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  Row(
+                                    children: [
+                                      spacoImageCard(detail['spaceImage1']),
+                                      spacoImageCard(detail['spaceImage2']),
+                                      spacoImageCard(detail['spaceImage3']),
+                                      spacoImageCard(detail['spaceImage4']),
+                                      spacoImageCard(detail['spaceImage5']),
                                     ],
-                                  ),
-                                  child: AvatarView(
-                                    radius: 75,
-                                    borderColor: secondaryColor,
-                                    avatarType: AvatarType.CIRCLE,
-                                    backgroundColor: primaryColor,
-                                    imagePath: detail['spaceImage1'] == ''
-                                        ? 'assets/card_bck.jpeg'
-                                        : detail['spaceImage1'],
-                                    placeHolder: Container(
-                                      color: secondaryColor,
-                                      child: Icon(
-                                        FeatherIcons.user,
-                                        size: 36,
-                                      ),
-                                    ),
-                                    errorWidget: Container(
-                                      color: fourthColor,
-                                      child: Icon(
-                                        FeatherIcons.user,
-                                        size: 36,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                    right: 0,
-                                    bottom: 0,
-                                    child: CircleAvatar(
-                                      backgroundColor: fourthColor,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          getImage();
-                                        },
-                                        icon: Icon(
-                                          Icons.edit_outlined,
-                                          size: 20,
-                                          color: secondaryColor,
-                                        ),
-                                        splashRadius: 5.0,
-                                        splashColor: Colors.grey,
-                                      ),
-                                    ))
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                             SizedBox(
                               height: Get.height * 0.02,
@@ -833,16 +860,16 @@ class _SpacesState extends State<Spaces> {
                                           Get.back();
                                           Get.dialog(
                                             AlertDialog(
-                                              title:  Text('Warning'),
-                                              content:  Text(
+                                              title: Text('Warning'),
+                                              content: Text(
                                                   'space will be deleted!'),
                                               actions: [
                                                 TextButton(
-                                                  child:  Text("Close"),
+                                                  child: Text("Close"),
                                                   onPressed: () => Get.back(),
                                                 ),
                                                 TextButton(
-                                                  child:  Text("Delete"),
+                                                  child: Text("Delete"),
                                                   onPressed: () =>
                                                       spaceDelete(detail),
                                                 ),
@@ -852,7 +879,7 @@ class _SpacesState extends State<Spaces> {
                                         },
                                         style: ElevatedButton.styleFrom(
                                             primary: errorColor,
-                                            padding:  EdgeInsets.all(13),
+                                            padding: EdgeInsets.all(13),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(8),

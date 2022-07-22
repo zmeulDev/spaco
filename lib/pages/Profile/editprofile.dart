@@ -58,13 +58,13 @@ class _EditProfileState extends State<EditProfile> {
   initState() {
     super.initState();
     userImg = UserModel().profileUrl;
-    if (UserModel().phoneNo != null || UserModel().phoneNo != "") {
+    if (UserModel().phoneNo != "") {
       phoneNoController.text = UserModel().phoneNo!;
     }
-    if (UserModel().username != null || UserModel().username != "") {
+    if (UserModel().username != "") {
       nameController.text = UserModel().username;
     }
-    if (UserModel().email != null || UserModel().email != "") {
+    if (UserModel().email != "") {
       emailController.text = UserModel().email;
     }
   }

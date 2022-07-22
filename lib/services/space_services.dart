@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -88,10 +90,10 @@ class SpaceServices {
         "spaceWifi": spaceWifiController.toString(),
       });
       res = "Success";
-
     } catch (e) {
       res = e.toString();
     }
+    print(res);
     return res;
   }
 
@@ -116,7 +118,8 @@ class SpaceServices {
   }
 
   static Future<String> uploadSpaceImageToFirebase(image) async {
-    final String fileName = DateTime.now().toString();
+    final _random = new Random();
+    final String fileName = _random.nextInt(20).toString();
     String url;
     Reference firebaseStorageRef =
         FirebaseStorage.instance.ref().child('spaces/$fileName');

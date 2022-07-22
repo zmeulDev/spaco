@@ -28,7 +28,7 @@ class GetImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (imagePath == null || imagePath.isEmpty) {
+    if (imagePath.isEmpty) {
       imagePath = 'assets/logo.png';
     }
 

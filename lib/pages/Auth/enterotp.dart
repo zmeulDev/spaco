@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:spaco/Services/auth_services.dart';
@@ -59,46 +61,42 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: primaryColor,
         body: Container(
-          margin: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: [
               Expanded(
                 flex: 10,
                 child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
                   child: Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 50,
+                        height: Get.height * 0.05,
                       ),
-                      upperImage(),
+                      otpTopHeader(),
                       SizedBox(
-                        height: size.height * 0.03,
+                        height: Get.height * 0.03,
                       ),
                       Text(
                         'Enter OTP',
                         style: style1,
                       ),
                       SizedBox(
-                        height: size.height * 0.01,
+                        height: Get.height * 0.01,
                       ),
                       Text(
                         'We have send your access code Via SMS for',
-                        style: style3.copyWith(color: secondaryColor),
+                        style: style3,
                       ),
                       Text(
                         'mobile number verification.',
-                        style: style3.copyWith(color: secondaryColor),
+                        style: style3,
                       ),
                       SizedBox(
-                        height: size.height * 0.01,
+                        height: Get.height * 0.01,
                       ),
                       TweenAnimationBuilder<Duration>(
                           duration: Duration(minutes: 1),
@@ -183,16 +181,11 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                               },
                             )),
                       ),
-                      SizedBox(
-                        height: size.height * 0.15,
-                      ),
                     ],
                   ),
                 ),
               ),
               arrowButton(() async {
-                // formKey.currentState!.validate();
-                // // conditions for validating
                 var res = await check();
                 if (currentText.length != 6 ||
                     currentText.isEmpty ||
@@ -202,7 +195,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                 } else {}
               }),
               SizedBox(
-                height: size.height * 0.08,
+                height: Get.height * 0.08,
               ),
               Expanded(
                 flex: 2,
@@ -225,7 +218,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: size.height * 0.005,
+                        height: Get.height * 0.005,
                       ),
                       InkWell(
                         onTap: () {
@@ -352,7 +345,14 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                 setState(() {
                   isLoading = false;
                 });
-                Get.snackbar('Hello', 'Welcome to spaco!');
+                Get.snackbar('Hello', 'Welcome to spaco!',
+                    colorText: secondaryColor,
+                    icon: Icon(
+                      FeatherIcons.info,
+                      color: secondaryColor,
+                    ),
+                    backgroundColor: successColor);
+
                 res = true;
                 Helper.toReplacementScreen(context, NavBar());
               } else {
@@ -386,25 +386,11 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
     }
   }
 
-  upperImage() {
+  otpTopHeader() {
     return Expanded(
-      flex: 3,
       child: Container(
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(colors: [
-              tertiaryColor.withOpacity(0.3),
-              tertiaryColor.withOpacity(0.6),
-            ])),
-        child: Center(
-            child: Padding(
-          padding: const EdgeInsets.all(1.0),
-          child: Image(
-            image: AssetImage('assets/otp_2.png'),
-            fit: BoxFit.fill,
-          ),
-        )),
-      ),
+          margin: EdgeInsets.only(top: 50),
+          child: SvgPicture.asset('assets/svg/phone_otp.svg')),
     );
   }
 
