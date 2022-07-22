@@ -73,7 +73,7 @@ class _SpacesState extends State<Spaces> {
   final picker4 = ImagePicker();
   final picker5 = ImagePicker();
 
-  Future getImage() async {
+  Future getImage1() async {
     final pickedFile1 =
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
     if (pickedFile1 != null) {
@@ -201,23 +201,23 @@ class _SpacesState extends State<Spaces> {
         : spaceAirConditioningController.text;
 
     var spaceImage1Update = _image1 == null
-        ? ''
+        ? detail['spaceImage1']
         : await SpaceServices.uploadSpaceImageToFirebase(_image1);
 
     var spaceImage2Update = _image2 == null
-        ? ''
+        ? detail['spaceImage2']
         : await SpaceServices.uploadSpaceImageToFirebase(_image2);
 
     var spaceImage3Update = _image3 == null
-        ? ''
+        ? detail['spaceImage3']
         : await SpaceServices.uploadSpaceImageToFirebase(_image3);
 
     var spaceImage4Update = _image4 == null
-        ? ''
+        ? detail['spaceImage4']
         : await SpaceServices.uploadSpaceImageToFirebase(_image4);
 
     var spaceImage5Update = _image5 == null
-        ? ''
+        ? detail['spaceImage5']
         : await SpaceServices.uploadSpaceImageToFirebase(_image5);
 
     var spaceIsFavoriteUpdate = spaceIsFavoriteController.text.isEmpty
@@ -615,27 +615,27 @@ class _SpacesState extends State<Spaces> {
                                   Row(
                                     children: [
                                       GestureDetector(
-                                        onTap: (() => getImage()),
+                                        onTap: (() => getImage1()),
                                         child: spacoCardImage(
                                             detail['spaceImage1']),
                                       ),
                                       GestureDetector(
-                                        onTap: (() => getImage()),
+                                        onTap: (() => getImage2()),
                                         child: spacoCardImage(
                                             detail['spaceImage2']),
                                       ),
                                       GestureDetector(
-                                        onTap: (() => getImage()),
+                                        onTap: (() => getImage3()),
                                         child: spacoCardImage(
                                             detail['spaceImage3']),
                                       ),
                                       GestureDetector(
-                                        onTap: (() => getImage()),
+                                        onTap: (() => getImage4()),
                                         child: spacoCardImage(
                                             detail['spaceImage4']),
                                       ),
                                       GestureDetector(
-                                        onTap: (() => getImage()),
+                                        onTap: (() => getImage5()),
                                         child: spacoCardImage(
                                             detail['spaceImage5']),
                                       ),
@@ -749,7 +749,7 @@ class _SpacesState extends State<Spaces> {
                                             )),
                                         child: Text(
                                           'Cancel',
-                                          style: style2.copyWith(
+                                          style: style3.copyWith(
                                               color: primaryColor),
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -794,7 +794,7 @@ class _SpacesState extends State<Spaces> {
                                             )),
                                         child: Text(
                                           'Delete',
-                                          style: style2,
+                                          style: style3,
                                         ),
                                       ),
                                     ),
@@ -819,8 +819,7 @@ class _SpacesState extends State<Spaces> {
                                             )),
                                         child: Text(
                                           'Update',
-                                          style: style2.copyWith(
-                                              color: secondaryColor),
+                                          style: style3,
                                         ),
                                       ),
                                     ),
