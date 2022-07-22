@@ -5,10 +5,11 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:spaco/pages/Spaces/bodyCard.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/space_services.dart';
 import 'package:spaco/utils/constant.dart';
-import 'package:spaco/utils/spacoImageCard.dart';
+import 'package:spaco/utils/spacoCardImage.dart';
 import 'package:spaco/utils/spacoInputWidget.dart';
 import 'package:spaco/utils/loading.dart';
 
@@ -200,23 +201,23 @@ class _SpacesState extends State<Spaces> {
         : spaceAirConditioningController.text;
 
     var spaceImage1Update = _image1 == null
-        ? 'empty'
+        ? ''
         : await SpaceServices.uploadSpaceImageToFirebase(_image1);
 
     var spaceImage2Update = _image2 == null
-        ? detail['spaceImage2']
+        ? ''
         : await SpaceServices.uploadSpaceImageToFirebase(_image2);
 
     var spaceImage3Update = _image3 == null
-        ? detail['spaceImage3']
+        ? ''
         : await SpaceServices.uploadSpaceImageToFirebase(_image3);
 
     var spaceImage4Update = _image4 == null
-        ? detail['spaceImage4']
+        ? ''
         : await SpaceServices.uploadSpaceImageToFirebase(_image4);
 
     var spaceImage5Update = _image5 == null
-        ? detail['spaceImage5']
+        ? ''
         : await SpaceServices.uploadSpaceImageToFirebase(_image5);
 
     var spaceIsFavoriteUpdate = spaceIsFavoriteController.text.isEmpty
@@ -348,126 +349,18 @@ class _SpacesState extends State<Spaces> {
                     itemCount: spacesList.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
-                        onTap: () {
-                          clearForm();
-                          spaceDetailSheet(spacesList[index]['uid']);
-                        },
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: secondaryColor,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.all(8),
-                                  height: Get.height * 0.2,
-                                  decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius: BorderRadius.circular(12),
-                                    image: spacesList[index]['spaceImage1'] !=
-                                            ''
-                                        ? DecorationImage(
-                                            image: NetworkImage(
-                                                spacesList[index]
-                                                    ['spaceImage1']),
-                                            fit: BoxFit.cover)
-                                        : DecorationImage(
-                                            image:
-                                                AssetImage('assets/logo.png'),
-                                            fit: BoxFit.cover),
-                                  ),
-                                ),
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        top: 8, left: 12, right: 12, bottom: 5),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Text(
-                                              spacesList[index]['spaceName'],
-                                              style: style2.copyWith(
-                                                  color: primaryColor),
-                                            ),
-                                            Text(
-                                              spacesList[index]['spaceEmail'],
-                                              style: style3.copyWith(
-                                                  color: primaryColor),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Row(
-                                              children: <Widget>[
-                                                Icon(
-                                                  FeatherIcons.users,
-                                                  size: 13,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  spacesList[index]
-                                                      ['spaceNoPeople'],
-                                                  style: style3.copyWith(
-                                                      color: primaryColor),
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: <Widget>[
-                                                Icon(
-                                                  FeatherIcons.monitor,
-                                                  size: 13,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  spacesList[index]['spaceTV'],
-                                                  style: style3.copyWith(
-                                                      color: primaryColor),
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: <Widget>[
-                                                Icon(
-                                                  FeatherIcons.wind,
-                                                  size: 13,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  spacesList[index]
-                                                      ['spaceAirConditioning'],
-                                                  style: style3.copyWith(
-                                                      color: primaryColor),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ))
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
+                          onTap: () {
+                            clearForm();
+                            spaceDetailSheet(spacesList[index]['uid']);
+                          },
+                          child: bodyCard(
+                            spacesList[index]['spaceImage1'],
+                            spacesList[index]['spaceName'],
+                            spacesList[index]['spaceEmail'],
+                            spacesList[index]['spaceNoPeople'],
+                            spacesList[index]['spaceTV'],
+                            spacesList[index]['spaceAirConditioning'],
+                          ));
                     }),
               );
             }
@@ -689,12 +582,7 @@ class _SpacesState extends State<Spaces> {
       SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
-            color: sixthColor,
-            image: DecorationImage(
-              image: AssetImage('assets/card_bck.jpeg'),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(fourthColor, BlendMode.modulate),
-            ),
+            color: primaryColor,
             borderRadius: BorderRadius.circular(12),
           ),
           height: Get.height * 0.85,
@@ -726,11 +614,31 @@ class _SpacesState extends State<Spaces> {
                                 children: [
                                   Row(
                                     children: [
-                                      spacoImageCard(detail['spaceImage1']),
-                                      spacoImageCard(detail['spaceImage2']),
-                                      spacoImageCard(detail['spaceImage3']),
-                                      spacoImageCard(detail['spaceImage4']),
-                                      spacoImageCard(detail['spaceImage5']),
+                                      GestureDetector(
+                                        onTap: (() => getImage()),
+                                        child: spacoCardImage(
+                                            detail['spaceImage1']),
+                                      ),
+                                      GestureDetector(
+                                        onTap: (() => getImage()),
+                                        child: spacoCardImage(
+                                            detail['spaceImage2']),
+                                      ),
+                                      GestureDetector(
+                                        onTap: (() => getImage()),
+                                        child: spacoCardImage(
+                                            detail['spaceImage3']),
+                                      ),
+                                      GestureDetector(
+                                        onTap: (() => getImage()),
+                                        child: spacoCardImage(
+                                            detail['spaceImage4']),
+                                      ),
+                                      GestureDetector(
+                                        onTap: (() => getImage()),
+                                        child: spacoCardImage(
+                                            detail['spaceImage5']),
+                                      ),
                                     ],
                                   )
                                 ],
