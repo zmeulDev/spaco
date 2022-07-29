@@ -20,7 +20,7 @@ class ImageViewPage extends StatelessWidget {
           backgroundDecoration: BoxDecoration(
             color: primaryColor,
           ),
-          imageProvider: AssetImage("$img"),
+          imageProvider: NetworkImage("$img"),
         )),
       ),
     );

@@ -5,8 +5,10 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:spaco/pages/Spaces/bodyCard.dart';
 import 'package:spaco/pages/appBar.dart';
+import 'package:spaco/pages/imageview.dart';
 import 'package:spaco/services/space_services.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/spacoCardImage.dart';
@@ -608,7 +610,7 @@ class _SpacesState extends State<Spaces> {
                             ),
                             Container(
                               width: Get.width,
-                              height: Get.height * 0.2,
+                              height: Get.height * 0.25,
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: [

@@ -15,7 +15,7 @@ spacoCardImage(networkImage) {
       alignment: Alignment.center,
       child: Container(
         width: Get.width * 0.4,
-        height: Get.height * 0.2,
+        height: Get.height * 0.4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
           image: networkImage != ''

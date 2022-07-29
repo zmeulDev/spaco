@@ -119,7 +119,8 @@ class SpaceServices {
 
   static Future<String> uploadSpaceImageToFirebase(image) async {
     final _random = new Random();
-    final String fileName = _random.nextInt(20).toString();
+    final String fileName = String.fromCharCodes(
+        List.generate(30, (index) => _random.nextInt(33) + 89));
     String url;
     Reference firebaseStorageRef =
         FirebaseStorage.instance.ref().child('spaces/$fileName');
