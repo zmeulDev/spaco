@@ -82,7 +82,7 @@ class NavigationBar extends State<NavBar> {
                 tabBackgroundColor: tertiaryColor,
                 color: secondaryColor,
                 activeColor: secondaryColor,
-                tabBorderRadius: 10,
+                tabBorderRadius: 12,
                 gap: 5,
                 iconSize: 24,
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),

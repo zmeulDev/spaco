@@ -1,22 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spaco/utils/constant.dart';
 import 'package:spaco/widgets/createAvatarWidget.dart';
 import 'package:spaco/widgets/createPartnerWidget.dart';
 
-File? _image;
-
-Widget displayImage(String widgetType) {
+Widget displayImage(String widgetType, _image) {
   if (_image == '' || _image == null) {
     return Container(
-      height: 120,
-      width: 120,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: secondaryColor,
-      ),
       child: widgetType == 'profile'
           ? createAvatarWidget(75)
           : createPartnerWidget(75),

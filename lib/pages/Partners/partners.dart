@@ -6,10 +6,10 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:spaco/pages/Partners/addPartner.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/utils/constant.dart';
-import 'package:spaco/utils/displayImage.dart';
 import 'package:spaco/utils/getImages.dart';
 import 'package:spaco/utils/spacoInputWidget.dart';
 import 'package:spaco/utils/loading.dart';
@@ -23,7 +23,6 @@ class Partners extends StatefulWidget {
 
 class _PartnersState extends State<Partners> {
   bool isLoading = false;
-
   TextEditingController partnerContactController = TextEditingController();
   TextEditingController partnerNameController = TextEditingController();
   TextEditingController partnerEmailController = TextEditingController();
@@ -50,31 +49,6 @@ class _PartnersState extends State<Partners> {
         _image = File(pickedFile.path);
       });
     }
-  }
-
-  partnerStore() async {
-    // store partner in firebase
-    var partnerImageUrlController = _image == null
-        ? null
-        : await PartnerServices.uploadPartnerImageToFirebase(_image);
-
-    PartnerServices.uploadPartnerDataToFirestore(
-            uid: PartnerServices.partnerRef.doc().id,
-            partnerContact: partnerContactController.text,
-            partnerProfile: partnerImageUrlController,
-            partnerName: partnerNameController.text,
-            partnerEmail: partnerEmailController.text,
-            partnerPhone: partnerPhoneController.text)
-        .whenComplete(() {
-      Get.back();
-      Get.snackbar('Create', 'Partner created successfully.',
-          colorText: secondaryColor,
-          icon: Icon(
-            FeatherIcons.info,
-            color: secondaryColor,
-          ),
-          backgroundColor: successColor);
-    });
   }
 
   partnerUpdate(detail) async {
@@ -134,7 +108,7 @@ class _PartnersState extends State<Partners> {
         backgroundColor: errorColor);
   }
 
-  partnerTopHeader() {
+  partnerTopWidget() {
     return Container(
       width: Get.width,
       height: Get.height * 0.20,
@@ -157,7 +131,7 @@ class _PartnersState extends State<Partners> {
     );
   }
 
-  partnerAddWidget() {
+  partnerMiddleWidget() {
     return Container(
       height: Get.height * 0.05,
       width: Get.width * 0.933,
@@ -180,7 +154,7 @@ class _PartnersState extends State<Partners> {
               child: GestureDetector(
                 onTap: () {
                   clearForm();
-                  partnerAddSheet();
+                  partnerAddForm();
                 },
                 child: Text(
                   'Add partner',
@@ -194,7 +168,7 @@ class _PartnersState extends State<Partners> {
     );
   }
 
-  partnerBody() {
+  partnerBodyWidget() {
     CollectionReference partnersCollection =
         FirebaseFirestore.instance.collection('partners');
 
@@ -227,7 +201,7 @@ class _PartnersState extends State<Partners> {
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
                         onTap: () {
-                          partnerDetailSheet(partnersList[index]['uid']);
+                          partnerDetailForm(partnersList[index]['uid']);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -296,161 +270,13 @@ class _PartnersState extends State<Partners> {
         });
   }
 
-  partnerAddSheet() {
+  partnerAddForm() {
     return Get.bottomSheet(
-      Container(
-        decoration: BoxDecoration(
-          color: sixthColor,
-          image: DecorationImage(
-            image: AssetImage('assets/card_bck.jpeg'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(primaryColor, BlendMode.hardLight),
-          ),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        height: Get.height * 0.6,
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              Text(
-                'Add new partner',
-                style: style1.copyWith(color: secondaryColor),
-              ),
-              SizedBox(
-                height: Get.height * 0.02,
-              ),
-              Stack(
-                children: [
-                  Container(
-                    height: 120,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: primaryColor.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: Offset(1, 1), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: displayImage('partner'),
-                  ),
-                  Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: CircleAvatar(
-                        backgroundColor: fourthColor,
-                        child: IconButton(
-                          onPressed: () {
-                            getImage();
-                          },
-                          icon: Icon(
-                            Icons.edit_outlined,
-                            size: 20,
-                            color: secondaryColor,
-                          ),
-                          splashRadius: 5.0,
-                          splashColor: Colors.grey,
-                        ),
-                      ))
-                ],
-              ),
-              SizedBox(
-                height: Get.height * 0.02,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: spacoInput(
-                        'Partner name',
-                        'Name',
-                        TextInputType.text,
-                        FeatherIcons.file,
-                        partnerNameController),
-                  ),
-                  Expanded(
-                    child: spacoInput(
-                        'Partner email',
-                        'Email',
-                        TextInputType.emailAddress,
-                        FeatherIcons.mail,
-                        partnerEmailController),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: spacoInput(
-                        'Partner contact',
-                        'Contact',
-                        TextInputType.text,
-                        FeatherIcons.users,
-                        partnerContactController),
-                  ),
-                  Expanded(
-                    child: spacoInput(
-                        'Partner phone',
-                        'Phone',
-                        TextInputType.phone,
-                        FeatherIcons.phone,
-                        partnerPhoneController),
-                  ),
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.only(top: Get.height * 0.04),
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: isLoading == true
-                          ? () {}
-                          : () {
-                              Get.back();
-                            },
-                      icon: Icon(
-                        FeatherIcons.x,
-                        size: 28,
-                        color: secondaryColor,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: isLoading == true
-                          ? () {}
-                          : () {
-                              partnerStore();
-                            },
-                      icon: Icon(
-                        FeatherIcons.save,
-                        size: 28,
-                        color: tertiaryColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      backgroundColor: Colors.transparent,
-      isDismissible: true,
-      isScrollControlled: true,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
+      AddPartner(),
     );
   }
 
-  partnerDetailSheet(uid) {
+  partnerDetailForm(uid) {
     CollectionReference partnerDetailCollection =
         FirebaseFirestore.instance.collection('partners');
 
@@ -690,9 +516,9 @@ class _PartnersState extends State<Partners> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            partnerTopHeader(),
-            partnerAddWidget(),
-            partnerBody(),
+            partnerTopWidget(),
+            partnerMiddleWidget(),
+            partnerBodyWidget(),
           ],
         ),
       ),

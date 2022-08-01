@@ -6,7 +6,7 @@ import 'package:spaco/models/partner_model.dart';
 import 'package:spaco/utils/constant.dart';
 
 createPartnerWidget(double radius) {
-  String tempUserImg = 'assets/user.png';
+  String tempUserImg = 'assets/logo.png';
 
   return AvatarView(
     radius: radius,
@@ -19,14 +19,14 @@ createPartnerWidget(double radius) {
     placeHolder: Container(
       color: secondaryColor,
       child: Icon(
-        FeatherIcons.user,
+        FeatherIcons.alertOctagon,
         size: 36,
       ),
     ),
     errorWidget: Container(
       color: fourthColor,
       child: Icon(
-        FeatherIcons.user,
+        FeatherIcons.anchor,
         size: 36,
       ),
     ),
