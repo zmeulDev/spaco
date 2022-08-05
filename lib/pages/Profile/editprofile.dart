@@ -9,9 +9,9 @@ import 'package:spaco/Services/auth_services.dart';
 import 'package:spaco/models/user_model.dart';
 import 'package:spaco/pages/Auth/chooseloginsignup.dart';
 import 'package:spaco/utils/constant.dart';
-import 'package:spaco/utils/displayImage.dart';
 import 'package:spaco/utils/helper.dart';
 import 'package:spaco/utils/spacoInputWidget.dart';
+import 'package:spaco/utils/spacoUploadImage.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -122,7 +122,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ],
                   ),
-                  child: displayImage('profile', _image),
+                  child: spacoUploadImage('profile', _image),
                 ),
                 Positioned(
                     right: 0,

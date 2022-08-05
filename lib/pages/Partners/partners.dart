@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:avatar_view/avatar_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -10,9 +9,9 @@ import 'package:spaco/pages/Partners/addPartner.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/utils/constant.dart';
-import 'package:spaco/utils/getImages.dart';
 import 'package:spaco/utils/spacoInputWidget.dart';
-import 'package:spaco/utils/loading.dart';
+import 'package:spaco/utils/spacoLoading.dart';
+import 'package:spaco/utils/spacoShowImage.dart';
 
 class Partners extends StatefulWidget {
   const Partners({Key? key}) : super(key: key);
@@ -177,7 +176,7 @@ class _PartnersState extends State<Partners> {
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child: loading(),
+              child: spacoLoading(),
             );
           } else {
             List<DocumentSnapshot> partnersList = snapshot.data.docs;
@@ -188,7 +187,7 @@ class _PartnersState extends State<Partners> {
                   child: SvgPicture.asset('assets/svg/nothing.svg'));
             } else {
               return Container(
-                padding: EdgeInsets.all(12),
+                margin: EdgeInsets.all(12),
                 child: GridView.builder(
                     physics: ScrollPhysics(),
                     shrinkWrap: true,
@@ -204,62 +203,52 @@ class _PartnersState extends State<Partners> {
                           partnerDetailForm(partnersList[index]['uid']);
                         },
                         child: Container(
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: sixthColor,
-                            image: DecorationImage(
-                              image: AssetImage('assets/card_bck.jpeg'),
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  primaryColor, BlendMode.hardLight),
-                            ),
+                            color: primaryColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 5, left: 10, right: 5, bottom: 5),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    partnersList[index]['profileurl'] == ''
-                                        ? Icon(
-                                            FeatherIcons.coffee,
-                                            color: secondaryColor,
-                                            size: 44,
-                                          )
-                                        : GetImage(
-                                            imagePath: partnersList[index]
-                                                ['profileurl'],
-                                            width: 45,
-                                            height: 45,
-                                            radius: 12,
-                                          ),
-                                    SizedBox(
-                                      width: Get.width * 0.05,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        FittedBox(
-                                          fit: BoxFit.fitWidth,
-                                          child: Text(
-                                            partnersList[index]['partnername'],
-                                            style: style2,
-                                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  partnersList[index]['profileurl'] == ''
+                                      ? Image.asset(
+                                          'assets/logo/spaco_logo_green_512.png',
+                                          fit: BoxFit.cover,
+                                          height: Get.height * 0.04,
+                                        )
+                                      : SpacoShowImage(
+                                          imagePath: partnersList[index]
+                                              ['profileurl'],
+                                          width: 60,
+                                          height: 60,
+                                          radius: 12,
                                         ),
-                                        Text(
-                                          partnersList[index]['partnercontact'],
-                                          style: style3,
+                                  SizedBox(
+                                    width: Get.width * 0.05,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      FittedBox(
+                                        fit: BoxFit.fitWidth,
+                                        child: Text(
+                                          partnersList[index]['partnername'],
+                                          style: style2,
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                      ),
+                                      Text(
+                                        partnersList[index]['partnercontact'],
+                                        style: style3,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       );
@@ -321,33 +310,15 @@ class _PartnersState extends State<Partners> {
                                         color: primaryColor.withOpacity(0.5),
                                         spreadRadius: 1,
                                         blurRadius: 1,
-                                        offset: Offset(
-                                            1, 1), // changes position of shadow
+                                        offset: Offset(1, 1),
                                       ),
                                     ],
                                   ),
-                                  child: AvatarView(
-                                    radius: 75,
-                                    borderColor: secondaryColor,
-                                    avatarType: AvatarType.CIRCLE,
-                                    backgroundColor: primaryColor,
-                                    imagePath: detail['profileurl'] == ''
-                                        ? 'assets/user.png'
-                                        : detail['profileurl'],
-                                    placeHolder: Container(
-                                      color: secondaryColor,
-                                      child: Icon(
-                                        FeatherIcons.user,
-                                        size: 36,
-                                      ),
-                                    ),
-                                    errorWidget: Container(
-                                      color: fourthColor,
-                                      child: Icon(
-                                        FeatherIcons.user,
-                                        size: 36,
-                                      ),
-                                    ),
+                                  child: SpacoShowImage(
+                                    imagePath: detail['profileurl'],
+                                    width: 60,
+                                    height: 60,
+                                    radius: 12,
                                   ),
                                 ),
                                 Positioned(

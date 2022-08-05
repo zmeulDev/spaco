@@ -11,7 +11,7 @@ import 'package:spaco/services/space_services.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/spacoCardImage.dart';
 import 'package:spaco/utils/spacoInputWidget.dart';
-import 'package:spaco/utils/loading.dart';
+import 'package:spaco/utils/spacoLoading.dart';
 
 class Spaces extends StatefulWidget {
   const Spaces({Key? key}) : super(key: key);
@@ -326,7 +326,7 @@ class _SpacesState extends State<Spaces> {
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child: loading(),
+              child: spacoLoading(),
             );
           } else {
             List<DocumentSnapshot> spacesList = snapshot.data.docs;

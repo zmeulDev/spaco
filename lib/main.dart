@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           textTheme: GoogleFonts.questrialTextTheme(),
-          primarySwatch: Colors.lightBlue,
+          primarySwatch: Colors.blueGrey,
           scaffoldBackgroundColor: scaffoldColor,
           canvasColor: Colors.white),
       home: Splash(),

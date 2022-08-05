@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:spaco/pages/Booking/booking.dart';
@@ -89,23 +89,23 @@ class NavigationBar extends State<NavBar> {
                 duration: Duration(milliseconds: 300),
                 tabs: [
                   GButton(
-                    icon: FeatherIcons.home,
+                    icon: CupertinoIcons.dot_square,
                     text: 'Home',
                   ),
                   GButton(
-                    icon: FeatherIcons.calendar,
+                    icon: CupertinoIcons.calendar,
                     text: 'Bookings',
                   ),
                   GButton(
-                    icon: FeatherIcons.airplay,
+                    icon: CupertinoIcons.collections,
                     text: 'Spaces',
                   ),
                   GButton(
-                    icon: FeatherIcons.hexagon,
+                    icon: CupertinoIcons.person_2_square_stack,
                     text: 'Partners',
                   ),
                   GButton(
-                    icon: FeatherIcons.user,
+                    icon: CupertinoIcons.person,
                     text: 'Profile',
                   )
                 ]),

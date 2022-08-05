@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:spaco/Services/auth_services.dart';
 import 'package:spaco/pages/Auth/chooseloginsignup.dart';
@@ -23,16 +23,22 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.delayed(Duration(seconds: 3),
-          () async => await AuthServices.getCurrentUser()),
+      future: Future.delayed(
+        Duration(seconds: 3),
+        () async => await AuthServices.getCurrentUser(),
+      ),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return MaterialApp(
-              debugShowCheckedModeBanner: false, home: SplashScreen());
+            debugShowCheckedModeBanner: false,
+            home: SplashScreen(),
+          );
         } else if (snapshot.hasError || snapshot.data == null) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: Scaffold(body: ChooseLoginSignup()),
+            home: Scaffold(
+              body: ChooseLoginSignup(),
+            ),
           );
         } else {
           initUserModel();
@@ -66,37 +72,37 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedSplashScreen(
-          duration: 3000,
-          splash: function(),
-          splashIconSize: 300,
-          nextScreen: ChooseLoginSignup(),
-          splashTransition: SplashTransition.slideTransition,
-          pageTransitionType: PageTransitionType.scale,
-          backgroundColor: primaryColor),
+        splash: logoWidget(),
+        splashIconSize: 300,
+        nextScreen: ChooseLoginSignup(),
+        splashTransition: SplashTransition.slideTransition,
+        pageTransitionType: PageTransitionType.fade,
+        backgroundColor: primaryColor,
+      ),
     );
   }
 }
 
-function() {
-  return Container(
-    child: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            FeatherIcons.coffee,
-            color: secondaryColor,
-            size: 128,
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Text(
-            'spaco',
-            style: style1.copyWith(fontSize: 36, color: secondaryColor),
-          ),
-        ],
+logoWidget() {
+  return Stack(
+    alignment: Alignment.center,
+    children: [
+      Container(
+        alignment: Alignment.center,
+        child: Image.asset(
+          'assets/logo/spaco_logo_green_512.png',
+          height: Get.height * 0.15,
+        ),
       ),
-    ),
+      Container(
+        margin: EdgeInsets.only(top: Get.height * 0.20),
+        child: Text(
+          'spaco',
+          style: style1.copyWith(
+            fontSize: Get.height * 0.05,
+          ),
+        ),
+      ),
+    ],
   );
 }

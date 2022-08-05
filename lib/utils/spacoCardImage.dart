@@ -8,7 +8,7 @@ spacoCardImage(networkImage) {
     margin: EdgeInsets.all(3),
     padding: EdgeInsets.all(3),
     decoration: BoxDecoration(
-      color: sixthColor,
+      color: secondaryColor,
       borderRadius: BorderRadius.circular(12),
     ),
     child: Container(
@@ -23,7 +23,9 @@ spacoCardImage(networkImage) {
                   image: CachedNetworkImageProvider(networkImage),
                   fit: BoxFit.cover)
               : DecorationImage(
-                  image: AssetImage('assets/logo.png'), fit: BoxFit.cover),
+                  image: AssetImage('assets/logo/spaco_logo_green_512.png'),
+                  fit: BoxFit.fitHeight,
+                ),
         ),
       ),
     ),

@@ -1,12 +1,14 @@
 import 'dart:io';
 
+import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/utils/constant.dart';
-import 'package:spaco/utils/displayImage.dart';
+import 'package:spaco/utils/spacoUploadImage.dart';
+import 'package:spaco/utils/spacoButtonsAction.dart';
 import 'package:spaco/utils/spacoInputWidget.dart';
 
 class AddPartner extends StatefulWidget {
@@ -70,6 +72,7 @@ class _AddPartnerState extends State<AddPartner> {
         borderRadius: BorderRadius.circular(12),
       ),
       height: Get.height * 0.6,
+      width: Get.width * 0.9,
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -87,21 +90,21 @@ class _AddPartnerState extends State<AddPartner> {
                   height: 120,
                   width: 120,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(12.0),
                     boxShadow: [
                       BoxShadow(
                         color: primaryColor.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 1,
-                        offset: Offset(1, 1), // changes position of shadow
+                        offset: Offset(1, 1),
                       ),
                     ],
                   ),
-                  child: displayImage('partner', _image),
+                  child: spacoUploadImage('partner', _image),
                 ),
                 Positioned(
-                    right: 0,
-                    bottom: 0,
+                    right: 5,
+                    bottom: 5,
                     child: CircleAvatar(
                       backgroundColor: fourthColor,
                       child: IconButton(
@@ -113,8 +116,8 @@ class _AddPartnerState extends State<AddPartner> {
                           size: 20,
                           color: secondaryColor,
                         ),
-                        splashRadius: 5.0,
-                        splashColor: Colors.grey,
+                        splashRadius: 2.0,
+                        splashColor: tertiaryColor,
                       ),
                     ))
               ],
@@ -161,38 +164,9 @@ class _AddPartnerState extends State<AddPartner> {
               ],
             ),
             Container(
-              margin: EdgeInsets.only(top: Get.height * 0.04),
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: isLoading == true
-                        ? () {}
-                        : () {
-                            Get.back();
-                          },
-                    icon: Icon(
-                      FeatherIcons.x,
-                      size: 28,
-                      color: secondaryColor,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: isLoading == true
-                        ? () {}
-                        : () {
-                            partnerStore();
-                          },
-                    icon: Icon(
-                      FeatherIcons.save,
-                      size: 28,
-                      color: tertiaryColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                height: 100,
+                width: 200,
+                child: SpacoButtonsAction(saveButtonAction: partnerStore)),
           ],
         ),
       ),

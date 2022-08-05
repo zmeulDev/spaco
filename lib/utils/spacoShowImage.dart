@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spaco/utils/constant.dart';
 
-import 'loading.dart';
+import 'spacoLoading.dart';
 
 // ignore: must_be_immutable
-class GetImage extends StatelessWidget {
+class SpacoShowImage extends StatelessWidget {
   String imagePath;
   final double width;
   final double height;
@@ -15,21 +16,20 @@ class GetImage extends StatelessWidget {
   final bool isSvg;
   final loadingColor;
 
-  GetImage(
-      {this.imagePath =
-          'https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg',
+  SpacoShowImage(
+      {this.imagePath = 'assets/logo/spaco_logo_green_512.png',
       required this.width,
       required this.height,
       this.fit = BoxFit.cover,
       this.radius = 0.0,
       this.isAssets = false,
       this.isSvg = false,
-      this.loadingColor = primaryColor});
+      this.loadingColor = tertiaryColor});
 
   @override
   Widget build(BuildContext context) {
-    if (imagePath.isEmpty) {
-      imagePath = 'assets/logo.png';
+    if (imagePath.isEmpty || imagePath == '') {
+      imagePath = 'assets/logo/spaco_logo_green_512.png';
     }
 
     return ClipRRect(
@@ -61,10 +61,10 @@ class GetImage extends StatelessWidget {
               placeholder: (context, url) => Container(
                 height: height,
                 width: width,
-                child: loading(),
+                child: spacoLoading(),
               ),
               errorWidget: (context, url, error) => Container(
-                child: Icon(Icons.error),
+                child: Icon(CupertinoIcons.alarm),
               ),
             ),
     );

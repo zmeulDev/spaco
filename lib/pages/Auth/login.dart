@@ -7,7 +7,7 @@ import 'package:spaco/pages/Auth/enterotp.dart';
 import 'package:spaco/utils/constant.dart';
 
 class Login extends StatelessWidget {
-  TextEditingController phoneNoController = TextEditingController();
+  final TextEditingController phoneNoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

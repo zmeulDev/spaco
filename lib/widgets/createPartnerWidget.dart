@@ -6,12 +6,12 @@ import 'package:spaco/models/partner_model.dart';
 import 'package:spaco/utils/constant.dart';
 
 createPartnerWidget(double radius) {
-  String tempUserImg = 'assets/logo.png';
+  String tempUserImg = 'assets/logo/spaco_logo_green_512.png';
 
   return AvatarView(
     radius: radius,
     borderColor: secondaryColor,
-    avatarType: AvatarType.CIRCLE,
+    avatarType: AvatarType.RECTANGLE,
     backgroundColor: primaryColor,
     imagePath: PartnerModel().partnerProfile == ''
         ? tempUserImg

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:spaco/widgets/createAvatarWidget.dart';
 import 'package:spaco/widgets/createPartnerWidget.dart';
 
-Widget displayImage(String widgetType, _image) {
+Widget spacoUploadImage(String widgetType, _image) {
   if (_image == '' || _image == null) {
     return Container(
       child: widgetType == 'profile'
           ? createAvatarWidget(75)
-          : createPartnerWidget(75),
+          : createPartnerWidget(12),
     );
   } else {
     return ClipRRect(

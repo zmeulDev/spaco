@@ -22,9 +22,10 @@ class _ProfileState extends State<Profile> {
         onPressed: () {
           Get.to(Home());
         },
-        icon: Icon(
-          FeatherIcons.coffee,
-          color: primaryColor,
+        icon: Image.asset(
+          'assets/logo/spaco_logo_black_512.png',
+          height: Get.height * 0.030,
+          fit: BoxFit.contain,
         ),
       ),
       backgroundColor: scaffoldColor,
@@ -37,7 +38,7 @@ class _ProfileState extends State<Profile> {
       actions: [
         IconButton(
             onPressed: () {
-              Get.to(EditProfile())!.then((value) {
+              Get.to(() => EditProfile())!.then((value) {
                 setState(() {});
               });
             },
@@ -72,10 +73,10 @@ class _ProfileState extends State<Profile> {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(10.0),
         child: Column(
           children: [
-            createAvatarWidget(55),
+            createAvatarWidget(Get.height * 0.07),
             SizedBox(
               height: Get.height * 0.02,
             ),

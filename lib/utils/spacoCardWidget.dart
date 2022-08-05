@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spaco/utils/constant.dart';
 
-double height = Get.height;
-double width = Get.width;
-
 spacoCard(color, title, subtitle, icon, onPressed) {
   return GestureDetector(
     onTap: () {
       Get.to(onPressed);
     },
     child: Container(
-      width: width * 0.4,
-      height: height,
+      width: Get.height * 0.4,
+      height: Get.width,
       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -32,7 +29,7 @@ spacoCard(color, title, subtitle, icon, onPressed) {
                   size: 26,
                 ),
                 SizedBox(
-                  width: width * 0.05,
+                  width: Get.width * 0.05,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

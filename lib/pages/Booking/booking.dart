@@ -7,9 +7,9 @@ import 'package:get/get.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/booking_service.dart';
 import 'package:spaco/utils/constant.dart';
-import 'package:spaco/utils/getImages.dart';
+import 'package:spaco/utils/spacoCardImage.dart';
 import 'package:spaco/utils/spacoInputWidget.dart';
-import 'package:spaco/utils/loading.dart';
+import 'package:spaco/utils/spacoLoading.dart';
 
 class Bookings extends StatefulWidget {
   @override
@@ -145,7 +145,7 @@ class _BookingsState extends State<Bookings> {
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child: loading(),
+              child: spacoLoading(),
             );
           } else {
             List<DocumentSnapshot> bookingList = snapshot.data.docs;
@@ -173,13 +173,7 @@ class _BookingsState extends State<Bookings> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: sixthColor,
-                            image: DecorationImage(
-                              image: AssetImage('assets/card_bck.jpeg'),
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  fourthColor, BlendMode.modulate),
-                            ),
+                            color: primaryColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Padding(
@@ -197,13 +191,8 @@ class _BookingsState extends State<Bookings> {
                                             color: secondaryColor,
                                             size: 44,
                                           )
-                                        : GetImage(
-                                            imagePath: bookingList[index]
-                                                ['profileurl'],
-                                            width: 45,
-                                            height: 45,
-                                            radius: 12,
-                                          ),
+                                        : spacoCardImage(
+                                            bookingList[index]['profileurl']),
                                     SizedBox(
                                       width: Get.width * 0.05,
                                     ),
@@ -241,12 +230,7 @@ class _BookingsState extends State<Bookings> {
     return Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
-          color: sixthColor,
-          image: DecorationImage(
-            image: AssetImage('assets/card_bck.jpeg'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(fourthColor, BlendMode.modulate),
-          ),
+          color: primaryColor,
           borderRadius: BorderRadius.circular(12),
         ),
         height: Get.height * 0.6,
@@ -382,12 +366,7 @@ class _BookingsState extends State<Bookings> {
       SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
-            color: sixthColor,
-            image: DecorationImage(
-              image: AssetImage('assets/card_bck.jpeg'),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(fourthColor, BlendMode.modulate),
-            ),
+            color: primaryColor,
             borderRadius: BorderRadius.circular(12),
           ),
           height: Get.height * 0.85,
@@ -435,7 +414,7 @@ class _BookingsState extends State<Bookings> {
                                     avatarType: AvatarType.CIRCLE,
                                     backgroundColor: primaryColor,
                                     imagePath: detail['profileurl'] == ''
-                                        ? 'assets/user.png'
+                                        ? 'assets/logo/spaco_logo_white_512.png'
                                         : detail['profileurl'],
                                     placeHolder: Container(
                                       color: secondaryColor,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // https://undraw.co/illustrations
+// https://www.flaticon.com/free-icon/geometric-shape_5886925?related_id=5886973&origin=search&k=1659603593340&log-in=google
+// https://www.flaticon.com/free-icon/rocket_4320247
 // this is awsome
 
 const scaffoldColor = Color(0xFFdaded7);
@@ -17,8 +19,6 @@ const sixthColor = Color(0xFFdaded7);
 const successColor = Color(0XFF4E7D96);
 const errorColor = Color(0XFFF25D50);
 const warningColor = Color(0XFFFFA652);
-
-String tempUserImg = 'assets/user.png';
 
 var style1 = GoogleFonts.questrial(
   fontSize: 24.0,

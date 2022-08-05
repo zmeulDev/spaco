@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:spaco/pages/Profile/profile.dart';
 import 'package:spaco/pages/home.dart';
@@ -11,9 +11,10 @@ getAppBar(String screenName, context) {
       onPressed: () {
         Get.to(() => Home());
       },
-      icon: Icon(
-        FeatherIcons.coffee,
-        color: primaryColor,
+      icon: Image.asset(
+        'assets/logo/spaco_logo_black_512.png',
+        height: Get.height * 0.030,
+        fit: BoxFit.contain,
       ),
     ),
     backgroundColor: scaffoldColor,
@@ -22,14 +23,18 @@ getAppBar(String screenName, context) {
     centerTitle: true,
     title: Text(
       screenName,
-      style: style2.copyWith(color: primaryColor),
+      style: style2.copyWith(color: primaryColor, fontSize: Get.height * 0.030),
     ),
     actions: [
       IconButton(
         onPressed: () {
           Get.to(() => Profile());
         },
-        icon: Icon(FeatherIcons.user),
+        icon: Icon(
+          CupertinoIcons.person,
+          size: Get.height * 0.030,
+          color: primaryColor,
+        ),
       ),
     ],
   );

@@ -18,6 +18,8 @@ class AuthServices {
     if (auth.currentUser != null) {
       currentUser = auth.currentUser!;
       return currentUser;
+    } else {
+      return null;
     }
   }
 

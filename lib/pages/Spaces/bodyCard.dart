@@ -27,7 +27,8 @@ bodyCard(cardImage, spaceName, spaceEmail, spaceNoPeople, spaceTV,
                       image: CachedNetworkImageProvider(cardImage),
                       fit: BoxFit.cover)
                   : DecorationImage(
-                      image: AssetImage('assets/logo.png'), fit: BoxFit.cover),
+                      image: AssetImage('assets/logo/spaco_logo_green_512.png'),
+                      fit: BoxFit.cover),
             ),
           ),
           Container(

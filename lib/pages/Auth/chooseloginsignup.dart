@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:spaco/pages/Auth/login.dart';
 import 'package:spaco/utils/constant.dart';
@@ -10,9 +9,6 @@ class ChooseLoginSignup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: tertiaryColor,
       body: Column(
@@ -23,17 +19,15 @@ class ChooseLoginSignup extends StatelessWidget {
               child: ClipPath(
                 clipper: OvalBottomBorderClipper(),
                 child: Container(
-                  height: height * 0.5,
-                  width: width,
+                  height: Get.height * 0.5,
+                  width: Get.width,
                   color: primaryColor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        FeatherIcons.coffee,
-                        color: secondaryColor,
-                        size: 128,
-                      ),
+                      Image.asset('assets/logo/spaco_logo_white_512.png',
+                          height: Get.height * 0.16, fit: BoxFit.contain),
+                      SizedBox(height: Get.height * 0.05),
                       Text(
                         'spaco',
                         style: style1.copyWith(
@@ -60,8 +54,8 @@ class ChooseLoginSignup extends StatelessWidget {
                       Get.to(() => Login());
                     },
                     child: Container(
-                      height: height * 0.07,
-                      width: width * 0.5,
+                      height: Get.height * 0.07,
+                      width: Get.width * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: primaryColor,
