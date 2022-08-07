@@ -17,20 +17,23 @@ class SpacoShowImage extends StatelessWidget {
   final loadingColor;
 
   SpacoShowImage(
-      {this.imagePath = 'assets/logo/spaco_logo_green_512.png',
+      {Key? key,
+      this.imagePath = 'assets/logo/spaco_logo_green_512.png',
       required this.width,
       required this.height,
       this.fit = BoxFit.cover,
       this.radius = 0.0,
       this.isAssets = false,
       this.isSvg = false,
-      this.loadingColor = tertiaryColor});
+      this.loadingColor = tertiaryColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (imagePath.isEmpty || imagePath == '') {
+    if (imagePath == '') {
       imagePath = 'assets/logo/spaco_logo_green_512.png';
     }
+    // TODO: if no imagePath, show default image
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),
@@ -64,7 +67,7 @@ class SpacoShowImage extends StatelessWidget {
                 child: spacoLoading(),
               ),
               errorWidget: (context, url, error) => Container(
-                child: Icon(CupertinoIcons.alarm),
+                child: const Icon(CupertinoIcons.alarm),
               ),
             ),
     );

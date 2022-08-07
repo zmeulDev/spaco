@@ -83,7 +83,7 @@ class _PartnersState extends State<Partners> {
       Get.back();
       Get.snackbar('Update', 'Partner updated successfully.',
           colorText: secondaryColor,
-          icon: Icon(
+          icon: const Icon(
             FeatherIcons.info,
             color: secondaryColor,
           ),
@@ -100,7 +100,7 @@ class _PartnersState extends State<Partners> {
     Get.back();
     Get.snackbar('Delete', 'Partner deleted successfully.',
         colorText: secondaryColor,
-        icon: Icon(
+        icon: const Icon(
           FeatherIcons.info,
           color: secondaryColor,
         ),
@@ -111,14 +111,14 @@ class _PartnersState extends State<Partners> {
     return Container(
       width: Get.width,
       height: Get.height * 0.20,
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(
+      margin: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
+        borderRadius: const BorderRadius.all(
           Radius.circular(15),
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(2.0),
+        padding: const EdgeInsets.all(2.0),
         child: Column(
           children: [
             Container(
@@ -134,18 +134,18 @@ class _PartnersState extends State<Partners> {
     return Container(
       height: Get.height * 0.05,
       width: Get.width * 0.933,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+      decoration: const BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         color: secondaryColor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
-            margin: EdgeInsets.all(2),
+            margin: const EdgeInsets.all(2),
             height: Get.height * 0.2,
             width: Get.width * 0.30,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(12)),
               color: tertiaryColor,
             ),
@@ -183,19 +183,20 @@ class _PartnersState extends State<Partners> {
             if (partnersList.isEmpty) {
               return Container(
                   height: Get.height * 0.4,
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: SvgPicture.asset('assets/svg/nothing.svg'));
             } else {
               return Container(
-                margin: EdgeInsets.all(12),
+                margin: const EdgeInsets.all(12),
                 child: GridView.builder(
-                    physics: ScrollPhysics(),
+                    physics: const ScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 2 / 1,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10),
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                            childAspectRatio: 2 / 1,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10),
                     itemCount: partnersList.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
@@ -203,7 +204,7 @@ class _PartnersState extends State<Partners> {
                           partnerDetailForm(partnersList[index]['uid']);
                         },
                         child: Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             color: primaryColor,
                             borderRadius: BorderRadius.circular(12),
@@ -233,12 +234,9 @@ class _PartnersState extends State<Partners> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      FittedBox(
-                                        fit: BoxFit.fitWidth,
-                                        child: Text(
-                                          partnersList[index]['partnername'],
-                                          style: style2,
-                                        ),
+                                      Text(
+                                        partnersList[index]['partnername'],
+                                        style: style2,
                                       ),
                                       Text(
                                         partnersList[index]['partnercontact'],
@@ -261,7 +259,7 @@ class _PartnersState extends State<Partners> {
 
   partnerAddForm() {
     return Get.bottomSheet(
-      AddPartner(),
+      const AddPartner(),
     );
   }
 
@@ -310,7 +308,7 @@ class _PartnersState extends State<Partners> {
                                         color: primaryColor.withOpacity(0.5),
                                         spreadRadius: 1,
                                         blurRadius: 1,
-                                        offset: Offset(1, 1),
+                                        offset: const Offset(1, 1),
                                       ),
                                     ],
                                   ),
@@ -330,7 +328,7 @@ class _PartnersState extends State<Partners> {
                                         onPressed: () {
                                           getImage();
                                         },
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.edit_outlined,
                                           size: 20,
                                           color: secondaryColor,
@@ -398,7 +396,7 @@ class _PartnersState extends State<Partners> {
                                         : () {
                                             Get.back();
                                           },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       FeatherIcons.x,
                                       size: 28,
                                       color: secondaryColor,
@@ -439,7 +437,7 @@ class _PartnersState extends State<Partners> {
                                         ),
                                       );
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       FeatherIcons.trash,
                                       size: 28,
                                       color: errorColor,
@@ -449,7 +447,7 @@ class _PartnersState extends State<Partners> {
                                     onPressed: () {
                                       partnerUpdate(detail);
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       FeatherIcons.save,
                                       size: 28,
                                       color: tertiaryColor,
@@ -463,7 +461,7 @@ class _PartnersState extends State<Partners> {
                       );
                     });
               } else {
-                return Text("No data");
+                return const Text("No data");
               }
             },
           ),
