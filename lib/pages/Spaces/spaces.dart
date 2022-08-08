@@ -5,7 +5,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:spaco/pages/Spaces/bodyCard.dart';
+import 'package:spaco/pages/Spaces/spaceCard.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/space_services.dart';
 import 'package:spaco/utils/constant.dart';
@@ -167,7 +167,7 @@ class _SpacesState extends State<Spaces> {
       Get.back();
       Get.snackbar('Stored', 'Space added successfully.',
           colorText: secondaryColor,
-          icon: Icon(
+          icon: const Icon(
             FeatherIcons.info,
             color: secondaryColor,
           ),
@@ -258,7 +258,7 @@ class _SpacesState extends State<Spaces> {
       Get.back();
       Get.snackbar('Update', 'Space updated successfully.',
           colorText: secondaryColor,
-          icon: Icon(
+          icon: const Icon(
             FeatherIcons.info,
             color: secondaryColor,
           ),
@@ -287,7 +287,7 @@ class _SpacesState extends State<Spaces> {
     Get.back();
     Get.snackbar('Deleted', 'Space deleted successfully.',
         colorText: secondaryColor,
-        icon: Icon(
+        icon: const Icon(
           FeatherIcons.info,
           color: secondaryColor,
         ),
@@ -298,14 +298,14 @@ class _SpacesState extends State<Spaces> {
     return Container(
       width: Get.width,
       height: Get.height * 0.20,
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
+      margin: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(
-          Radius.circular(15),
+          const Radius.circular(15),
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(1.0),
+        padding: const EdgeInsets.all(1.0),
         child: Column(
           children: [
             Container(
@@ -333,19 +333,20 @@ class _SpacesState extends State<Spaces> {
             if (spacesList.isEmpty) {
               return Container(
                   height: Get.height * 0.4,
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: SvgPicture.asset('assets/svg/nothing.svg'));
             } else {
               return Container(
-                margin: EdgeInsets.all(12),
+                margin: const EdgeInsets.all(12),
                 child: GridView.builder(
-                    physics: ScrollPhysics(),
+                    physics: const ScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 1.3 / 1.8,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10),
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                            childAspectRatio: 1.3 / 1.8,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10),
                     itemCount: spacesList.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
@@ -353,7 +354,7 @@ class _SpacesState extends State<Spaces> {
                             clearForm();
                             spaceDetailSheet(spacesList[index]['uid']);
                           },
-                          child: bodyCard(
+                          child: spaceCard(
                             spacesList[index]['spaceImage1'],
                             spacesList[index]['spaceName'],
                             spacesList[index]['spaceEmail'],
@@ -372,7 +373,7 @@ class _SpacesState extends State<Spaces> {
     return Container(
       height: Get.height * 0.05,
       width: Get.width * 0.933,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         color: secondaryColor,
       ),
@@ -380,10 +381,10 @@ class _SpacesState extends State<Spaces> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
-            margin: EdgeInsets.all(2),
+            margin: const EdgeInsets.all(2),
             height: Get.height * 0.2,
             width: Get.width * 0.30,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(12)),
               color: tertiaryColor,
             ),
@@ -413,7 +414,7 @@ class _SpacesState extends State<Spaces> {
           borderRadius: BorderRadius.circular(12),
         ),
         height: Get.height * 0.6,
-        margin: EdgeInsets.all(0),
+        margin: const EdgeInsets.all(0),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -533,7 +534,7 @@ class _SpacesState extends State<Spaces> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Container(
@@ -756,7 +757,7 @@ class _SpacesState extends State<Spaces> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 15,
                                   ),
                                   Container(
@@ -768,16 +769,16 @@ class _SpacesState extends State<Spaces> {
                                           Get.back();
                                           Get.dialog(
                                             AlertDialog(
-                                              title: Text('Warning'),
-                                              content: Text(
+                                              title: const Text('Warning'),
+                                              content: const Text(
                                                   'space will be deleted!'),
                                               actions: [
                                                 TextButton(
-                                                  child: Text("Close"),
+                                                  child: const Text("Close"),
                                                   onPressed: () => Get.back(),
                                                 ),
                                                 TextButton(
-                                                  child: Text("Delete"),
+                                                  child: const Text("Delete"),
                                                   onPressed: () =>
                                                       spaceDelete(detail),
                                                 ),
@@ -787,7 +788,7 @@ class _SpacesState extends State<Spaces> {
                                         },
                                         style: ElevatedButton.styleFrom(
                                             primary: errorColor,
-                                            padding: EdgeInsets.all(13),
+                                            padding: const EdgeInsets.all(13),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(8),
@@ -799,7 +800,7 @@ class _SpacesState extends State<Spaces> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 15,
                                   ),
                                   Container(
@@ -832,7 +833,7 @@ class _SpacesState extends State<Spaces> {
                       );
                     });
               } else {
-                return Text("No data");
+                return const Text("No data");
               }
             },
           ),
@@ -853,7 +854,7 @@ class _SpacesState extends State<Spaces> {
     return Scaffold(
       appBar: getAppBar('spaces', context),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             spaceTopHeader(),

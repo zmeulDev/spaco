@@ -30,10 +30,10 @@ class SpacoShowImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: this is not working
     if (imagePath == '') {
       imagePath = 'assets/logo/spaco_logo_green_512.png';
     }
-    // TODO: if no imagePath, show default image
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),

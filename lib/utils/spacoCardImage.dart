@@ -5,8 +5,8 @@ import 'package:spaco/utils/constant.dart';
 
 spacoCardImage(networkImage) {
   return Container(
-    margin: EdgeInsets.all(3),
-    padding: EdgeInsets.all(3),
+    margin: const EdgeInsets.all(3),
+    padding: const EdgeInsets.all(3),
     decoration: BoxDecoration(
       color: secondaryColor,
       borderRadius: BorderRadius.circular(12),
@@ -22,7 +22,7 @@ spacoCardImage(networkImage) {
               ? DecorationImage(
                   image: CachedNetworkImageProvider(networkImage),
                   fit: BoxFit.cover)
-              : DecorationImage(
+              : const DecorationImage(
                   image: AssetImage('assets/logo/spaco_logo_green_512.png'),
                   fit: BoxFit.fitHeight,
                 ),

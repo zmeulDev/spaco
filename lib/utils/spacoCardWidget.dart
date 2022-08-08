@@ -10,9 +10,9 @@ spacoCard(color, title, subtitle, icon, onPressed) {
     child: Container(
       width: Get.height * 0.4,
       height: Get.width,
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         color: color,
       ),
       child: Padding(

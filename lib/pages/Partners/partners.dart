@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spaco/pages/Partners/addPartner.dart';
+import 'package:spaco/pages/Partners/partnerCard.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/utils/constant.dart';
@@ -193,63 +196,18 @@ class _PartnersState extends State<Partners> {
                     shrinkWrap: true,
                     gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            childAspectRatio: 2 / 1,
+                            maxCrossAxisExtent: 150,
+                            childAspectRatio: 1.3 / 1.5,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10),
                     itemCount: partnersList.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
-                        onTap: () {
-                          partnerDetailForm(partnersList[index]['uid']);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  partnersList[index]['profileurl'] == ''
-                                      ? Image.asset(
-                                          'assets/logo/spaco_logo_green_512.png',
-                                          fit: BoxFit.cover,
-                                          height: Get.height * 0.04,
-                                        )
-                                      : SpacoShowImage(
-                                          imagePath: partnersList[index]
-                                              ['profileurl'],
-                                          width: 60,
-                                          height: 60,
-                                          radius: 12,
-                                        ),
-                                  SizedBox(
-                                    width: Get.width * 0.05,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        partnersList[index]['partnername'],
-                                        style: style2,
-                                      ),
-                                      Text(
-                                        partnersList[index]['partnercontact'],
-                                        style: style3,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                          onTap: () {
+                            partnerDetailForm(partnersList[index]['uid']);
+                          },
+                          child: partnerCard(partnersList[index]['profileurl'],
+                              partnersList[index]['partnername']));
                     }),
               );
             }
@@ -299,32 +257,33 @@ class _PartnersState extends State<Partners> {
                             Stack(
                               children: [
                                 Container(
-                                  height: 120,
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: primaryColor.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 1,
-                                        offset: const Offset(1, 1),
-                                      ),
-                                    ],
-                                  ),
-                                  child: SpacoShowImage(
-                                    imagePath: detail['profileurl'] ??
-                                        'assets/logo/spaco_logo_green_512.png',
-                                    width: 60,
-                                    height: 60,
-                                    radius: 12,
-                                  ),
-                                ),
+                                    height: Get.height * 0.2,
+                                    width: Get.width * 0.9,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: primaryColor.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 1,
+                                          offset: const Offset(1, 1),
+                                        ),
+                                      ],
+                                    ),
+                                    child: detail['profileurl'] == ''
+                                        ? SvgPicture.asset(
+                                            'assets/svg/no_file.svg')
+                                        : SpacoShowImage(
+                                            imagePath: detail['profileurl'],
+                                            width: 60,
+                                            height: 60,
+                                            radius: 12,
+                                          )),
                                 Positioned(
-                                    right: 0,
-                                    bottom: 0,
+                                    right: 3,
+                                    bottom: 3,
                                     child: CircleAvatar(
-                                      backgroundColor: fourthColor,
+                                      backgroundColor: secondaryColor,
                                       child: IconButton(
                                         onPressed: () {
                                           getImage();
@@ -332,10 +291,10 @@ class _PartnersState extends State<Partners> {
                                         icon: const Icon(
                                           Icons.edit_outlined,
                                           size: 20,
-                                          color: secondaryColor,
+                                          color: primaryColor,
                                         ),
                                         splashRadius: 5.0,
-                                        splashColor: Colors.grey,
+                                        splashColor: tertiaryColor,
                                       ),
                                     ))
                               ],

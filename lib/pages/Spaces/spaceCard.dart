@@ -4,7 +4,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:spaco/utils/constant.dart';
 
-bodyCard(cardImage, spaceName, spaceEmail, spaceNoPeople, spaceTV,
+spaceCard(cardImage, spaceName, spaceEmail, spaceNoPeople, spaceTV,
     spaceAirConditioning) {
   return Stack(
     children: [
@@ -17,7 +17,7 @@ bodyCard(cardImage, spaceName, spaceEmail, spaceNoPeople, spaceTV,
       Column(
         children: [
           Container(
-            margin: EdgeInsets.all(8),
+            margin: const EdgeInsets.all(8),
             height: Get.height * 0.2,
             decoration: BoxDecoration(
               color: primaryColor,
@@ -26,13 +26,14 @@ bodyCard(cardImage, spaceName, spaceEmail, spaceNoPeople, spaceTV,
                   ? DecorationImage(
                       image: CachedNetworkImageProvider(cardImage),
                       fit: BoxFit.cover)
-                  : DecorationImage(
+                  : const DecorationImage(
                       image: AssetImage('assets/logo/spaco_logo_green_512.png'),
                       fit: BoxFit.cover),
             ),
           ),
           Container(
-              margin: EdgeInsets.only(top: 8, left: 12, right: 12, bottom: 5),
+              margin:
+                  const EdgeInsets.only(top: 8, left: 12, right: 12, bottom: 5),
               child: Column(
                 children: [
                   Row(
@@ -48,7 +49,7 @@ bodyCard(cardImage, spaceName, spaceEmail, spaceNoPeople, spaceTV,
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -56,11 +57,11 @@ bodyCard(cardImage, spaceName, spaceEmail, spaceNoPeople, spaceTV,
                     children: [
                       Row(
                         children: <Widget>[
-                          Icon(
+                          const Icon(
                             FeatherIcons.users,
                             size: 13,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
@@ -71,11 +72,11 @@ bodyCard(cardImage, spaceName, spaceEmail, spaceNoPeople, spaceTV,
                       ),
                       Row(
                         children: <Widget>[
-                          Icon(
+                          const Icon(
                             FeatherIcons.monitor,
                             size: 13,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
@@ -86,11 +87,11 @@ bodyCard(cardImage, spaceName, spaceEmail, spaceNoPeople, spaceTV,
                       ),
                       Row(
                         children: <Widget>[
-                          Icon(
+                          const Icon(
                             FeatherIcons.wind,
                             size: 13,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(

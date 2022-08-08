@@ -85,8 +85,8 @@ class _AddPartnerState extends State<AddPartner> {
             Stack(
               children: [
                 Container(
-                  height: 120,
-                  width: 120,
+                  height: Get.height * 0.2,
+                  width: Get.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.0),
                     boxShadow: [
