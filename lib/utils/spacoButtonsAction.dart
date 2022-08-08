@@ -16,54 +16,51 @@ class _SpacoButtonsActionState extends State<SpacoButtonsAction> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SafeArea(
+      minimum: const EdgeInsets.all(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: 52,
-            width: 80,
-            child: Center(
-              child: ElevatedButton(
-                onPressed: isLoading == true
-                    ? () {}
-                    : () {
-                        Get.back();
-                      },
-                style: ElevatedButton.styleFrom(
-                    primary: secondaryColor,
-                    padding: const EdgeInsets.all(13),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    )),
-                child: Text(
-                  'Cancel',
-                  style: style2.copyWith(color: primaryColor),
-                ),
+          SizedBox(
+            height: Get.height * 0.04,
+            width: Get.width * 0.2,
+            child: ElevatedButton(
+              onPressed: isLoading == true
+                  ? () {}
+                  : () {
+                      Get.back();
+                    },
+              style: ElevatedButton.styleFrom(
+                  primary: secondaryColor,
+                  padding: const EdgeInsets.all(8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  )),
+              child: Text(
+                'Cancel',
+                style: style3.copyWith(color: primaryColor),
               ),
             ),
           ),
           SizedBox(
-            width: 15,
+            width: Get.width * 0.05,
           ),
-          Container(
-            height: 52,
-            width: 80,
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  widget.saveButtonAction();
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: tertiaryColor,
-                    padding: EdgeInsets.all(13),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    )),
-                child: Text(
-                  'Save',
-                  style: style2,
-                ),
+          SizedBox(
+            height: Get.height * 0.04,
+            width: Get.width * 0.2,
+            child: ElevatedButton(
+              onPressed: () {
+                widget.saveButtonAction();
+              },
+              style: ElevatedButton.styleFrom(
+                  primary: tertiaryColor,
+                  padding: const EdgeInsets.all(8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  )),
+              child: Text(
+                'Save',
+                style: style3,
               ),
             ),
           ),

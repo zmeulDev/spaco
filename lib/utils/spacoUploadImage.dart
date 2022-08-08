@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:spaco/widgets/createAvatarWidget.dart';
 import 'package:spaco/widgets/createPartnerWidget.dart';
 
-Widget spacoUploadImage(String widgetType, _image) {
-  if (_image == '' || _image == null) {
+Widget spacoUploadImage(String widgetType, image) {
+  if (image == '' || image == null) {
     return Container(
       child: widgetType == 'profile'
           ? createAvatarWidget(75)
@@ -12,9 +12,9 @@ Widget spacoUploadImage(String widgetType, _image) {
     );
   } else {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(75),
+      borderRadius: BorderRadius.circular(12),
       child: Image.file(
-        _image!,
+        image!,
         fit: BoxFit.cover,
       ),
     );

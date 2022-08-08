@@ -313,7 +313,8 @@ class _PartnersState extends State<Partners> {
                                     ],
                                   ),
                                   child: SpacoShowImage(
-                                    imagePath: detail['profileurl'],
+                                    imagePath: detail['profileurl'] ??
+                                        'assets/logo/spaco_logo_green_512.png',
                                     width: 60,
                                     height: 60,
                                     radius: 12,

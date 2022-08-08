@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:spaco/models/partner_model.dart';
 import 'package:spaco/utils/constant.dart';
+import 'package:spaco/utils/spacoLoading.dart';
 
 createPartnerWidget(double radius) {
   String tempUserImg = 'assets/logo/spaco_logo_green_512.png';
@@ -18,15 +19,12 @@ createPartnerWidget(double radius) {
         : PartnerModel().partnerProfile,
     placeHolder: Container(
       color: secondaryColor,
-      child: Icon(
-        FeatherIcons.alertOctagon,
-        size: 36,
-      ),
+      child: spacoLoading(),
     ),
     errorWidget: Container(
       color: fourthColor,
-      child: Icon(
-        FeatherIcons.anchor,
+      child: const Icon(
+        CupertinoIcons.arrow_left_right_circle,
         size: 36,
       ),
     ),

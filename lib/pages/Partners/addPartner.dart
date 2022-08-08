@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
@@ -25,7 +23,7 @@ class _AddPartnerState extends State<AddPartner> {
   TextEditingController partnerEmailController = TextEditingController();
   TextEditingController partnerPhoneController = TextEditingController();
 
-  File? _image;
+  File? image;
 
   final picker = ImagePicker();
 
@@ -34,16 +32,16 @@ class _AddPartnerState extends State<AddPartner> {
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        image = File(pickedFile.path);
       });
     }
   }
 
   partnerStore() async {
     // store partner in firebase
-    var partnerImageUrlController = _image == null
+    var partnerImageUrlController = image == null
         ? null
-        : await PartnerServices.uploadPartnerImageToFirebase(_image);
+        : await PartnerServices.uploadPartnerImageToFirebase(image);
 
     PartnerServices.uploadPartnerDataToFirestore(
             uid: PartnerServices.partnerRef.doc().id,
@@ -56,7 +54,7 @@ class _AddPartnerState extends State<AddPartner> {
       Get.back();
       Get.snackbar('Create', 'Partner created successfully.',
           colorText: secondaryColor,
-          icon: Icon(
+          icon: const Icon(
             FeatherIcons.info,
             color: secondaryColor,
           ),
@@ -96,11 +94,11 @@ class _AddPartnerState extends State<AddPartner> {
                         color: primaryColor.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 1,
-                        offset: Offset(1, 1),
+                        offset: const Offset(1, 1),
                       ),
                     ],
                   ),
-                  child: spacoUploadImage('partner', _image),
+                  child: spacoUploadImage('partner', image),
                 ),
                 Positioned(
                     right: 5,
@@ -111,7 +109,7 @@ class _AddPartnerState extends State<AddPartner> {
                         onPressed: () {
                           getImage();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.edit_outlined,
                           size: 20,
                           color: secondaryColor,
@@ -163,10 +161,7 @@ class _AddPartnerState extends State<AddPartner> {
                 ),
               ],
             ),
-            Container(
-                height: 100,
-                width: 200,
-                child: SpacoButtonsAction(saveButtonAction: partnerStore)),
+            SpacoButtonsAction(saveButtonAction: partnerStore)
           ],
         ),
       ),
