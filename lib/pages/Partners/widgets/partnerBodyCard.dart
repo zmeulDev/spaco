@@ -1,11 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:spaco/utils/constant.dart';
+import 'package:spaco/utils/spacoLoading.dart';
 
-partnerCard(cardPartnerImage, cardPartnerName) {
+partnerBodyCard(cardPartnerImage, cardPartnerName) {
   return Stack(
     children: [
       Container(
@@ -33,15 +34,20 @@ partnerCard(cardPartnerImage, cardPartnerName) {
                       'assets/svg/no_file.svg',
                     ),
                   )
-                : Container(
-                    decoration: BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius: BorderRadius.circular(12),
-                      image: DecorationImage(
-                        image: CachedNetworkImageProvider(cardPartnerImage),
-                        fit: BoxFit.cover,
+                : CachedNetworkImage(
+                    imageUrl: cardPartnerImage,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
+                    placeholder: (context, url) => spacoLoading(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(CupertinoIcons.alarm),
                   ),
           ),
           Container(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spaco/utils/constant.dart';
 
+// TODO see if can be implemented everywhere
+
 class SpacoButtonsAction extends StatefulWidget {
   final saveButtonAction;
 

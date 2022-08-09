@@ -6,7 +6,7 @@ Widget spacoUploadImage(String widgetType, image) {
   if (image == '' || image == null) {
     return Container(
       child: widgetType == 'profile'
-          ? createAvatarWidget(75)
+          ? createAvatarWidget(12)
           : createPartnerWidget(12),
     );
   } else {

@@ -11,6 +11,8 @@ import 'package:spaco/utils/spacoCardWidget.dart';
 import 'package:spaco/widgets/createAvatarWidget.dart';
 
 class Profile extends StatefulWidget {
+  const Profile({Key? key}) : super(key: key);
+
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -38,16 +40,16 @@ class _ProfileState extends State<Profile> {
       actions: [
         IconButton(
             onPressed: () {
-              Get.to(() => EditProfile())!.then((value) {
+              Get.to(() => const EditProfile())!.then((value) {
                 setState(() {});
               });
             },
-            icon: Icon(
+            icon: const Icon(
               FeatherIcons.edit,
               color: primaryColor,
               size: 22,
             )),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
       ],
@@ -58,8 +60,8 @@ class _ProfileState extends State<Profile> {
     return Container(
       width: Get.width,
       height: Get.height * 0.30,
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
+      margin: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(
           Radius.circular(15),
         ),
@@ -73,10 +75,14 @@ class _ProfileState extends State<Profile> {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            createAvatarWidget(Get.height * 0.07),
+            Container(
+              height: Get.height * 0.17,
+              width: Get.width * 0.40,
+              child: createAvatarWidget(12),
+            ),
             SizedBox(
               height: Get.height * 0.02,
             ),
@@ -98,7 +104,7 @@ class _ProfileState extends State<Profile> {
                     'Email',
                     style: style3,
                   ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Text(
@@ -116,16 +122,14 @@ class _ProfileState extends State<Profile> {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-          Container(
-            child: Column(
-              children: [
-                profileTopHeader(),
-                SizedBox(
-                  height: Get.height * 0.01,
-                ),
-                profileBodyDetails(),
-              ],
-            ),
+          Column(
+            children: [
+              profileTopHeader(),
+              SizedBox(
+                height: Get.height * 0.01,
+              ),
+              profileBodyDetails(),
+            ],
           ),
         ],
       ),
@@ -133,20 +137,21 @@ class _ProfileState extends State<Profile> {
   }
 
   profileBodyDetails() {
-    return Container(
+    return SizedBox(
       width: Get.width,
       height: Get.height * 0.11,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              spacoCard(scaffoldColor, 'Booking', '#reserve',
+              spacoCard(tertiaryColor, 'Booking', '#reserve',
                   FeatherIcons.calendar, Bookings()),
-              spacoCard(scaffoldColor, 'Partners', '#colaborate',
+              spacoCard(secondaryColor, 'Partners', '#colaborate',
                   FeatherIcons.hexagon, Home()),
-              spacoCard(scaffoldColor, 'Rooms', '#space', FeatherIcons.airplay,
-                  Spaces()),
+              spacoCard(fourthColor, 'Rooms', '#space', FeatherIcons.airplay,
+                  const Spaces()),
             ],
           )
         ],

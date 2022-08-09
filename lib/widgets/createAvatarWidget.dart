@@ -1,8 +1,8 @@
 import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:spaco/models/user_model.dart';
 import 'package:spaco/utils/constant.dart';
+import 'package:spaco/utils/spacoLoading.dart';
 
 createAvatarWidget(double radius) {
   return AvatarView(
@@ -11,13 +11,10 @@ createAvatarWidget(double radius) {
     avatarType: AvatarType.RECTANGLE,
     backgroundColor: primaryColor,
     imagePath: UserModel().profileUrl,
-    placeHolder: Container(
-      color: secondaryColor,
-      child: Image.asset('assets/logo/spaco_logo_green_512.png'),
-    ),
+    placeHolder: spacoLoading(),
     errorWidget: Container(
       color: fourthColor,
-      child: Image.asset('assets/logo/spaco_logo_green_512.png'),
+      child: const Icon(CupertinoIcons.alarm, size: 36),
     ),
   );
 }

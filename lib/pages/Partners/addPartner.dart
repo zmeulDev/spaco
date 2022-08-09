@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/spacoUploadImage.dart';
-import 'package:spaco/utils/spacoButtonsAction.dart';
 import 'package:spaco/utils/spacoInputWidget.dart';
 
 class AddPartner extends StatefulWidget {
@@ -18,6 +17,8 @@ class AddPartner extends StatefulWidget {
 
 class _AddPartnerState extends State<AddPartner> {
   bool isLoading = false;
+  String saveText = 'Create';
+  Color saveColor = tertiaryColor;
   TextEditingController partnerContactController = TextEditingController();
   TextEditingController partnerNameController = TextEditingController();
   TextEditingController partnerEmailController = TextEditingController();
@@ -161,7 +162,61 @@ class _AddPartnerState extends State<AddPartner> {
                 ),
               ],
             ),
-            SpacoButtonsAction(saveButtonAction: partnerStore)
+            SafeArea(
+              minimum: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: Get.height * 0.04,
+                    width: Get.width * 0.2,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: secondaryColor,
+                          padding: const EdgeInsets.all(8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          )),
+                      child: Text(
+                        'Cancel',
+                        style: style3.copyWith(color: primaryColor),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: Get.width * 0.05,
+                  ),
+                  SizedBox(
+                    height: Get.height * 0.04,
+                    width: Get.width * 0.2,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isLoading = true;
+                          partnerStore();
+                          saveText = 'Saving...';
+                          saveColor = warningColor;
+                          isLoading = false;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: saveColor,
+                          padding: const EdgeInsets.all(8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          )),
+                      child: Text(
+                        saveText,
+                        style: style3,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

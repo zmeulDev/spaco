@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:spaco/Services/auth_services.dart';
 import 'package:spaco/models/user_model.dart';
 import 'package:spaco/pages/Auth/chooseloginsignup.dart';
+import 'package:spaco/services/auth_services.dart';
 import 'package:spaco/utils/constant.dart';
 import 'package:spaco/utils/helper.dart';
 import 'package:spaco/utils/spacoInputWidget.dart';
@@ -22,24 +22,24 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   bool isLoading = false;
+  String saveText = 'Save';
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNoController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   String? userImg;
 
-  updateData() async {
+  updateUserProfile() async {
     setState(() {
       isLoading = true;
+      saveText = 'Saving...';
     });
     UserModel().username = nameController.text;
     UserModel().phoneNo = phoneNoController.text;
     UserModel().email = emailController.text;
     //UserModel().profileUrl = ?;
-    var res = _image == null
-        ? await AuthServices.updateUserDatainFirestoreWithoutImage(
-            UserModel().uid!)
-        : await AuthServices.updateUserDatainFirestore(
-            _image!, UserModel().uid!);
+    var res = image == null
+        ? await AuthServices.updateUserWithoutImage(UserModel().uid!)
+        : await AuthServices.updateUser(image!, UserModel().uid!);
     if (res == "Success") {
       setState(() {
         isLoading = false;
@@ -69,7 +69,7 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
-  File? _image;
+  File? image;
 
   final picker = ImagePicker();
 
@@ -78,7 +78,7 @@ class _EditProfileState extends State<EditProfile> {
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        image = File(pickedFile.path);
       });
     }
   }
@@ -92,48 +92,46 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   getBody() {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
     return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       child: Container(
         color: primaryColor,
-        width: width,
-        height: height,
+        width: Get.width,
+        height: Get.height,
         child: Column(
           children: [
             SizedBox(
-              height: height * 0.05,
+              height: Get.height * 0.05,
             ),
             Stack(
               children: [
                 Container(
-                  height: 150,
-                  width: 150,
+                  height: Get.height * 0.2,
+                  width: Get.width * 0.6,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+                    shape: BoxShape.rectangle,
                     boxShadow: [
                       BoxShadow(
                         color: primaryColor.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 1,
-                        offset: Offset(1, 1), // changes position of shadow
+                        offset:
+                            const Offset(1, 1), // changes position of shadow
                       ),
                     ],
                   ),
-                  child: spacoUploadImage('profile', _image),
+                  child: spacoUploadImage('profile', image),
                 ),
                 Positioned(
-                    right: 0,
-                    bottom: 0,
+                    right: 5,
+                    bottom: 5,
                     child: CircleAvatar(
                       backgroundColor: fourthColor,
                       child: IconButton(
                         onPressed: () {
                           getImage();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.edit_outlined,
                           size: 20,
                           color: secondaryColor,
@@ -145,52 +143,37 @@ class _EditProfileState extends State<EditProfile> {
               ],
             ),
             SizedBox(
-              height: height * 0.03,
+              height: Get.height * 0.03,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: spacoInput('Choose your name', 'UserName',
-                  TextInputType.text, FeatherIcons.user, nameController),
+                  TextInputType.text, CupertinoIcons.person, nameController),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: spacoInput(
                   'Choose your email',
                   'Email',
                   TextInputType.emailAddress,
-                  FeatherIcons.mail,
+                  CupertinoIcons.mail,
                   emailController),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
               child: TextField(
                 controller: phoneNoController,
                 readOnly: true,
                 decoration: InputDecoration(
-                  hintText: 'Phone number',
-                  labelText: 'Phone number',
-                  hintStyle: style2.copyWith(color: secondaryColor),
+                  labelText: 'Phone numberr',
                   labelStyle:
                       style3.copyWith(color: secondaryColor.withOpacity(0.5)),
-                  contentPadding:
-                      EdgeInsets.only(left: 8, bottom: 12, right: 5, top: 5),
-                  suffixIcon: Icon(
-                    CupertinoIcons.phone,
-                    color: primaryColor.withOpacity(0.5),
-                    size: 20,
-                  ),
                   enabledBorder: UnderlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       width: 1,
                       color: primaryColor,
-                    ),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: Colors.grey,
                     ),
                   ),
                 ),
@@ -198,73 +181,78 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: height * 0.08),
+              margin: EdgeInsets.only(top: Get.height * 0.08),
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 52,
-                    width: 80,
-                    child: Center(
-                      child: ElevatedButton(
-                        onPressed: isLoading == true
-                            ? () {}
-                            : () {
-                                Get.back();
-                              },
-                        style: ElevatedButton.styleFrom(
-                            primary: secondaryColor,
-                            padding: const EdgeInsets.all(13),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            )),
-                        child: Text(
-                          'Cancel',
-                          style: style2.copyWith(color: primaryColor),
-                        ),
+                  SizedBox(
+                    height: Get.height * 0.04,
+                    width: Get.width * 0.2,
+                    child: ElevatedButton(
+                      onPressed: isLoading == true
+                          ? () {}
+                          : () {
+                              Get.back();
+                            },
+                      style: ElevatedButton.styleFrom(
+                          primary: secondaryColor,
+                          padding: const EdgeInsets.all(8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          )),
+                      child: Text(
+                        'Cancel',
+                        style: style3.copyWith(color: primaryColor),
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 15,
+                    width: Get.width * 0.05,
                   ),
-                  Container(
-                    height: 52,
-                    width: 80,
-                    child: Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          updateData();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: tertiaryColor,
-                            padding: const EdgeInsets.all(13),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            )),
-                        child: Text(
-                          'Save',
-                          style: style2,
-                        ),
+                  SizedBox(
+                    height: Get.height * 0.04,
+                    width: Get.width * 0.2,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        updateUserProfile();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: tertiaryColor,
+                          padding: const EdgeInsets.all(8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          )),
+                      child: Text(
+                        saveText,
+                        style: style3,
                       ),
                     ),
                   ),
-                  Container(
-                    height: 44,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                  SizedBox(
+                    width: Get.width * 0.05,
+                  ),
+                  SizedBox(
+                    height: Get.height * 0.04,
+                    width: Get.width * 0.2,
                     child: ElevatedButton(
-                        onPressed: () {
-                          AuthServices.signOut().then((value) {
-                            Helper.toReplacementScreen(
-                                context, ChooseLoginSignup());
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
+                      onPressed: () {
+                        AuthServices.signOut().then((value) {
+                          Helper.toReplacementScreen(
+                              context, const ChooseLoginSignup());
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
                           primary: tertiaryColor,
-                          onPrimary: Colors.white,
-                        ),
-                        child: Text('Logout')),
+                          padding: const EdgeInsets.all(8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          )),
+                      child: Text(
+                        'Logout',
+                        style: style3,
+                      ),
+                    ),
                   ),
                 ],
               ),

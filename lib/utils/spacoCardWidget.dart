@@ -8,8 +8,8 @@ spacoCard(color, title, subtitle, icon, onPressed) {
       Get.to(onPressed);
     },
     child: Container(
-      width: Get.height * 0.4,
-      height: Get.width,
+      width: Get.width * 0.4,
+      height: Get.height,
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -18,7 +18,6 @@ spacoCard(color, title, subtitle, icon, onPressed) {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(

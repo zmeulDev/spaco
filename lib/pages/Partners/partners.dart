@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -8,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spaco/pages/Partners/addPartner.dart';
-import 'package:spaco/pages/Partners/partnerCard.dart';
+import 'package:spaco/pages/Partners/widgets/partnerBodyCard.dart';
 import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/services/partner_services.dart';
 import 'package:spaco/utils/constant.dart';
@@ -206,7 +204,8 @@ class _PartnersState extends State<Partners> {
                           onTap: () {
                             partnerDetailForm(partnersList[index]['uid']);
                           },
-                          child: partnerCard(partnersList[index]['profileurl'],
+                          child: partnerBodyCard(
+                              partnersList[index]['profileurl'],
                               partnersList[index]['partnername']));
                     }),
               );

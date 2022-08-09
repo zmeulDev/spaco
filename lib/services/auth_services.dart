@@ -57,8 +57,7 @@ class AuthServices {
     UserModel().email = userMap['email'];
   }
 
-  static Future<String> updateUserDatainFirestore(
-      File imageFile, String userId) async {
+  static Future<String> updateUser(File imageFile, String userId) async {
     String res;
     try {
       UserModel().profileUrl = await uploadImageToStorage(imageFile, userId);
@@ -70,8 +69,7 @@ class AuthServices {
     return res;
   }
 
-  static Future<String> updateUserDatainFirestoreWithoutImage(
-      String userId) async {
+  static Future<String> updateUserWithoutImage(String userId) async {
     String res;
     try {
       await userRef.doc(UserModel().uid).update(UserModel().toJson());
