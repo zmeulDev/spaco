@@ -15,37 +15,35 @@ class ChooseLoginSignup extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child: Container(
-              child: ClipPath(
-                clipper: OvalBottomBorderClipper(),
-                child: Container(
-                  height: Get.height * 0.5,
-                  width: Get.width,
-                  color: primaryColor,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/logo/spaco_logo_white_512.png',
-                          height: Get.height * 0.16, fit: BoxFit.contain),
-                      SizedBox(height: Get.height * 0.05),
-                      Text(
-                        'spaco',
-                        style: style1.copyWith(
-                            fontSize: 28, color: secondaryColor),
-                      ),
-                      Text(
-                        'co-space management',
-                        style: style2.copyWith(color: secondaryColor),
-                      ),
-                    ],
-                  ),
+            child: ClipPath(
+              clipper: OvalBottomBorderClipper(),
+              child: Container(
+                height: Get.height * 0.5,
+                width: Get.width,
+                color: primaryColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/logo/spaco_logo_white_512.png',
+                        height: Get.height * 0.16, fit: BoxFit.contain),
+                    SizedBox(height: Get.height * 0.05),
+                    Text(
+                      'spaco',
+                      style:
+                          style1.copyWith(fontSize: 28, color: secondaryColor),
+                    ),
+                    Text(
+                      'co-space management',
+                      style: style2.copyWith(color: secondaryColor),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 25),
+              margin: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

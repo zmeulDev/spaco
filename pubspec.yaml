@@ -39,12 +39,11 @@ dependencies:
       url: https://github.com/DPLYR-dev/SplashScreenFlutterPackage.git
       ref: master
   introduction_screen:
-  cloud_firestore:
-  firebase_core:
-  flutter_firebase_auth_facade:
+  cloud_firestore: ^3.4.4
+  firebase_core: ^1.20.1
   firebase_storage: ^10.1.0
-  google_sign_in:
-  firebase_auth:
+  google_sign_in: ^5.4.1
+  firebase_auth: ^3.6.3
   pin_code_fields: ^7.3.0
   google_nav_bar: ^5.0.5
   path_provider:

@@ -11,6 +11,8 @@ import 'package:spaco/pages/profile/profile.dart';
 import 'package:spaco/utils/constant.dart';
 
 class NavBar extends StatefulWidget {
+  const NavBar({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return NavigationBar();
@@ -20,11 +22,11 @@ class NavBar extends StatefulWidget {
 class NavigationBar extends State<NavBar> {
   int _currentIndex = 0;
   final List<Widget> _pages = [
-    Home(),
-    Bookings(),
-    Spaces(),
-    Partners(),
-    Profile(),
+    const Home(),
+    const Bookings(),
+    const Spaces(),
+    const Partners(),
+    const Profile(),
   ];
   int backPressCounter = 1;
   int backPressTotal = 2;
@@ -56,12 +58,12 @@ class NavigationBar extends State<NavBar> {
         body: _pages[_currentIndex],
         extendBody: true,
         bottomNavigationBar: SafeArea(
-          minimum: EdgeInsets.all(10.0),
+          minimum: const EdgeInsets.all(10.0),
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
             decoration: BoxDecoration(
               color: primaryColor,
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(12.0),
               ),
               boxShadow: [
@@ -85,9 +87,9 @@ class NavigationBar extends State<NavBar> {
                 tabBorderRadius: 12,
                 gap: 5,
                 iconSize: 24,
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                duration: Duration(milliseconds: 300),
-                tabs: [
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                duration: const Duration(milliseconds: 300),
+                tabs: const [
                   GButton(
                     icon: CupertinoIcons.dot_square,
                     text: 'Home',

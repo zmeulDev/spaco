@@ -56,13 +56,13 @@ class PartnerServices {
 
   static Future<void> favPartner(doc, String isFav) async {
     return partnerRef.doc(doc).update(
-      {'isFav': '$isFav'},
+      {'isFav': isFav},
     );
   }
 
   static Future<void> mainPartner(doc, String isMain) async {
     return partnerRef.doc(doc).update(
-      {'isMain': '$isMain'},
+      {'isMain': isMain},
     );
   }
 

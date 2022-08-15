@@ -269,7 +269,7 @@ class _EditProfileState extends State<EditProfile> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             FeatherIcons.arrowLeft,
             color: secondaryColor,
           )),

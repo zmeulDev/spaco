@@ -114,7 +114,7 @@ class _PartnersState extends State<Partners> {
       height: Get.height * 0.20,
       margin: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
-        borderRadius: const BorderRadius.all(
+        borderRadius: BorderRadius.all(
           Radius.circular(15),
         ),
       ),
@@ -122,7 +122,7 @@ class _PartnersState extends State<Partners> {
         padding: const EdgeInsets.all(2.0),
         child: Column(
           children: [
-            Container(
+            SizedBox(
                 height: Get.height * 0.18,
                 child: SvgPicture.asset('assets/svg/partners.svg')),
           ],
@@ -136,7 +136,7 @@ class _PartnersState extends State<Partners> {
       height: Get.height * 0.05,
       width: Get.width * 0.933,
       decoration: const BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         color: secondaryColor,
       ),
       child: Row(

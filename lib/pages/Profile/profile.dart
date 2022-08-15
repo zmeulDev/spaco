@@ -22,7 +22,7 @@ class _ProfileState extends State<Profile> {
     return AppBar(
       leading: IconButton(
         onPressed: () {
-          Get.to(Home());
+          Get.to(const Home());
         },
         icon: Image.asset(
           'assets/logo/spaco_logo_black_512.png',
@@ -78,7 +78,7 @@ class _ProfileState extends State<Profile> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: Get.height * 0.17,
               width: Get.width * 0.40,
               child: createAvatarWidget(12),
@@ -147,9 +147,9 @@ class _ProfileState extends State<Profile> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               spacoCard(tertiaryColor, 'Booking', '#reserve',
-                  FeatherIcons.calendar, Bookings()),
+                  FeatherIcons.calendar, const Bookings()),
               spacoCard(secondaryColor, 'Partners', '#colaborate',
-                  FeatherIcons.hexagon, Home()),
+                  FeatherIcons.hexagon, const Home()),
               spacoCard(fourthColor, 'Rooms', '#space', FeatherIcons.airplay,
                   const Spaces()),
             ],

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +40,7 @@ class SpacoShowImage extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),
       child: isAssets
-          ? Container(
+          ? SizedBox(
               height: height,
               width: width,
               child: Image.asset(
@@ -61,14 +63,13 @@ class SpacoShowImage extends StatelessWidget {
                   ),
                 ),
               ),
-              placeholder: (context, url) => Container(
+              placeholder: (context, url) => SizedBox(
                 height: height,
                 width: width,
                 child: spacoLoading(),
               ),
-              errorWidget: (context, url, error) => Container(
-                child: const Icon(CupertinoIcons.alarm),
-              ),
+              errorWidget: (context, url, error) =>
+                  const Icon(CupertinoIcons.alarm),
             ),
     );
   }

@@ -301,14 +301,14 @@ class _SpacesState extends State<Spaces> {
       margin: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(
-          const Radius.circular(15),
+          Radius.circular(15),
         ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: Column(
           children: [
-            Container(
+            SizedBox(
                 height: Get.height * 0.18,
                 child: SvgPicture.asset('assets/svg/spaces.svg')),
           ],
@@ -511,7 +511,7 @@ class _SpacesState extends State<Spaces> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 52,
                       width: 80,
                       child: Center(
@@ -537,7 +537,7 @@ class _SpacesState extends State<Spaces> {
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
+                    SizedBox(
                       height: 52,
                       width: 80,
                       child: Center(
@@ -607,7 +607,7 @@ class _SpacesState extends State<Spaces> {
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
-                            Container(
+                            SizedBox(
                               width: Get.width,
                               height: Get.height * 0.25,
                               child: ListView(
@@ -731,7 +731,7 @@ class _SpacesState extends State<Spaces> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     height: 52,
                                     width: 80,
                                     child: Center(
@@ -760,7 +760,7 @@ class _SpacesState extends State<Spaces> {
                                   const SizedBox(
                                     width: 15,
                                   ),
-                                  Container(
+                                  SizedBox(
                                     height: 52,
                                     width: 80,
                                     child: Center(
@@ -803,7 +803,7 @@ class _SpacesState extends State<Spaces> {
                                   const SizedBox(
                                     width: 15,
                                   ),
-                                  Container(
+                                  SizedBox(
                                     height: 52,
                                     width: 80,
                                     child: Center(

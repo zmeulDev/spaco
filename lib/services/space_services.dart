@@ -99,13 +99,13 @@ class SpaceServices {
 
   static Future<void> favSpace(doc, String spaceIsFavorite) async {
     return spaceRef.doc(doc).update(
-      {'spaceIsFavorite': '$spaceIsFavorite'},
+      {'spaceIsFavorite': spaceIsFavorite},
     );
   }
 
   static Future<void> mainSpace(doc, String spaceIsMain) async {
     return spaceRef.doc(doc).update(
-      {'spaceIsMain': '$spaceIsMain'},
+      {'spaceIsMain': spaceIsMain},
     );
   }
 
@@ -118,9 +118,9 @@ class SpaceServices {
   }
 
   static Future<String> uploadSpaceImageToFirebase(image) async {
-    final _random = new Random();
+    final random = Random();
     final String fileName = String.fromCharCodes(
-        List.generate(30, (index) => _random.nextInt(33) + 89));
+        List.generate(30, (index) => random.nextInt(33) + 89));
     String url;
     Reference firebaseStorageRef =
         FirebaseStorage.instance.ref().child('spaces/$fileName');

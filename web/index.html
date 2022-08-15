@@ -33,6 +33,30 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+<!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="/__/firebase/8.10.1/firebase-app.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="/__/firebase/8.10.1/firebase-auth.js"></script>
+<script src="/__/firebase/8.10.1/firebase-firestore.js"></script>
+
+<script type="module">
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAR4c5plummNE6czva6Kpm1JIiyq2dBlgA",
+    authDomain: "spaco-ab667.firebaseapp.com",
+    projectId: "spaco-ab667",
+    storageBucket: "spaco-ab667.appspot.com",
+    messagingSenderId: "298887553130",
+    appId: "1:298887553130:web:883138fae7037db035ea13"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+</script>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->

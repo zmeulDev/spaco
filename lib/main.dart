@@ -8,16 +8,19 @@ import 'package:spaco/utils/constant.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((_) {
-    runApp(new MyApp());
+    runApp(const MyApp());
   });
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blueGrey,
           scaffoldBackgroundColor: scaffoldColor,
           canvasColor: Colors.white),
-      home: Splash(),
+      home: const Splash(),
     );
   }
 }

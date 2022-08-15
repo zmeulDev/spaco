@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:spaco/models/partner_model.dart';

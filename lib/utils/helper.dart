@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'constant.dart';
 
 class Helper {
-  static setHeight(BuildContext context, {height: 1}) {
+  static setHeight(BuildContext context, {height = 1}) {
     return MediaQuery.of(context).size.height * height;
   }
 
-  static setWidth(BuildContext context, {width: 1}) {
+  static setWidth(BuildContext context, {width = 1}) {
     return MediaQuery.of(context).size.width * width;
   }
 
@@ -20,11 +20,11 @@ class Helper {
         context, MaterialPageRoute(builder: (context) => screen));
   }
 
-  static showSnack(context, message, {color: tertiaryColor, duration: 4}) {
+  static showSnack(context, message, {color = tertiaryColor, duration = 4}) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           message,
-          style: TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14),
         ),
         backgroundColor: color,
         duration: Duration(seconds: duration)));

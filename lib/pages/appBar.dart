@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +11,7 @@ getAppBar(String screenName, context) {
   return AppBar(
     leading: IconButton(
       onPressed: () {
-        Get.to(() => Home());
+        Get.to(() => const Home());
       },
       icon: Image.asset(
         'assets/logo/spaco_logo_black_512.png',
@@ -28,7 +30,7 @@ getAppBar(String screenName, context) {
     actions: [
       IconButton(
         onPressed: () {
-          Get.to(() => Profile());
+          Get.to(() => const Profile());
         },
         icon: Icon(
           CupertinoIcons.person,

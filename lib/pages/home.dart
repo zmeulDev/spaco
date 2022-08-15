@@ -6,6 +6,8 @@ import 'package:spaco/pages/appBar.dart';
 import 'package:spaco/utils/constant.dart';
 
 class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -21,16 +23,14 @@ class _HomeState extends State<Home> {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-          Container(
-            child: Column(
-              children: [
-                homeInfoContainer(),
-                SizedBox(
-                  height: Get.height * 0.02,
-                ),
-                homeDetailsContainer(),
-              ],
-            ),
+          Column(
+            children: [
+              homeInfoContainer(),
+              SizedBox(
+                height: Get.height * 0.02,
+              ),
+              homeDetailsContainer(),
+            ],
           ),
         ],
       ),
@@ -41,8 +41,8 @@ class _HomeState extends State<Home> {
     return Container(
       width: Get.width,
       height: Get.height * 0.30,
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
+      margin: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(
           Radius.circular(15),
         ),
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
     return Container(
       width: Get.width * 0.5,
       height: Get.height * 0.13,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         color: primaryColor,
       ),
@@ -101,7 +101,7 @@ class _HomeState extends State<Home> {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   FeatherIcons.coffee,
                   color: secondaryColor,
                   size: 44,

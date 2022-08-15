@@ -10,13 +10,15 @@ import 'package:spaco/pages/navbar.dart';
 import 'package:spaco/utils/constant.dart';
 
 class Splash extends StatefulWidget {
+  const Splash({Key? key}) : super(key: key);
+
   @override
   State<Splash> createState() => _SplashState();
 }
 
 class _SplashState extends State<Splash> {
   initUserModel() async {
-    var user = await AuthServices.auth.currentUser;
+    var user = AuthServices.auth.currentUser;
     AuthServices.setCurrentUserToMap(user!.uid);
   }
 
@@ -24,17 +26,17 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Future.delayed(
-        Duration(seconds: 3),
+        const Duration(seconds: 3),
         () async => await AuthServices.getCurrentUser(),
       ),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return MaterialApp(
+          return const MaterialApp(
             debugShowCheckedModeBanner: false,
             home: SplashScreen(),
           );
         } else if (snapshot.hasError || snapshot.data == null) {
-          return MaterialApp(
+          return const MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(
               body: ChooseLoginSignup(),
@@ -42,7 +44,7 @@ class _SplashState extends State<Splash> {
           );
         } else {
           initUserModel();
-          return NavBar();
+          return const NavBar();
         }
       },
     );
@@ -50,6 +52,8 @@ class _SplashState extends State<Splash> {
 }
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -74,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: AnimatedSplashScreen(
         splash: logoWidget(),
         splashIconSize: 300,
-        nextScreen: ChooseLoginSignup(),
+        nextScreen: const ChooseLoginSignup(),
         splashTransition: SplashTransition.slideTransition,
         pageTransitionType: PageTransitionType.fade,
         backgroundColor: primaryColor,

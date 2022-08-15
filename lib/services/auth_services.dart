@@ -24,8 +24,8 @@ class AuthServices {
   }
 
   static Future<Map<String, dynamic>> getUserDetails(userId) async {
-    DocumentSnapshot _userData = await userRef.doc(userId).get();
-    Object? data = _userData.data();
+    DocumentSnapshot userData = await userRef.doc(userId).get();
+    Object? data = userData.data();
     return data as Map<String, dynamic>;
   }
 
@@ -117,13 +117,13 @@ class AuthServices {
 
   static Future<void> favQr(doc, String isFav) async {
     return qrCodeRef.doc(doc).update(
-      {'isFav': '$isFav'},
+      {'isFav': isFav},
     );
   }
 
   static Future<void> mainQr(doc, String isMain) async {
     return qrCodeRef.doc(doc).update(
-      {'isMain': '$isMain'},
+      {'isMain': isMain},
     );
   }
 

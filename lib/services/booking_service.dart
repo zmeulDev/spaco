@@ -54,13 +54,13 @@ class BookingServices {
 
   static Future<void> favBooking(doc, String isFav) async {
     return bookingRef.doc(doc).update(
-      {'isFav': '$isFav'},
+      {'isFav': isFav},
     );
   }
 
   static Future<void> mainBooking(doc, String isMain) async {
     return bookingRef.doc(doc).update(
-      {'isMain': '$isMain'},
+      {'isMain': isMain},
     );
   }
 

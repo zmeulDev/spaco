@@ -12,6 +12,8 @@ import 'package:spaco/utils/spacoInputWidget.dart';
 import 'package:spaco/utils/spacoLoading.dart';
 
 class Bookings extends StatefulWidget {
+  const Bookings({Key? key}) : super(key: key);
+
   @override
   State<Bookings> createState() => _BookingsState();
 }
@@ -81,17 +83,17 @@ class _BookingsState extends State<Bookings> {
     return Container(
       width: Get.width,
       height: Get.height * 0.20,
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
+      margin: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(
           Radius.circular(15),
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(1.0),
+        padding: const EdgeInsets.all(1.0),
         child: Column(
           children: [
-            Container(
+            SizedBox(
                 height: Get.height * 0.18,
                 child: SvgPicture.asset('assets/svg/booking.svg')),
           ],
@@ -104,7 +106,7 @@ class _BookingsState extends State<Bookings> {
     return Container(
       height: Get.height * 0.05,
       width: Get.width * 0.933,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         color: secondaryColor,
       ),
@@ -112,10 +114,10 @@ class _BookingsState extends State<Bookings> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
-            margin: EdgeInsets.all(2),
+            margin: const EdgeInsets.all(2),
             height: Get.height * 0.2,
             width: Get.width * 0.30,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(12)),
               color: tertiaryColor,
             ),
@@ -152,19 +154,20 @@ class _BookingsState extends State<Bookings> {
             if (bookingList.isEmpty) {
               return Container(
                   height: Get.height * 0.4,
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: SvgPicture.asset('assets/svg/nothing.svg'));
             } else {
               return Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 child: GridView.builder(
-                    physics: ScrollPhysics(),
+                    physics: const ScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 2 / 1,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10),
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                            childAspectRatio: 2 / 1,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10),
                     itemCount: bookingList.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return GestureDetector(
@@ -177,7 +180,7 @@ class _BookingsState extends State<Bookings> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 top: 5, left: 10, right: 5, bottom: 5),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -186,7 +189,7 @@ class _BookingsState extends State<Bookings> {
                                 Row(
                                   children: [
                                     bookingList[index]['profileurl'] == ''
-                                        ? Icon(
+                                        ? const Icon(
                                             FeatherIcons.coffee,
                                             color: secondaryColor,
                                             size: 44,
@@ -234,7 +237,7 @@ class _BookingsState extends State<Bookings> {
           borderRadius: BorderRadius.circular(12),
         ),
         height: Get.height * 0.6,
-        margin: EdgeInsets.all(0),
+        margin: const EdgeInsets.all(0),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -294,7 +297,7 @@ class _BookingsState extends State<Bookings> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 52,
                       width: 80,
                       child: Center(
@@ -317,10 +320,10 @@ class _BookingsState extends State<Bookings> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
-                    Container(
+                    SizedBox(
                       height: 52,
                       width: 80,
                       child: Center(
@@ -403,7 +406,7 @@ class _BookingsState extends State<Bookings> {
                                         color: primaryColor.withOpacity(0.5),
                                         spreadRadius: 1,
                                         blurRadius: 1,
-                                        offset: Offset(
+                                        offset: const Offset(
                                             1, 1), // changes position of shadow
                                       ),
                                     ],
@@ -418,14 +421,14 @@ class _BookingsState extends State<Bookings> {
                                         : detail['profileurl'],
                                     placeHolder: Container(
                                       color: secondaryColor,
-                                      child: Icon(
+                                      child: const Icon(
                                         FeatherIcons.user,
                                         size: 36,
                                       ),
                                     ),
                                     errorWidget: Container(
                                       color: fourthColor,
-                                      child: Icon(
+                                      child: const Icon(
                                         FeatherIcons.user,
                                         size: 36,
                                       ),
@@ -439,7 +442,7 @@ class _BookingsState extends State<Bookings> {
                                       backgroundColor: fourthColor,
                                       child: IconButton(
                                         onPressed: () {},
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.edit_outlined,
                                           size: 20,
                                           color: secondaryColor,
@@ -458,7 +461,7 @@ class _BookingsState extends State<Bookings> {
                       );
                     });
               } else {
-                return Text("No data");
+                return const Text("No data");
               }
             },
           ),
